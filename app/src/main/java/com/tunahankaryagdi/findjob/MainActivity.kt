@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.tunahankaryagdi.findjob.presentation.login.LoginScreen
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.ui.theme.FindJobTheme
 import com.tunahankaryagdi.findjob.ui.theme.darkColors
@@ -21,10 +22,9 @@ class MainActivity : ComponentActivity() {
             CustomTheme(darkColors = darkColors()) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = CustomTheme.colors.primary,
-                    contentColor = CustomTheme.colors.secondary
+                    color = CustomTheme.colors.primaryBackground,
                 ) {
-                    Greeting("Android")
+                    LoginScreen()
                 }
             }
         }

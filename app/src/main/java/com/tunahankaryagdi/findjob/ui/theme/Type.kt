@@ -57,7 +57,7 @@ data class CustomTypography(
 
     val titleLarge : TextStyle = TextStyle(
         fontFamily = poppinsFontFamily,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 30.sp
     ),
 
