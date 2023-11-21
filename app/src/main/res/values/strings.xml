@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">FindJob</string>
     <string name="welcome_back">Welcome Back!</string>
-    <string name="fill_your_details">Fill your details or continue with social medio</string>
+    <string name="fill_your_details">Fill your details or continue with social media</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="or_continue_with">- Or Continue with -</string>
+    <string name="login_with_google">Login with google</string>
+    <string name="new_user">New User?</string>
+    <string name="create_account">Create Account</string>
+    <string name="register_account">Register Account</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="already_have_account">Already Have Account</string>
 </resources>

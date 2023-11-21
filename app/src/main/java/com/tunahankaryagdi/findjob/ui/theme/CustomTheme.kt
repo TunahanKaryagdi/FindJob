@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class CustomSpaces(
-    val small: Dp = 4.dp,
-    val medium: Dp = 8.dp,
-    val large: Dp = 16.dp,
-    val extraLarge: Dp = 40.dp,
+    val extraSmall : Dp = 4.dp,
+    val small: Dp = 8.dp,
+    val medium: Dp = 16.dp,
+    val large: Dp = 32.dp,
+    val extraLarge: Dp = 48.dp,
 )
 
 
@@ -28,6 +29,7 @@ class CustomColors(
     secondary: Color,
     primaryText: Color,
     secondaryText: Color,
+    tertiaryText: Color,
     primaryBackground: Color,
     secondaryBackground : Color,
 ) {
@@ -41,6 +43,9 @@ class CustomColors(
         private set
 
     var secondaryText by mutableStateOf(secondaryText)
+        private set
+
+    var tertiaryText by mutableStateOf(tertiaryText)
         private set
 
     var primaryBackground by mutableStateOf(primaryBackground)
@@ -63,6 +68,7 @@ class CustomColors(
         secondary = secondary,
         primaryText = primaryText,
         secondaryText = secondaryText,
+        tertiaryText = tertiaryText,
         primaryBackground = primaryBackground,
         secondaryBackground = secondaryBackground
     )
@@ -71,6 +77,7 @@ class CustomColors(
         secondary = other.secondary
         primaryText = other.primaryText
         secondaryText = secondaryText
+        tertiaryText = other.tertiaryText
         primaryBackground = other.primaryBackground
         secondaryBackground = other.secondaryBackground
     }
@@ -100,6 +107,7 @@ fun lightColors() = CustomColors(
     secondary = secondaryLight,
     primaryText = primaryTextLight,
     secondaryText = secondaryTextLight,
+    tertiaryText = tertiaryTextLight,
     primaryBackground = primaryBackgroundLight,
     secondaryBackground = secondaryBackgroundLight,
 )
@@ -109,6 +117,7 @@ fun darkColors() = CustomColors(
     secondary = secondaryLight,
     primaryText = primaryTextLight,
     secondaryText = secondaryTextLight,
+    tertiaryText = tertiaryTextLight,
     primaryBackground = primaryBackgroundLight,
     secondaryBackground = secondaryBackgroundLight,
 )

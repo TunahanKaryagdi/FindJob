@@ -1,35 +1,16 @@
-package com.tunahankaryagdi.findjob.presentation.login
+package com.tunahankaryagdi.findjob.presentation.signup
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.outlined.Create
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,17 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
@@ -58,9 +30,11 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 
 @Composable
-fun LoginScreen(
+fun SignupScreen(
     modifier: Modifier = Modifier
 ) {
+
+
     var text by remember {
         mutableStateOf("")
     }
@@ -74,7 +48,7 @@ fun LoginScreen(
         Text(
             modifier = Modifier
                 .align(Alignment.Start),
-            text = stringResource(id = R.string.welcome_back),
+            text = stringResource(id = R.string.register_account),
             style = CustomTheme.typography.titleLarge,
         )
 
@@ -90,7 +64,33 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             value = text,
-            placeholder = stringResource(id = R.string.email) ,
+            placeholder = stringResource(id = R.string.name) ,
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Create, contentDescription = stringResource(id = R.string.name))
+            },
+            onValueChange = {text = it}
+        )
+
+        SpacerHeight(size = CustomTheme.spaces.medium)
+
+        CustomOutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = text,
+            placeholder = stringResource(id = R.string.surname) ,
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Edit, contentDescription = stringResource(id = R.string.surname))
+            },
+            onValueChange = {text = it}
+        )
+
+        SpacerHeight(size = CustomTheme.spaces.medium)
+
+        CustomOutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = text,
+            placeholder = stringResource(id = R.string.email),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = stringResource(id = R.string.email))
             },
@@ -103,20 +103,18 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             value = text,
-            placeholder = stringResource(id = R.string.password) ,
+            placeholder = stringResource(id = R.string.password),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = stringResource(id = R.string.password))
             },
             onValueChange = {text = it}
         )
 
-        SpacerHeight(size = CustomTheme.spaces.medium)
-
         CustomButton(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {},
-            text = stringResource(id = R.string.login),
+            text = stringResource(id = R.string.sign_up),
         )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
@@ -124,15 +122,15 @@ fun LoginScreen(
         Text(text = stringResource(id = R.string.or_continue_with))
 
 
-            CustomGoogleButton()
+        CustomGoogleButton()
 
 
         //annotated string
         Row() {
-            Text(text = stringResource(id = R.string.new_user))
+            Text(text = stringResource(id = R.string.already_have_account))
             SpacerWidth(size = CustomTheme.spaces.extraSmall)
             Text(
-                text = stringResource(id = R.string.create_account),
+                text = stringResource(id = R.string.login),
                 style = CustomTheme.typography.body.copy(fontWeight = FontWeight.Bold)
             )
 
