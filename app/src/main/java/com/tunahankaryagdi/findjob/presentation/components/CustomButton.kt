@@ -20,7 +20,7 @@ fun CustomButton(
 
     Button(
         modifier = modifier,
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(CustomTheme.spaces.small),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = CustomTheme.colors.primary,

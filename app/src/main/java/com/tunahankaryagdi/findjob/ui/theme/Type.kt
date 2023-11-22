@@ -63,13 +63,13 @@ data class CustomTypography(
 
     val titleNormal : TextStyle = TextStyle(
         fontFamily = poppinsFontFamily,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
 
     val bodyLarge : TextStyle = TextStyle(
         fontFamily = poppinsFontFamily,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     ),
 

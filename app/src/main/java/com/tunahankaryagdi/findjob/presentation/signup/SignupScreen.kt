@@ -31,7 +31,8 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 @Composable
 fun SignupScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToHome : ()->Unit
 ) {
 
 
@@ -67,9 +68,8 @@ fun SignupScreen(
             placeholder = stringResource(id = R.string.name) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Create, contentDescription = stringResource(id = R.string.name))
-            },
-            onValueChange = {text = it}
-        )
+            }
+        ) { text = it }
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
@@ -80,9 +80,8 @@ fun SignupScreen(
             placeholder = stringResource(id = R.string.surname) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Edit, contentDescription = stringResource(id = R.string.surname))
-            },
-            onValueChange = {text = it}
-        )
+            }
+        ) { text = it }
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
@@ -93,9 +92,8 @@ fun SignupScreen(
             placeholder = stringResource(id = R.string.email),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = stringResource(id = R.string.email))
-            },
-            onValueChange = {text = it}
-        )
+            }
+        ) { text = it }
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
@@ -106,14 +104,17 @@ fun SignupScreen(
             placeholder = stringResource(id = R.string.password),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = stringResource(id = R.string.password))
-            },
-            onValueChange = {text = it}
-        )
+            }
+        ) { text = it }
+
+        SpacerHeight(size = CustomTheme.spaces.medium)
 
         CustomButton(
             modifier = Modifier
                 .fillMaxWidth(),
-            onClick = {},
+            onClick = {
+                      navigateToHome()
+            },
             text = stringResource(id = R.string.sign_up),
         )
 

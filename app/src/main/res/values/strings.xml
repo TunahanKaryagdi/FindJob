@@ -12,6 +12,11 @@
     <string name="register_account">Register Account</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="sign_up">SIGN UP</string>
+    <string name="sign_up">Sign Up</string>
     <string name="already_have_account">Already Have Account</string>
+    <string name="popular_job">Popular Job</string>
+    <string name="show_all">Show All</string>
+    <string name="recent_post">Recent Post</string>
+    <string name="job_image">Job Image</string>
+    <string name="search_here">Search here</string>
 </resources>

@@ -10,7 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.tunahankaryagdi.findjob.presentation.home.HomeScreen
 import com.tunahankaryagdi.findjob.presentation.login.LoginScreen
+import com.tunahankaryagdi.findjob.presentation.login.loginRoute
+import com.tunahankaryagdi.findjob.presentation.navigation.NavigationHost
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.ui.theme.FindJobTheme
 import com.tunahankaryagdi.findjob.ui.theme.darkColors
@@ -24,7 +28,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = CustomTheme.colors.primaryBackground,
                 ) {
-                    LoginScreen()
+                    val navController = rememberNavController()
+                    NavigationHost(
+                        navController = navController, startDestination = loginRoute )
                 }
             }
         }
