@@ -18,7 +18,10 @@ import com.tunahankaryagdi.findjob.presentation.navigation.NavigationHost
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.ui.theme.FindJobTheme
 import com.tunahankaryagdi.findjob.ui.theme.darkColors
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

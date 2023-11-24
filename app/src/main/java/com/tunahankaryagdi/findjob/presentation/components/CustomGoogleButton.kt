@@ -2,6 +2,7 @@ package com.tunahankaryagdi.findjob.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 fun CustomGoogleButton(
     modifier: Modifier = Modifier,
     size : Dp = 60.dp,
+    onClick : ()-> Unit
 
 ) {
     Box(
@@ -33,6 +35,9 @@ fun CustomGoogleButton(
             )
             .clip(shape = RoundedCornerShape(CustomTheme.spaces.medium))
             .padding(10.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_google),

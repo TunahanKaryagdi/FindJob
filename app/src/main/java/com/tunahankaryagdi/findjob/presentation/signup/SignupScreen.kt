@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
@@ -28,6 +29,20 @@ import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
+
+@Composable
+fun SignupScreenRoute(
+    modifier: Modifier = Modifier,
+    viewModel: SignupViewModel = hiltViewModel(),
+    navigateToHome: () -> Unit
+) {
+
+    SignupScreen(
+        modifier = modifier,
+        navigateToHome = navigateToHome
+    )
+
+}
 
 @Composable
 fun SignupScreen(
@@ -123,7 +138,11 @@ fun SignupScreen(
         Text(text = stringResource(id = R.string.or_continue_with))
 
 
-        CustomGoogleButton()
+        CustomGoogleButton(
+            onClick = {
+
+            }
+        )
 
 
         //annotated string

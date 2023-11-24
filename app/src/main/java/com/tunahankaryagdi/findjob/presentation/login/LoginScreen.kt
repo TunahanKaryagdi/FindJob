@@ -1,5 +1,13 @@
 package com.tunahankaryagdi.findjob.presentation.login
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,11 +22,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
@@ -26,7 +42,21 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextFie
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import kotlinx.coroutines.launch
 
+
+
+@Composable
+fun LoginScreenRoute(
+    modifier: Modifier = Modifier,
+    viewModel : LoginViewModel = hiltViewModel(),
+    navigateToSignup: () -> Unit
+) {
+    LoginScreen(
+        modifier = modifier,
+        navigateToSignup = navigateToSignup
+    )
+}
 
 @Composable
 fun LoginScreen(
@@ -36,6 +66,26 @@ fun LoginScreen(
     var text by remember {
         mutableStateOf("")
     }
+    val signInRequestCode = 1
+
+
+
+    val authResultLauncher =
+        rememberLauncherForActivityResult(contract = GoogleApiContract()) { task ->
+            try {
+                val gsa = task?.getResult(ApiException::class.java)
+                if (gsa != null) {
+                    println("succesfull login ${gsa.displayName}")
+                } else {
+                    println("gsa not null but error")
+                }
+            } catch (e: ApiException) {
+                println("gsa null")
+            }
+        }
+
+
+
 
     Column(
         modifier = modifier
@@ -94,7 +144,9 @@ fun LoginScreen(
         Text(text = stringResource(id = R.string.or_continue_with))
 
 
-            CustomGoogleButton()
+            CustomGoogleButton {
+                authResultLauncher.launch(signInRequestCode)
+            }
 
 
         //annotated string
