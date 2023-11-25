@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -52,16 +53,24 @@ fun LoginScreenRoute(
     viewModel : LoginViewModel = hiltViewModel(),
     navigateToSignup: () -> Unit
 ) {
+
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle(initialValue = null)
+
     LoginScreen(
         modifier = modifier,
-        navigateToSignup = navigateToSignup
+        navigateToSignup = navigateToSignup,
+        uiState = uiState,
+        effect = effect
     )
 }
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    navigateToSignup: ()->Unit
+    navigateToSignup: ()->Unit,
+    uiState: LoginUiState,
+    effect: LoginEffect?
 ) {
     var text by remember {
         mutableStateOf("")
@@ -115,8 +124,11 @@ fun LoginScreen(
             placeholder = stringResource(id = R.string.email) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = stringResource(id = R.string.email))
+            },
+            onValueChange = {
+
             }
-        ) { text = it }
+        )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
@@ -127,8 +139,11 @@ fun LoginScreen(
             placeholder = stringResource(id = R.string.password) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = stringResource(id = R.string.password))
+            },
+            onValueChange = {
+
             }
-        ) { text = it }
+        )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 

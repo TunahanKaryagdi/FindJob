@@ -83,7 +83,10 @@ fun HomeScreen(
                     .weight(1f),
                 value = text,
                 placeholder =  stringResource(id = R.string.search_here),
-            ) { text = it }
+                onValueChange = {
+
+                }
+            )
 
             SpacerWidth(size = CustomTheme.spaces.small)
             

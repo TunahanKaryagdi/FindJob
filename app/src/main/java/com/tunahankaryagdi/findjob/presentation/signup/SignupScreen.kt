@@ -10,8 +10,10 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
@@ -37,9 +40,14 @@ fun SignupScreenRoute(
     navigateToHome: () -> Unit
 ) {
 
+    val uiState by  viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle(initialValue = null)
     SignupScreen(
         modifier = modifier,
-        navigateToHome = navigateToHome
+        navigateToHome = navigateToHome,
+        onTrigger = viewModel::handleEvents,
+        uiState = uiState,
+        effect = effect
     )
 
 }
@@ -47,12 +55,24 @@ fun SignupScreenRoute(
 @Composable
 fun SignupScreen(
     modifier: Modifier = Modifier,
-    navigateToHome : ()->Unit
+    navigateToHome : ()->Unit,
+    onTrigger: (SignupEvent)->Unit,
+    uiState: SignupUiState,
+    effect: SignupEffect?
 ) {
 
 
-    var text by remember {
-        mutableStateOf("")
+    when(effect){
+        is SignupEffect.ShowErrorMessage->{
+            Snackbar(
+
+            ) {
+                Text(text = effect.message)
+            }
+        }
+        else->{
+
+        }
     }
 
     Column(
@@ -79,48 +99,61 @@ fun SignupScreen(
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = text,
+            value = uiState.name,
             placeholder = stringResource(id = R.string.name) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Create, contentDescription = stringResource(id = R.string.name))
+            },
+            onValueChange = {
+                onTrigger(SignupEvent.OnNameValueChange(it))
             }
-        ) { text = it }
+        )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = text,
+            value = uiState.surname,
             placeholder = stringResource(id = R.string.surname) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Edit, contentDescription = stringResource(id = R.string.surname))
+            },
+            onValueChange = {
+                onTrigger(SignupEvent.OnSurnameValueChange(it))
             }
-        ) { text = it }
+        )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = text,
+            value = uiState.email,
             placeholder = stringResource(id = R.string.email),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = stringResource(id = R.string.email))
+            },
+            onValueChange = {
+                onTrigger(SignupEvent.OnEmailValueChange(it))
             }
-        ) { text = it }
+        )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = text,
+            value = uiState.password,
             placeholder = stringResource(id = R.string.password),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = stringResource(id = R.string.password))
+            },
+            onValueChange = {
+                onTrigger(SignupEvent.OnPasswordValueChange(it))
             }
-        ) { text = it }
+
+        )
 
         SpacerHeight(size = CustomTheme.spaces.medium)
 
@@ -128,7 +161,7 @@ fun SignupScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                      navigateToHome()
+                 onTrigger(SignupEvent.OnClickSignup)
             },
             text = stringResource(id = R.string.sign_up),
         )

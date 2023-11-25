@@ -10,6 +10,6 @@ fun NavGraphBuilder.signupScreen(
     navigateToHome : ()->Unit
 ){
     composable(signupRoute){
-        SignupScreen(navigateToHome = navigateToHome)
+        SignupScreenRoute(navigateToHome = navigateToHome)
     }
 }

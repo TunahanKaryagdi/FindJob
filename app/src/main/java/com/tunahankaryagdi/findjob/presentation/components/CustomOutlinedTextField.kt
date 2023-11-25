@@ -15,10 +15,10 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 fun CustomOutlinedTextField(
     modifier: Modifier = Modifier,
     value: String,
-    placeholder: String,
+    onValueChange: (String) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable() (() -> Unit)? = null,
-    onValueChange: (String) -> Unit
+    placeholder: String
 ) {
     OutlinedTextField(
         modifier = modifier,
