@@ -2,6 +2,7 @@ package com.tunahankaryagdi.findjob.presentation.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,8 +41,21 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 
 @Composable
+fun HomeScreenRoute(
+    modifier: Modifier = Modifier,
+    navigateToDetail : () -> Unit
+) {
+    HomeScreen(
+        modifier = modifier,
+        navigateToDetail = navigateToDetail
+    )
+}
+
+
+@Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetail : () -> Unit
 ) {
 
     var text by remember {
@@ -152,6 +166,10 @@ fun HomeScreen(
             items(5){
                 Column {
                     RecentPostCard(
+                        modifier = Modifier
+                            .clickable {
+                              navigateToDetail()
+                            },
                         jobName = "UI/UX Designer",
                         jobType = "Full time",
                         salary = 4500

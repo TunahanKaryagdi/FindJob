@@ -29,7 +29,7 @@ fun RecentPostCard(
     salary: Int,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 CustomTheme.colors.secondaryBackground,

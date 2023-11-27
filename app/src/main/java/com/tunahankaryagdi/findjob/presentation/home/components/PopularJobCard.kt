@@ -24,7 +24,7 @@ fun PopularJobCard(
 ) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(
                 CustomTheme.colors.secondaryBackground,
                 RoundedCornerShape(CustomTheme.spaces.small)

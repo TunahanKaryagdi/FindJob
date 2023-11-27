@@ -85,4 +85,10 @@ data class CustomTypography(
         fontSize = 12.sp
     ),
 
+    val labelLarge : TextStyle = TextStyle(
+        fontFamily = poppinsFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    )
+
 )

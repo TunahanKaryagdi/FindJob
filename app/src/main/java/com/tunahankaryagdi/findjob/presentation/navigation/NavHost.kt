@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
+import com.tunahankaryagdi.findjob.presentation.detail.navigateToDetail
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.homeScreen
 import com.tunahankaryagdi.findjob.presentation.login.loginScreen
@@ -22,13 +24,14 @@ fun NavigationHost(
     NavHost(
         navController = navController ,
         startDestination = startDestination,
-
     ){
         loginScreen(navigateToSignup = {navController.navigate(signupRoute)})
 
         signupScreen(navigateToHome = {navController.navigate(homeRoute)})
 
-        homeScreen()
+        homeScreen(navigateToDetail =  {navController.navigateToDetail()})
+
+        detailScreen()
     }
 
 }

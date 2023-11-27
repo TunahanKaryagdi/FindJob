@@ -161,7 +161,8 @@ fun SignupScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                 onTrigger(SignupEvent.OnClickSignup)
+                 //onTrigger(SignupEvent.OnClickSignup)
+                 navigateToHome()
             },
             text = stringResource(id = R.string.sign_up),
         )
