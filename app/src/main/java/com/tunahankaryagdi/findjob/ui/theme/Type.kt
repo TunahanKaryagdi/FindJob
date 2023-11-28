@@ -74,6 +74,7 @@ data class CustomTypography(
     ),
 
     val body : TextStyle = TextStyle(
+        color = primaryTextLight,
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp

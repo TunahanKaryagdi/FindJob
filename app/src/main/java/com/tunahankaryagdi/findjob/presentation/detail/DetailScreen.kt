@@ -28,7 +28,8 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 @Composable
 fun DetailScreenRoute(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToApply : () -> Unit
 ) {
     val job = Job(
         "id","Ui Designer","Spotify","Toronto","Full time","1500", listOf("ABC","BCA")
@@ -36,7 +37,8 @@ fun DetailScreenRoute(
 
     DetailScreen(
         modifier = modifier,
-        job = job
+        job = job,
+        navigateToApply = navigateToApply
     )
 }
 
@@ -53,7 +55,8 @@ data class Job(
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    job: Job
+    job: Job,
+    navigateToApply : () -> Unit
 ) {
 
 
@@ -145,7 +148,7 @@ fun DetailScreen(
             CustomButton(
                 modifier = Modifier
                     .weight(1f),
-                onClick = { /*TODO*/ },
+                onClick = { navigateToApply() },
                 text = stringResource(id = R.string.apply_now)
             )
             SpacerWidth(size = CustomTheme.spaces.medium)

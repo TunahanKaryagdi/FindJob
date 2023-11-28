@@ -171,6 +171,8 @@ fun SignupScreen(
 
         Text(text = stringResource(id = R.string.or_continue_with))
 
+        SpacerHeight(size = CustomTheme.spaces.small)
+
 
         CustomGoogleButton(
             onClick = {
@@ -178,6 +180,7 @@ fun SignupScreen(
             }
         )
 
+        SpacerHeight(size = CustomTheme.spaces.small)
 
         //annotated string
         Row() {
@@ -185,7 +188,7 @@ fun SignupScreen(
             SpacerWidth(size = CustomTheme.spaces.extraSmall)
             Text(
                 text = stringResource(id = R.string.login),
-                style = CustomTheme.typography.body.copy(fontWeight = FontWeight.Bold)
+                style = CustomTheme.typography.body.copy(fontWeight = FontWeight.Bold, color = CustomTheme.colors.secondaryText)
             )
 
         }

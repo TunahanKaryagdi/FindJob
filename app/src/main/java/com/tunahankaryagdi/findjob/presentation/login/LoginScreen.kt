@@ -158,11 +158,13 @@ fun LoginScreen(
 
         Text(text = stringResource(id = R.string.or_continue_with))
 
+        SpacerHeight(size = CustomTheme.spaces.small)
 
             CustomGoogleButton {
                 authResultLauncher.launch(signInRequestCode)
             }
 
+        SpacerHeight(size = CustomTheme.spaces.small)
 
         //annotated string
         Row() {
@@ -174,7 +176,7 @@ fun LoginScreen(
                         navigateToSignup()
                     },
                 text = stringResource(id = R.string.create_account),
-                style = CustomTheme.typography.body.copy(fontWeight = FontWeight.Bold)
+                style = CustomTheme.typography.body.copy(fontWeight = FontWeight.Bold, color = CustomTheme.colors.secondaryText)
             )
 
         }

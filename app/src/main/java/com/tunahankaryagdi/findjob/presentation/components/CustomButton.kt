@@ -31,6 +31,9 @@ fun CustomButton(
             contentColor = CustomTheme.colors.tertiaryText
         )
     ) {
-        Text(text = text)
+        Text(
+            text = text,
+            style = CustomTheme.typography.body.copy(CustomTheme.colors.tertiaryText)
+        )
     }
 }

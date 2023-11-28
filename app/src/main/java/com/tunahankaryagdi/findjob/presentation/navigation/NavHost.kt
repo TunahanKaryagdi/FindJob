@@ -2,9 +2,10 @@ package com.tunahankaryagdi.findjob.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.tunahankaryagdi.findjob.presentation.apply.applyScreen
+import com.tunahankaryagdi.findjob.presentation.apply.navigateToApply
 import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
 import com.tunahankaryagdi.findjob.presentation.detail.navigateToDetail
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
@@ -31,7 +32,9 @@ fun NavigationHost(
 
         homeScreen(navigateToDetail =  {navController.navigateToDetail()})
 
-        detailScreen()
+        detailScreen(navigateToApply = {navController.navigateToApply()})
+
+        applyScreen()
     }
 
 }

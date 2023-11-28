@@ -23,4 +23,7 @@
     <string name="company_image">Company image</string>
     <string name="qualifications">Qualifications</string>
     <string name="apply_now">Apply now</string>
+    <string name="message">Message</string>
+    <string name="cv">CV</string>
+    <string name="upload_here">Upload here</string>
 </resources>

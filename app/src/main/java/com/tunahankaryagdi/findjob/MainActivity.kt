@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.tunahankaryagdi.findjob.presentation.apply.applyRoute
 import com.tunahankaryagdi.findjob.presentation.home.HomeScreen
 import com.tunahankaryagdi.findjob.presentation.login.LoginScreen
 import com.tunahankaryagdi.findjob.presentation.login.loginRoute
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     NavigationHost(
-                        navController = navController, startDestination = loginRoute )
+                        navController = navController, startDestination = loginRoute)
                 }
             }
         }
