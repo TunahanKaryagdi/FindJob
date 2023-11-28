@@ -26,4 +26,6 @@
     <string name="message">Message</string>
     <string name="cv">CV</string>
     <string name="upload_here">Upload here</string>
+    <string name="job_apply">Job Apply</string>
+    <string name="arraw_back">Arrow back</string>
 </resources>

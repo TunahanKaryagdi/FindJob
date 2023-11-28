@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,8 +42,10 @@ import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
+import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
+import com.tunahankaryagdi.findjob.presentation.detail.DetailScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import kotlinx.coroutines.launch
 
@@ -65,6 +69,7 @@ fun LoginScreenRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -72,30 +77,31 @@ fun LoginScreen(
     uiState: LoginUiState,
     effect: LoginEffect?
 ) {
-    var text by remember {
-        mutableStateOf("")
+
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            CustomTopAppbar()
+        },
+        containerColor = CustomTheme.colors.primaryBackground
+    ){
+        LoginScreenContent(
+            modifier = modifier.padding(it),
+            navigateToSignup = navigateToSignup,
+            uiState = uiState,
+            effect = effect
+        )
     }
-    val signInRequestCode = 1
 
+}
 
-
-    val authResultLauncher =
-        rememberLauncherForActivityResult(contract = GoogleApiContract()) { task ->
-            try {
-                val gsa = task?.getResult(ApiException::class.java)
-                if (gsa != null) {
-                    println("succesfull login ${gsa.displayName}")
-                } else {
-                    println("gsa not null but error")
-                }
-            } catch (e: ApiException) {
-                println("gsa null")
-            }
-        }
-
-
-
-
+@Composable
+fun LoginScreenContent(
+    modifier: Modifier = Modifier,
+    navigateToSignup: ()->Unit,
+    uiState: LoginUiState,
+    effect: LoginEffect?
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -120,7 +126,7 @@ fun LoginScreen(
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = text,
+            value = "",
             placeholder = stringResource(id = R.string.email) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = stringResource(id = R.string.email))
@@ -135,7 +141,7 @@ fun LoginScreen(
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = text,
+            value = "",
             placeholder = stringResource(id = R.string.password) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = stringResource(id = R.string.password))
@@ -160,9 +166,9 @@ fun LoginScreen(
 
         SpacerHeight(size = CustomTheme.spaces.small)
 
-            CustomGoogleButton {
-                authResultLauncher.launch(signInRequestCode)
-            }
+        CustomGoogleButton {
+
+        }
 
         SpacerHeight(size = CustomTheme.spaces.small)
 
@@ -178,7 +184,6 @@ fun LoginScreen(
                 text = stringResource(id = R.string.create_account),
                 style = CustomTheme.typography.body.copy(fontWeight = FontWeight.Bold, color = CustomTheme.colors.secondaryText)
             )
-
         }
     }
 }

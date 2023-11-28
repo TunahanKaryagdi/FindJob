@@ -9,18 +9,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.apply.ApplyScreenContent
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTinyButton
+import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
@@ -52,14 +61,39 @@ data class Job(
     val qualifications : List<String> = emptyList()
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    job: Job,
-    navigateToApply : () -> Unit
+    navigateToApply : () -> Unit,
+    job: Job
 ) {
 
 
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            CustomTopAppbar()
+        },
+        containerColor = CustomTheme.colors.primaryBackground
+    ){
+        DetailScreenContent(
+            modifier = modifier.padding(it),
+            navigateToApply = navigateToApply,
+            job = job
+        )
+    }
+
+
+
+}
+
+@Composable
+fun DetailScreenContent(
+    modifier: Modifier = Modifier,
+    job: Job,
+    navigateToApply: () -> Unit
+) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -74,11 +108,11 @@ fun DetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    
-                    SpacerHeight(size = CustomTheme.spaces.medium)
-                    
+
                     Image(
-                        modifier = Modifier.align(CenterHorizontally),
+                        modifier = Modifier
+                            .align(CenterHorizontally)
+                            .clip(RoundedCornerShape(10.dp)),
                         painter = painterResource(id = R.drawable.ic_launcher_background),
                         contentDescription = stringResource(id = R.string.company_image)
                     )
@@ -101,12 +135,14 @@ fun DetailScreen(
                     ){
                         Text(
                             text = job.company,
-                            color = CustomTheme.colors.secondaryText
+                            style = CustomTheme.typography.body.copy(
+                                color = CustomTheme.colors.secondaryText,
+                                fontWeight = FontWeight.Bold
+                            )
                         )
                         SpacerWidth(size = CustomTheme.spaces.small)
                         Text(
                             text = job.location,
-                            color = CustomTheme.colors.primaryText
                         )
                     }
                     SpacerHeight(size = CustomTheme.spaces.small)
@@ -155,6 +191,4 @@ fun DetailScreen(
             CustomTinyButton(icon = Icons.Filled.Email)
         }
     }
-
-
 }

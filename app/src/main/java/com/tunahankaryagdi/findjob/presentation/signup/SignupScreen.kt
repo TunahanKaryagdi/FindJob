@@ -9,17 +9,15 @@ import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,6 +26,7 @@ import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
+import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
@@ -52,6 +51,7 @@ fun SignupScreenRoute(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(
     modifier: Modifier = Modifier,
@@ -61,20 +61,39 @@ fun SignupScreen(
     effect: SignupEffect?
 ) {
 
-
-    when(effect){
-        is SignupEffect.ShowErrorMessage->{
-            Snackbar(
-
-            ) {
-                Text(text = effect.message)
-            }
-        }
-        else->{
-
-        }
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            CustomTopAppbar(
+                navigationIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(id = R.string.arraw_back) )
+                },
+            )
+        },
+        containerColor = CustomTheme.colors.primaryBackground
+    ){
+        SignupScreenContent(
+            modifier = Modifier.padding(it),
+            navigateToHome = navigateToHome,
+            onTrigger = onTrigger,
+            uiState = uiState,
+            effect = effect
+        )
     }
 
+}
+
+
+@Composable
+fun SignupScreenContent(
+    modifier: Modifier = Modifier,
+    navigateToHome : ()->Unit,
+    onTrigger: (SignupEvent)->Unit,
+    uiState: SignupUiState,
+    effect: SignupEffect?
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -161,8 +180,8 @@ fun SignupScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                 //onTrigger(SignupEvent.OnClickSignup)
-                 navigateToHome()
+                //onTrigger(SignupEvent.OnClickSignup)
+                navigateToHome()
             },
             text = stringResource(id = R.string.sign_up),
         )
