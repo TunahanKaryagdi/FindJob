@@ -130,13 +130,19 @@ fun ApplyScreenContent(
                         color = CustomTheme.colors.secondaryBackground,
                         shape = RoundedCornerShape(CustomTheme.spaces.extraSmall)
                     ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Center
             ){
-                Text(
-                    text = stringResource(id = R.string.upload_here),
-                    style = CustomTheme.typography.bodySmall.copy(CustomTheme.colors.secondaryText)
-
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.upload_here),
+                        style = CustomTheme.typography.bodySmall.copy(CustomTheme.colors.secondaryText)
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_upload), 
+                        contentDescription = stringResource(id = R.string.upload_here))
+                }
             }
 
         }

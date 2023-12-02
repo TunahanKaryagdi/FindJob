@@ -1,6 +1,7 @@
 package com.tunahankaryagdi.findjob.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,9 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 @Composable
 fun CustomTinyButton(
     modifier: Modifier = Modifier,
-    icon : ImageVector
+    onClick: () -> Unit,
+    icon : ImageVector,
+
 ) {
     Box (
         modifier = Modifier
@@ -32,6 +35,9 @@ fun CustomTinyButton(
             )
             .clip(shape = RoundedCornerShape(CustomTheme.spaces.small))
             .padding(CustomTheme.spaces.extraSmall,)
+            .clickable {
+                onClick()
+            }
     ){
         Icon(
             modifier = Modifier

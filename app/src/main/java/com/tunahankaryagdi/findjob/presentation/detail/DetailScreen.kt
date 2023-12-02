@@ -188,7 +188,10 @@ fun DetailScreenContent(
                 text = stringResource(id = R.string.apply_now)
             )
             SpacerWidth(size = CustomTheme.spaces.medium)
-            CustomTinyButton(icon = Icons.Filled.Email)
+            CustomTinyButton(
+                icon = Icons.Filled.Email,
+                onClick = {}
+            )
         }
     }
 }
