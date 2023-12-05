@@ -12,9 +12,14 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -41,6 +46,8 @@ fun SignupScreenRoute(
 
     val uiState by  viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsStateWithLifecycle(initialValue = null)
+
+
     SignupScreen(
         modifier = modifier,
         navigateToHome = navigateToHome,
@@ -61,8 +68,25 @@ fun SignupScreen(
     effect: SignupEffect?
 ) {
 
+    val snackbarState = remember{
+        SnackbarHostState()
+    }
+
+    LaunchedEffect(key1 = effect){
+        when (effect){
+            is SignupEffect.ShowErrorMessage->{
+                snackbarState.showSnackbar(message = effect.message, duration = SnackbarDuration.Short)
+
+            }
+            else->{
+
+            }
+        }
+    }
+
     Scaffold(
         modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarState) },
         topBar = {
             CustomTopAppbar(
                 navigationIcon = {
@@ -94,6 +118,9 @@ fun SignupScreenContent(
     uiState: SignupUiState,
     effect: SignupEffect?
 ) {
+
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -180,8 +207,8 @@ fun SignupScreenContent(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                //onTrigger(SignupEvent.OnClickSignup)
-                navigateToHome()
+                onTrigger(SignupEvent.OnClickSignup)
+                //navigateToHome()
             },
             text = stringResource(id = R.string.sign_up),
         )

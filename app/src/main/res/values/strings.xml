@@ -28,4 +28,10 @@
     <string name="upload_here">Upload here</string>
     <string name="job_apply">Job Apply</string>
     <string name="arraw_back">Arrow back</string>
+    <string name="add_job">Add job</string>
+    <string name="location">Location</string>
+    <string name="job_type">Job type</string>
+    <string name="salary">Salary</string>
+    <string name="title">Title</string>
+    <string name="post">Post</string>
 </resources>

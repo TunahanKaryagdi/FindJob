@@ -26,14 +26,13 @@ fun CustomOutlinedTextField(
     trailingIcon: @Composable (() -> Unit)? = null,
     size : Dp = 50.dp,
     singleLine : Boolean = true,
-    placeholder: String
+    placeholder: String = ""
 ) {
 
 
     OutlinedTextField(
         modifier = modifier,
         value = value,
-        textStyle = CustomTheme.typography.bodySmall,
         onValueChange = onValueChange,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = CustomTheme.colors.secondaryBackground,

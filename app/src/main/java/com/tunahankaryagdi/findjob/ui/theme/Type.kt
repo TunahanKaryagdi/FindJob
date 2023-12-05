@@ -70,7 +70,7 @@ data class CustomTypography(
     val bodyLarge : TextStyle = TextStyle(
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp
+        fontSize = 18.sp
     ),
 
     val body : TextStyle = TextStyle(

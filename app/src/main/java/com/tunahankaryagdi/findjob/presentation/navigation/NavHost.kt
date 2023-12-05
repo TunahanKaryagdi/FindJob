@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.tunahankaryagdi.findjob.presentation.add.addScreen
 import com.tunahankaryagdi.findjob.presentation.apply.applyScreen
 import com.tunahankaryagdi.findjob.presentation.apply.navigateToApply
 import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
@@ -35,6 +36,8 @@ fun NavigationHost(
         detailScreen(navigateToApply = {navController.navigateToApply()})
 
         applyScreen()
+
+        addScreen()
     }
 
 }

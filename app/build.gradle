@@ -87,6 +87,9 @@ dependencies {
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0"
 
+    //FlowRow
+    implementation 'androidx.compose.foundation:foundation:1.4.3'
+
 
 
 }
