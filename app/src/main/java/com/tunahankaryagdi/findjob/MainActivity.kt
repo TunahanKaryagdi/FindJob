@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.tunahankaryagdi.findjob.presentation.add.addRoute
-import com.tunahankaryagdi.findjob.presentation.apply.applyRoute
-import com.tunahankaryagdi.findjob.presentation.home.HomeScreen
-import com.tunahankaryagdi.findjob.presentation.login.LoginScreen
-import com.tunahankaryagdi.findjob.presentation.login.loginRoute
+import com.tunahankaryagdi.findjob.presentation.navigation.MainApp
 import com.tunahankaryagdi.findjob.presentation.navigation.NavigationHost
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.ui.theme.FindJobTheme
@@ -33,9 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = CustomTheme.colors.primaryBackground,
                 ) {
-                    val navController = rememberNavController()
-                    NavigationHost(
-                        navController = navController, startDestination = addRoute)
+                    MainApp()
                 }
             }
         }
