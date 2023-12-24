@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTinyButton
@@ -47,6 +48,7 @@ import kotlinx.coroutines.launch
 fun HomeScreenRoute(
     modifier: Modifier = Modifier,
     navigateToDetail : () -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
 
 
@@ -98,128 +100,128 @@ fun HomeScreenContent(
         mutableStateOf("")
     }
 
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxWidth()
             .padding(CustomTheme.spaces.medium)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            CustomTinyButton(
-                icon = Icons.Filled.List,
-                onClick = {
-                    onClickOpenDrawer()
-                }
-            )
-            Image(
+        item {
+            Row(
                 modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = stringResource(id = R.string.job_image)
-            )
-        }
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
 
-        SpacerHeight(size = CustomTheme.spaces.medium)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CustomOutlinedTextField(
-                modifier = Modifier
-                    .weight(1f),
-                value = text,
-                placeholder =  stringResource(id = R.string.search_here),
-                onValueChange = {
-
-                }
-            )
-
-            SpacerWidth(size = CustomTheme.spaces.small)
-
-            CustomTinyButton(
-                icon = Icons.Filled.Search,
-                onClick = {},
-            )
-        }
-
-        SpacerHeight(size = CustomTheme.spaces.medium)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(id = R.string.popular_job),
-                style = CustomTheme.typography.titleNormal
-            )
-            Text(
-                text = stringResource(id = R.string.show_all),
-                style = CustomTheme.typography.bodySmall
-            )
-        }
-
-        SpacerHeight(size = CustomTheme.spaces.small)
-
-
-
-        LazyRow() {
-            items(5) {
-
-                PopularJobCard(
-                    companyName = "Google",
-                    jobName = "Product Manager",
-                    salary = 3000,
-                    location = "Canada Toronto")
-                SpacerWidth(size = CustomTheme.spaces.small)
+                CustomTinyButton(
+                    icon = Icons.Filled.List,
+                    onClick = {
+                        onClickOpenDrawer()
+                    }
+                )
+                Image(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape),
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = stringResource(id = R.string.job_image)
+                )
             }
 
-        }
+            SpacerHeight(size = CustomTheme.spaces.medium)
 
-        SpacerHeight(size = CustomTheme.spaces.medium)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CustomOutlinedTextField(
+                    modifier = Modifier
+                        .weight(1f),
+                    value = text,
+                    placeholder =  stringResource(id = R.string.search_here),
+                    onValueChange = {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(id = R.string.recent_post),
-                style = CustomTheme.typography.titleNormal
-            )
-            Text(
-                text = stringResource(id = R.string.show_all),
-                style = CustomTheme.typography.bodySmall
-            )
-        }
+                    }
+                )
 
-        SpacerHeight(size = CustomTheme.spaces.small)
+                SpacerWidth(size = CustomTheme.spaces.small)
 
-        LazyColumn(){
-            items(5){
-                Column {
-                    RecentPostCard(
-                        modifier = Modifier
-                            .clickable {
-                                navigateToDetail()
-                            },
-                        jobName = "UI/UX Designer",
-                        jobType = "Full time",
-                        salary = 4500
-                    )
-                    SpacerHeight(size = CustomTheme.spaces.small)
+                CustomTinyButton(
+                    icon = Icons.Filled.Search,
+                    onClick = {},
+                )
+            }
+
+            SpacerHeight(size = CustomTheme.spaces.medium)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.popular_job),
+                    style = CustomTheme.typography.titleNormal
+                )
+                Text(
+                    text = stringResource(id = R.string.show_all),
+                    style = CustomTheme.typography.bodySmall
+                )
+            }
+
+            SpacerHeight(size = CustomTheme.spaces.small)
+
+
+
+            LazyRow() {
+                items(5) {
+
+                    PopularJobCard(
+                        companyName = "Google",
+                        jobName = "Product Manager",
+                        salary = 3000,
+                        location = "Canada Toronto")
+                    SpacerWidth(size = CustomTheme.spaces.small)
                 }
 
+            }
+
+            SpacerHeight(size = CustomTheme.spaces.medium)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.recent_post),
+                    style = CustomTheme.typography.titleNormal
+                )
+                Text(
+                    text = stringResource(id = R.string.show_all),
+                    style = CustomTheme.typography.bodySmall
+                )
+            }
+
+            SpacerHeight(size = CustomTheme.spaces.small)
+        }
+
+
+        items(5){
+            Column {
+                RecentPostCard(
+                    modifier = Modifier
+                        .clickable {
+                            navigateToDetail()
+                        },
+                    jobName = "UI/UX Designer",
+                    jobType = "Full time",
+                    salary = 4500
+                )
+                SpacerHeight(size = CustomTheme.spaces.small)
             }
         }
     }

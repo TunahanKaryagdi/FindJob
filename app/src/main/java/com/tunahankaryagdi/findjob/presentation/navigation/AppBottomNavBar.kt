@@ -1,6 +1,7 @@
 package com.tunahankaryagdi.findjob.presentation.navigation
 
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -8,7 +9,9 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -26,8 +29,10 @@ fun AppBottomNavBar(
 
     NavigationBar(
         containerColor = CustomTheme.colors.secondaryBackground,
-        modifier = Modifier,
-        tonalElevation =  10.dp
+        modifier = Modifier
+            .clip(RoundedCornerShape(30.dp,30.dp)),
+        tonalElevation =  10.dp,
+
     ) {
 
         destinations.map { destination->
@@ -44,14 +49,12 @@ fun AppBottomNavBar(
                     Text(text = stringResource(id = destination.textId))
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = CustomTheme.colors.primary,
-                    unselectedIconColor = CustomTheme.colors.primaryBackground,
-                    indicatorColor = CustomTheme.colors.secondaryBackground
+                    selectedIconColor = Color.White,
+                    unselectedIconColor = CustomTheme.colors.primary,
+                    indicatorColor = CustomTheme.colors.primary
                 ),
-                alwaysShowLabel = false
             )
-
-        }
+ }
 
     }
 
