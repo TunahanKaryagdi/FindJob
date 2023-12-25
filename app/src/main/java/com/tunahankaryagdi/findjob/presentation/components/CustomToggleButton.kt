@@ -16,13 +16,13 @@ fun CustomToggleButton(
     modifier : Modifier = Modifier,
     text :JobTypes,
     isSelected : Boolean,
-    onCheckedChange : (Boolean,JobTypes)-> Unit
+    onCheckedChange : (JobTypes)-> Unit
 ) {
 
 
     Button(
         modifier = modifier,
-        onClick = { onCheckedChange(!isSelected,text)},
+        onClick = { onCheckedChange(text)},
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = if (isSelected) CustomTheme.colors.primary else CustomTheme.colors.secondaryBackground,
             contentColor = if (isSelected) CustomTheme.colors.tertiaryText else CustomTheme.colors.primaryText

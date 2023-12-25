@@ -103,7 +103,6 @@ fun SignupScreen(
             navigateToHome = navigateToHome,
             onTrigger = onTrigger,
             uiState = uiState,
-            effect = effect
         )
     }
 
@@ -116,7 +115,6 @@ fun SignupScreenContent(
     navigateToHome : ()->Unit,
     onTrigger: (SignupEvent)->Unit,
     uiState: SignupUiState,
-    effect: SignupEffect?
 ) {
 
 

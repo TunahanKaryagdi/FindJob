@@ -15,14 +15,19 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,6 +42,8 @@ import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.JobTypes
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -52,7 +59,8 @@ fun AddScreenRoute(
     AddScreen(
         modifier = modifier,
         uiState = uiState,
-        onTrigger = viewModel::handleEvents
+        onTrigger = viewModel::handleEvents,
+        effect = effect
     )
 }
 
@@ -62,11 +70,28 @@ fun AddScreenRoute(
 fun AddScreen(
     modifier: Modifier = Modifier,
     uiState: AddUiState,
-    onTrigger: (AddEvent)->Unit
+    onTrigger: (AddEvent) -> Unit,
+    effect: AddEffect?
 ){
+    val scaffoldState = rememberScaffoldState()
+
+    LaunchedEffect(key1 = effect){
+        when (effect){
+            is AddEffect.ShowMessage->{
+                val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
+                    message = effect.message,
+                    actionLabel = "Do something."
+                )
+            }
+            else->{
+
+            }
+        }
+    }
 
     Scaffold(
         modifier = modifier,
+        snackbarHost ={ scaffoldState.snackbarHostState},
         topBar = {
             CustomTopAppbar(
                 title = {
@@ -114,9 +139,9 @@ fun AddScreenContent(
                 enumValues<JobTypes>().forEach {
                     CustomToggleButton(
                         text = it,
-                        isSelected = uiState.selectedJobTypes.contains(it),
-                        onCheckedChange = {isChecked,value->
-                            onTrigger(AddEvent.OnClickJobType(isChecked,value))
+                        isSelected = uiState.selectedJobType == it,
+                        onCheckedChange = {value->
+                            onTrigger(AddEvent.OnClickJobType(value))
                         }
                     )
                     SpacerWidth(size = CustomTheme.spaces.small)
@@ -242,7 +267,9 @@ fun AddScreenContent(
             CustomButton(
                 modifier = Modifier
                     .fillMaxWidth(),
-                onClick = { /*TODO*/ },
+                onClick = {
+                    onTrigger(AddEvent.OnClickPost)
+                },
                 text = stringResource(id = R.string.post) )
         }
 

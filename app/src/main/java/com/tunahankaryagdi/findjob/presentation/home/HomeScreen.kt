@@ -32,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTinyButton
@@ -51,9 +52,12 @@ fun HomeScreenRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
+
 
     HomeScreen(
         modifier = modifier,
+        uiState = uiState,
         navigateToDetail = navigateToDetail
     )
 
@@ -64,7 +68,8 @@ fun HomeScreenRoute(
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigateToDetail : () -> Unit
+    navigateToDetail : () -> Unit,
+    uiState: HomeUiState
 ) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -81,7 +86,8 @@ fun HomeScreen(
                     scope.launch {
                         drawerState.open()
                     }
-                }
+                },
+                uiState = uiState
             )
         }
     }
@@ -93,7 +99,8 @@ fun HomeScreen(
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
     navigateToDetail : () -> Unit,
-    onClickOpenDrawer: ()->Unit
+    onClickOpenDrawer: ()->Unit,
+    uiState: HomeUiState,
 ) {
 
     var text by remember {
@@ -176,13 +183,17 @@ fun HomeScreenContent(
 
 
             LazyRow() {
-                items(5) {
+                items(uiState.jobs.size) {
 
-                    PopularJobCard(
-                        companyName = "Google",
-                        jobName = "Product Manager",
-                        salary = 3000,
-                        location = "Canada Toronto")
+                    uiState.jobs[it].apply {
+                        PopularJobCard(
+                            companyName = this.company.name,
+                            jobName = this.title,
+                            salary = this.salary,
+                            location = this.location
+                        )
+                    }
+
                     SpacerWidth(size = CustomTheme.spaces.small)
                 }
 
@@ -210,16 +221,17 @@ fun HomeScreenContent(
         }
 
 
-        items(5){
-            Column {
+        items(uiState.jobs.size){
+
+            uiState.jobs[it].apply {
                 RecentPostCard(
                     modifier = Modifier
                         .clickable {
                             navigateToDetail()
                         },
-                    jobName = "UI/UX Designer",
-                    jobType = "Full time",
-                    salary = 4500
+                    jobName = this.title,
+                    jobType = this.type,
+                    salary = this.salary
                 )
                 SpacerHeight(size = CustomTheme.spaces.small)
             }

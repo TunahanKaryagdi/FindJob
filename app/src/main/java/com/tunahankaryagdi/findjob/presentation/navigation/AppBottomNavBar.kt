@@ -29,9 +29,8 @@ fun AppBottomNavBar(
 
     NavigationBar(
         containerColor = CustomTheme.colors.secondaryBackground,
-        modifier = Modifier
-            .clip(RoundedCornerShape(30.dp,30.dp)),
-        tonalElevation =  10.dp,
+        modifier = Modifier,
+        tonalElevation =  50.dp,
 
     ) {
 

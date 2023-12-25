@@ -40,6 +40,7 @@ class HomeViewModel @Inject constructor(
                         setState(getCurrentState().copy(isLoading = false,))
                         setEffect(HomeEffect.ShowErrorMessage(resource.message))
                     }
+
                 }
             }
         }

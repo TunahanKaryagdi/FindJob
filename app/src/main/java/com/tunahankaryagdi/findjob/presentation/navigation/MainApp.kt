@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import com.tunahankaryagdi.b_log.presentation.appstate.MainAppState
 import com.tunahankaryagdi.b_log.presentation.appstate.rememberMainAppState
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
+import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 
 
 @OptIn(ExperimentalMaterial3Api::class)

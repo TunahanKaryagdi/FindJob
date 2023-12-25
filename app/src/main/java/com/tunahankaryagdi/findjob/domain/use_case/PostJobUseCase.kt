@@ -1,5 +1,6 @@
 package com.tunahankaryagdi.findjob.domain.use_case
 
+import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.dtos.toJob
 import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.domain.repository.JobRepository
@@ -8,15 +9,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+class PostJobUseCase @Inject constructor(private val jobRepository: JobRepository){
 
-class GetJobsUseCase @Inject constructor(private val jobRepository: JobRepository){
-    operator fun invoke(page: Int) : Flow<Resource<List<Job>>>{
+    operator fun invoke(postJobRequest: PostJobRequest) : Flow<Resource<Boolean>> {
 
         return flow {
 
             try {
-                val response = jobRepository.getJobs(page)
-                emit(Resource.Success(response.data.map { it.toJob() }))
+                val response = jobRepository.postJob(postJobRequest)
+                if (response.success){
+                    emit(Resource.Success(true))
+                }
+                else{
+                    emit(Resource.Success(false))
+                }
+
             }
             catch (e: Exception){
                 emit(Resource.Error(e.message ?: ""))
