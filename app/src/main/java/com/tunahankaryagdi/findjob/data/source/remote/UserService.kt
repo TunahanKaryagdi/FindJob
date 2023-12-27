@@ -2,7 +2,8 @@ package com.tunahankaryagdi.findjob.data.source.remote
 
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserResponse
-import com.tunahankaryagdi.findjob.data.model.user.SigninRequest
+import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
+import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SigninResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -13,7 +14,11 @@ interface UserService {
     suspend fun createUser(@Body user: CreateUserRequest) : CreateUserResponse
 
     @POST("Users/signin")
-    suspend fun signin(@Body signinRequest: SigninRequest) : SigninResponse
+    suspend fun signIn(@Body signinRequest: SignInRequest) : SigninResponse
+
+    @POST("Users/googlesignin")
+    suspend fun signInWithGoogle(@Body googleSignInRequest: GoogleSignInRequest) : Unit
+
 
 
 }

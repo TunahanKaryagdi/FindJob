@@ -1,5 +1,9 @@
 package com.tunahankaryagdi.findjob.presentation.components
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,8 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import java.nio.channels.Channel
 
 
 @Composable
@@ -26,7 +34,8 @@ fun CustomGoogleButton(
     onClick : ()-> Unit
 
 ) {
-    Box(
+
+  Box(
         modifier = modifier
             .size(size)
             .background(
@@ -48,3 +57,4 @@ fun CustomGoogleButton(
         )
     }
 }
+

@@ -1,12 +1,8 @@
 package com.tunahankaryagdi.findjob.presentation.login
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,22 +18,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
@@ -45,10 +35,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextFie
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
-import com.tunahankaryagdi.findjob.presentation.detail.DetailScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
-import kotlinx.coroutines.launch
-
 
 
 @Composable
@@ -65,7 +52,8 @@ fun LoginScreenRoute(
         modifier = modifier,
         navigateToSignup = navigateToSignup,
         uiState = uiState,
-        effect = effect
+        effect = effect,
+        onTrigger = viewModel::handleEvents
     )
 }
 
@@ -75,7 +63,8 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     navigateToSignup: ()->Unit,
     uiState: LoginUiState,
-    effect: LoginEffect?
+    effect: LoginEffect?,
+    onTrigger: (LoginEvent) -> Unit
 ) {
 
     Scaffold(
@@ -89,7 +78,8 @@ fun LoginScreen(
             modifier = modifier.padding(it),
             navigateToSignup = navigateToSignup,
             uiState = uiState,
-            effect = effect
+            effect = effect,
+            onTrigger = onTrigger
         )
     }
 
@@ -100,8 +90,18 @@ fun LoginScreenContent(
     modifier: Modifier = Modifier,
     navigateToSignup: ()->Unit,
     uiState: LoginUiState,
-    effect: LoginEffect?
+    effect: LoginEffect?,
+    onTrigger: (LoginEvent)-> Unit
 ) {
+
+    val context = LocalContext.current
+
+    val signInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        onTrigger(LoginEvent.OnClickGoogleSignIn(result))
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -166,9 +166,13 @@ fun LoginScreenContent(
 
         SpacerHeight(size = CustomTheme.spaces.small)
 
-        CustomGoogleButton {
-
-        }
+        CustomGoogleButton(
+            onClick =  {
+                val googleSignInClient = getGoogleSignInClient(context)
+                val signInIntent = googleSignInClient.signInIntent
+                signInLauncher.launch(signInIntent)
+            }
+        )
 
         SpacerHeight(size = CustomTheme.spaces.small)
 
@@ -187,3 +191,16 @@ fun LoginScreenContent(
         }
     }
 }
+
+fun getGoogleSignInClient(context: Context): GoogleSignInClient {
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+
+        .requestIdToken("149429631601-56vf5u2b3t2v83sqpvb9i4m41nktlp3i.apps.googleusercontent.com")
+        .requestId()
+        .requestEmail()
+        .build()
+
+    return GoogleSignIn.getClient(context, gso)
+}
+
+
