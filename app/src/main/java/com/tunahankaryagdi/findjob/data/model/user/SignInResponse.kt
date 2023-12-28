@@ -3,10 +3,6 @@ package com.tunahankaryagdi.findjob.data.model.user
 data class SigninResponse(
     val message: String,
     val success: Boolean,
-    val token: Token
+    val data: String
 )
 
-data class Token(
-    val accessToken: String,
-    val expirationTime: String
-)

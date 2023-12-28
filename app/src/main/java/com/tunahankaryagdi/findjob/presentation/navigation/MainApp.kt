@@ -11,6 +11,7 @@ import com.tunahankaryagdi.b_log.presentation.appstate.rememberMainAppState
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.login.loginRoute
 import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
+import com.tunahankaryagdi.findjob.presentation.splash.splashRoute
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +36,7 @@ fun MainApp(
         NavigationHost(
             modifier = Modifier.padding(it),
             navController = appState.navController,
-            startDestination = loginRoute
+            startDestination = splashRoute
         )
     }
 

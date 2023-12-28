@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
+import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.use_case.SignInUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.SignInWithGoogleUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
+    private val tokenStore: TokenStore
 ) : BaseViewModel<LoginUiState,LoginEffect,LoginEvent>(){
     override fun setInitialState(): LoginUiState = LoginUiState()
 
@@ -52,10 +54,14 @@ class LoginViewModel @Inject constructor(
                 signInUseCase.invoke(SignInRequest(uiState.email.trim(),uiState.password.trim())).collect{resource->
                     when(resource){
                         is Resource.Success->{
+                            println("")
+                            tokenStore.saveToken(resource.data)
                             setState(getCurrentState().copy(isLoading = false))
+                            setEffect(LoginEffect.NavigateToHome)
                         }
                         is Resource.Error->{
                             setState(getCurrentState().copy(isLoading = false))
+                            setEffect(LoginEffect.ShowErrorMessage(resource.message))
                         }
                     }
                 }
@@ -137,6 +143,7 @@ fun LoginUiState.isValid() : Boolean{
 }
 sealed interface LoginEffect : Effect{
     data class ShowErrorMessage(val message: String) : LoginEffect
+    object NavigateToHome : LoginEffect
 }
 
 sealed interface LoginEvent : Event{

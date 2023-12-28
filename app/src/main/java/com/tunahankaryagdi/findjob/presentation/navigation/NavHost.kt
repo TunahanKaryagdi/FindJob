@@ -16,6 +16,7 @@ import com.tunahankaryagdi.findjob.presentation.login.loginScreen
 import com.tunahankaryagdi.findjob.presentation.login.navigateToLogin
 import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 import com.tunahankaryagdi.findjob.presentation.signup.signupScreen
+import com.tunahankaryagdi.findjob.presentation.splash.splashScreen
 
 
 @Composable
@@ -29,7 +30,16 @@ fun NavigationHost(
         navController = navController ,
         startDestination = startDestination,
     ){
-        loginScreen(navigateToSignup = {navController.navigate(signupRoute)})
+
+        splashScreen(
+            navigateToLogin = {navController.navigateToLogin()},
+            navigateToHome = {navController.navigateToHome()}
+        )
+
+        loginScreen(
+            navigateToSignup = {navController.navigate(signupRoute)},
+            navigateToHome = {navController.navigateToHome()}
+        )
 
         signupScreen(
             navigateToHome = {navController.navigateToHome()},
