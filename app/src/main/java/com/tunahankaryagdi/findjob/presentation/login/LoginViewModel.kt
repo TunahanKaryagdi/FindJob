@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
+import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
+import com.tunahankaryagdi.findjob.domain.use_case.SignInUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.SignInWithGoogleUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
@@ -20,14 +22,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val signInUseCase: SignInUseCase,
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : BaseViewModel<LoginUiState,LoginEffect,LoginEvent>(){
     override fun setInitialState(): LoginUiState = LoginUiState()
 
     override fun handleEvents(event: LoginEvent) {
         when(event){
+            is LoginEvent.OnEmailValueChange->{
+                setState(getCurrentState().copy(email = event.value))
+            }
+            is LoginEvent.OnPasswordValueChange->{
+                setState(getCurrentState().copy(password = event.value))
+            }
             is LoginEvent.OnClickGoogleSignIn->{
                 handleGoogleSignInResult(event.result)
+            }
+            is LoginEvent.OnClickLogin->{
+                signIn()
+            }
+        }
+    }
+
+    private fun signIn(){
+        val uiState = getCurrentState()
+        if (uiState.isValid()){
+            viewModelScope.launch {
+                setState(getCurrentState().copy(isLoading = true))
+                signInUseCase.invoke(SignInRequest(uiState.email.trim(),uiState.password.trim())).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(isLoading = false))
+                        }
+                        is Resource.Error->{
+                            setState(getCurrentState().copy(isLoading = false))
+                        }
+                    }
+                }
             }
         }
     }
@@ -96,13 +127,22 @@ class LoginViewModel @Inject constructor(
 
 
 data class LoginUiState(
-    val isLoading : Boolean  = false,
+    val isLoading: Boolean  = false,
+    val email: String = "",
+    val password: String = ""
 ) : State
 
+fun LoginUiState.isValid() : Boolean{
+    return this.email.isNotBlank() && this.password.isNotBlank()
+}
 sealed interface LoginEffect : Effect{
     data class ShowErrorMessage(val message: String) : LoginEffect
 }
 
 sealed interface LoginEvent : Event{
+
+    data class OnEmailValueChange(val value: String) : LoginEvent
+    data class OnPasswordValueChange(val value: String) : LoginEvent
     data class OnClickGoogleSignIn(val result: ActivityResult) : LoginEvent
+    object OnClickLogin : LoginEvent
 }

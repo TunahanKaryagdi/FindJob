@@ -126,13 +126,13 @@ fun LoginScreenContent(
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = "",
+            value = uiState.email,
             placeholder = stringResource(id = R.string.email) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = stringResource(id = R.string.email))
             },
             onValueChange = {
-
+                onTrigger(LoginEvent.OnEmailValueChange(it))
             }
         )
 
@@ -141,13 +141,13 @@ fun LoginScreenContent(
         CustomOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = "",
+            value = uiState.password,
             placeholder = stringResource(id = R.string.password) ,
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = stringResource(id = R.string.password))
             },
             onValueChange = {
-
+                onTrigger(LoginEvent.OnPasswordValueChange(it))
             }
         )
 
@@ -156,7 +156,9 @@ fun LoginScreenContent(
         CustomButton(
             modifier = Modifier
                 .fillMaxWidth(),
-            onClick = {},
+            onClick = {
+                onTrigger(LoginEvent.OnClickLogin)
+            },
             text = stringResource(id = R.string.login),
         )
 
@@ -194,7 +196,6 @@ fun LoginScreenContent(
 
 fun getGoogleSignInClient(context: Context): GoogleSignInClient {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-
         .requestIdToken("149429631601-56vf5u2b3t2v83sqpvb9i4m41nktlp3i.apps.googleusercontent.com")
         .requestId()
         .requestEmail()

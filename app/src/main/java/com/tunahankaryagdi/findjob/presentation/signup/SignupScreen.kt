@@ -41,7 +41,8 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 fun SignupScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: SignupViewModel = hiltViewModel(),
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
 
     val uiState by  viewModel.state.collectAsStateWithLifecycle()
@@ -51,6 +52,7 @@ fun SignupScreenRoute(
     SignupScreen(
         modifier = modifier,
         navigateToHome = navigateToHome,
+        navigateToLogin = navigateToLogin,
         onTrigger = viewModel::handleEvents,
         uiState = uiState,
         effect = effect
@@ -63,6 +65,7 @@ fun SignupScreenRoute(
 fun SignupScreen(
     modifier: Modifier = Modifier,
     navigateToHome : ()->Unit,
+    navigateToLogin: () -> Unit,
     onTrigger: (SignupEvent)->Unit,
     uiState: SignupUiState,
     effect: SignupEffect?
@@ -76,7 +79,9 @@ fun SignupScreen(
         when (effect){
             is SignupEffect.ShowErrorMessage->{
                 snackbarState.showSnackbar(message = effect.message, duration = SnackbarDuration.Short)
-
+            }
+            is SignupEffect.NavigateToLogin->{
+                navigateToLogin.invoke()
             }
             else->{
 
@@ -205,8 +210,8 @@ fun SignupScreenContent(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                //onTrigger(SignupEvent.OnClickSignup)
-                navigateToHome()
+                onTrigger(SignupEvent.OnClickSignup)
+                //navigateToHome()
             },
             text = stringResource(id = R.string.sign_up),
         )

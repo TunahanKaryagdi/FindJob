@@ -11,7 +11,9 @@ import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
 import com.tunahankaryagdi.findjob.presentation.detail.navigateToDetail
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.homeScreen
+import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
 import com.tunahankaryagdi.findjob.presentation.login.loginScreen
+import com.tunahankaryagdi.findjob.presentation.login.navigateToLogin
 import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 import com.tunahankaryagdi.findjob.presentation.signup.signupScreen
 
@@ -29,7 +31,10 @@ fun NavigationHost(
     ){
         loginScreen(navigateToSignup = {navController.navigate(signupRoute)})
 
-        signupScreen(navigateToHome = {navController.navigate(homeRoute)})
+        signupScreen(
+            navigateToHome = {navController.navigateToHome()},
+            navigateToLogin = {navController.navigateToLogin()}
+        )
 
         homeScreen(navigateToDetail =  {navController.navigateToDetail()})
 

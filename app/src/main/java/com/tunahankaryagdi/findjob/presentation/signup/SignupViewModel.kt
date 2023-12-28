@@ -41,22 +41,29 @@ class SignupViewModel @Inject constructor(
     }
 
     private fun createUser(){
-        viewModelScope.launch {
-            setState(getCurrentState().copy(isLoading = true))
-            createUserUseCase.invoke(CreateUserRequest("","","")).collect{ resource->
-                when(resource){
-                    is Resource.Success ->{
-                        setState(getCurrentState().copy(isLoading = false))
-                    }
-                    is Resource.Error ->{
-                        setState(getCurrentState().copy(isLoading = false))
-                        setEffect(SignupEffect.ShowErrorMessage(resource.message))
+        val uiState = getCurrentState()
+        if (uiState.isValid()){
+            viewModelScope.launch {
+                setState(getCurrentState().copy(isLoading = true))
+                createUserUseCase.invoke(CreateUserRequest("${uiState.name.trim()} ${uiState.surname.trim()}",uiState.email,uiState.password)).collect{ resource->
+                    when(resource){
+                        is Resource.Success ->{
+                            setState(getCurrentState().copy(isLoading = false))
+                            setEffect(SignupEffect.NavigateToLogin)
+                        }
+                        is Resource.Error ->{
+                            setState(getCurrentState().copy(isLoading = false))
+                            setEffect(SignupEffect.ShowErrorMessage(resource.message))
+                        }
                     }
                 }
             }
         }
-    }
 
+
+
+
+    }
 
 }
 
@@ -69,8 +76,13 @@ data class SignupUiState(
     val isLoading: Boolean = false
 ) : State
 
+fun SignupUiState.isValid() : Boolean{
+    return this.name.isNotBlank() && this.email.isNotBlank() && this.surname.isNotBlank() && this.password.isNotBlank()
+}
+
 sealed interface SignupEffect : Effect{
     data class ShowErrorMessage(val message : String) : SignupEffect
+    object NavigateToLogin : SignupEffect
 }
 
 sealed interface SignupEvent : Event{
