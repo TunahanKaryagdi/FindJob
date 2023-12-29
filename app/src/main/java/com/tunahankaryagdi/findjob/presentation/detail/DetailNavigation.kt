@@ -10,15 +10,16 @@ const val detailRoute = "detail"
 
 
 fun NavController.navigateToDetail(
+    jobId: String,
     navOptions: NavOptions? = null
 ){
-    this.navigate(detailRoute,navOptions = navOptions)
+    this.navigate("$detailRoute/$jobId",navOptions = navOptions)
 }
 
 fun NavGraphBuilder.detailScreen(
     navigateToApply : () -> Unit
 ){
-    composable(detailRoute){
+    composable("$detailRoute/{jobId}"){
         DetailScreenRoute(
             navigateToApply = navigateToApply
         )

@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreenRoute(
     modifier: Modifier = Modifier,
-    navigateToDetail : () -> Unit,
+    navigateToDetail : (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -68,7 +68,7 @@ fun HomeScreenRoute(
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigateToDetail : () -> Unit,
+    navigateToDetail : (String) -> Unit,
     uiState: HomeUiState
 ) {
 
@@ -98,14 +98,12 @@ fun HomeScreen(
 @Composable
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    navigateToDetail : () -> Unit,
+    navigateToDetail : (String) -> Unit,
     onClickOpenDrawer: ()->Unit,
     uiState: HomeUiState,
 ) {
 
-    var text by remember {
-        mutableStateOf("")
-    }
+
 
     LazyColumn(
         modifier = modifier
@@ -145,7 +143,7 @@ fun HomeScreenContent(
                 CustomOutlinedTextField(
                     modifier = Modifier
                         .weight(1f),
-                    value = text,
+                    value = "",
                     placeholder =  stringResource(id = R.string.search_here),
                     onValueChange = {
 
@@ -187,6 +185,10 @@ fun HomeScreenContent(
 
                     uiState.jobs[it].apply {
                         PopularJobCard(
+                            modifier = Modifier
+                                .clickable {
+                                    navigateToDetail(this.id)
+                                },
                             companyName = this.company.name,
                             jobName = this.title,
                             salary = this.salary,
@@ -227,7 +229,7 @@ fun HomeScreenContent(
                 RecentPostCard(
                     modifier = Modifier
                         .clickable {
-                            navigateToDetail()
+                            navigateToDetail(this.id)
                         },
                     jobName = this.title,
                     jobType = this.type,

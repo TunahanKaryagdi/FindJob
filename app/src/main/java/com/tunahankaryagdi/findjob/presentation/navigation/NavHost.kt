@@ -46,7 +46,7 @@ fun NavigationHost(
             navigateToLogin = {navController.navigateToLogin()}
         )
 
-        homeScreen(navigateToDetail =  {navController.navigateToDetail()})
+        homeScreen(navigateToDetail =  {navController.navigateToDetail(it)})
 
         detailScreen(navigateToApply = {navController.navigateToApply()})
 

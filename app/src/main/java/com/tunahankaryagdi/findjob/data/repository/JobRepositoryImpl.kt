@@ -1,5 +1,6 @@
 package com.tunahankaryagdi.findjob.data.repository
 
+import com.tunahankaryagdi.findjob.data.model.job.GetJobResponse
 import com.tunahankaryagdi.findjob.data.model.job.GetJobsResponse
 import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.PostJobResponse
@@ -16,5 +17,9 @@ class JobRepositoryImpl @Inject constructor(private val jobService: JobService) 
 
     override suspend fun postJob(postJobRequest: PostJobRequest): PostJobResponse {
         return jobService.postJob(postJobRequest)
+    }
+
+    override suspend fun getJobById(jobId: String): GetJobResponse {
+        return jobService.getJobById(jobId)
     }
 }

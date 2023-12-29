@@ -1,5 +1,8 @@
 package com.tunahankaryagdi.findjob.presentation.detail
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,14 +20,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.apply.ApplyScreenContent
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
@@ -38,35 +46,26 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 @Composable
 fun DetailScreenRoute(
     modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = hiltViewModel(),
     navigateToApply : () -> Unit
 ) {
-    val job = Job(
-        "id","Ui Designer","Spotify","Toronto","Full time","1500", listOf("ABC","BCA")
-    )
+
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     DetailScreen(
         modifier = modifier,
-        job = job,
-        navigateToApply = navigateToApply
+        navigateToApply = navigateToApply,
+        uiState = uiState
     )
 }
 
-data class Job(
-    val id : String = "",
-    val title :String = "",
-    val company :String = "",
-    val location : String = "",
-    val type : String = "",
-    val salary : String = "",
-    val qualifications : List<String> = emptyList()
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
     navigateToApply : () -> Unit,
-    job: Job
+    uiState: DetailUiState
 ) {
 
 
@@ -80,7 +79,7 @@ fun DetailScreen(
         DetailScreenContent(
             modifier = modifier.padding(it),
             navigateToApply = navigateToApply,
-            job = job
+            uiState = uiState
         )
     }
 
@@ -91,9 +90,13 @@ fun DetailScreen(
 @Composable
 fun DetailScreenContent(
     modifier: Modifier = Modifier,
-    job: Job,
-    navigateToApply: () -> Unit
+    navigateToApply: () -> Unit,
+    uiState: DetailUiState
 ) {
+
+    val context = LocalContext.current
+
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -109,89 +112,119 @@ fun DetailScreenContent(
                         .fillMaxWidth()
                 ) {
 
-                    Image(
-                        modifier = Modifier
-                            .align(CenterHorizontally)
-                            .clip(RoundedCornerShape(10.dp)),
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = stringResource(id = R.string.company_image)
-                    )
+                    uiState.job?.let {job->
+                        Image(
+                            modifier = Modifier
+                                .align(CenterHorizontally)
+                                .clip(RoundedCornerShape(10.dp)),
+                            painter = painterResource(id = R.drawable.ic_launcher_background),
+                            contentDescription = stringResource(id = R.string.company_image)
+                        )
 
-                    SpacerHeight(size = CustomTheme.spaces.medium)
+                        SpacerHeight(size = CustomTheme.spaces.medium)
 
-                    Text(
-                        modifier = Modifier.align(CenterHorizontally),
-                        text = job.title,
-                        style = CustomTheme.typography.titleNormal
-                    )
-
-                    SpacerHeight(size = CustomTheme.spaces.medium)
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ){
                         Text(
-                            text = job.company,
-                            style = CustomTheme.typography.body.copy(
-                                color = CustomTheme.colors.secondaryText,
-                                fontWeight = FontWeight.Bold
+                            modifier = Modifier.align(CenterHorizontally),
+                            text = job.title,
+                            style = CustomTheme.typography.titleNormal
+                        )
+
+                        SpacerHeight(size = CustomTheme.spaces.medium)
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text(
+                                text = job.company.name,
+                                style = CustomTheme.typography.body.copy(
+                                    color = CustomTheme.colors.secondaryText,
+                                    fontWeight = FontWeight.Bold
+                                )
                             )
-                        )
-                        SpacerWidth(size = CustomTheme.spaces.small)
+                            SpacerWidth(size = CustomTheme.spaces.small)
+                            Text(
+                                text = job.location,
+                            )
+                        }
+                        SpacerHeight(size = CustomTheme.spaces.small)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ){
+                            Text(text = job.type)
+                            Text(text = "$${job.salary}/m")
+                        }
+
+                        SpacerHeight(size = CustomTheme.spaces.medium)
+
                         Text(
-                            text = job.location,
+                            text = stringResource(id = R.string.qualifications),
+                            style = CustomTheme.typography.titleNormal
                         )
-                    }
-                    SpacerHeight(size = CustomTheme.spaces.small)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ){
-                        Text(text = job.type)
-                        Text(text = "$${job.salary}/m")
-                    }
 
-                    SpacerHeight(size = CustomTheme.spaces.medium)
+                        repeat(job.qualifications.size){
+                            Text(
+                                text = "• ${job.qualifications[it].name}",
+                                style = CustomTheme.typography.labelLarge
+                            )
 
-                    Text(
-                        text = stringResource(id = R.string.qualifications),
-                        style = CustomTheme.typography.titleNormal
-                    )
-
-                    repeat(job.qualifications.size){
-                        Text(
-                            text = "• ${job.qualifications[it]}",
-                            style = CustomTheme.typography.labelLarge
-                        )
+                        }
 
                     }
                 }
-
-
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(CustomTheme.spaces.medium)
-        ) {
-            CustomButton(
+
+
+        uiState.job?.let {
+            Row(
                 modifier = Modifier
-                    .weight(1f),
-                onClick = { navigateToApply() },
-                text = stringResource(id = R.string.apply_now)
-            )
-            SpacerWidth(size = CustomTheme.spaces.medium)
-            CustomTinyButton(
-                icon = Icons.Filled.Email,
-                onClick = {}
-            )
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(CustomTheme.spaces.medium)
+            ) {
+                CustomButton(
+                    modifier = Modifier
+                        .weight(1f),
+                    onClick = { navigateToApply() },
+                    text = stringResource(id = R.string.apply_now)
+                )
+                SpacerWidth(size = CustomTheme.spaces.medium)
+                CustomTinyButton(
+                    icon = Icons.Filled.Email,
+                    onClick = {
+                        openGmail(context)
+                    }
+                )
+            }
         }
+
+    }
+}
+
+fun openGmail(context: Context) {
+    val packageName = "com.google.android.gm"
+
+    val intent = Intent(Intent.ACTION_MAIN).apply {
+        `package` = packageName
+        type = "text/plain"
+        putExtra(Intent.EXTRA_EMAIL,"karyagditunahan@gmail.com")
+        putExtra(Intent.EXTRA_SUBJECT,"hk")
+
+    }
+
+    if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+    } else {
+
+        val playStoreIntent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("market://details?id=$packageName")
+        }
+        context.startActivity(playStoreIntent)
     }
 }
