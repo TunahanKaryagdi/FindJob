@@ -143,8 +143,8 @@ fun ApplyScreenContent(
                 CustomOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = uiState.message,
+                    onValueChange = {onTrigger(ApplyEvent.OnMessageValueChange(it))},
                     size = 100.dp,
                     singleLine = false,
                     placeholder = stringResource(id = R.string.message)
@@ -157,7 +157,7 @@ fun ApplyScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),
-                    onClick = { /*TODO*/ },
+                    onClick = { onTrigger(ApplyEvent.OnClickApply) },
                     text = stringResource(id = R.string.apply_now)
                 )
             }

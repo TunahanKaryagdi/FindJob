@@ -53,7 +53,7 @@ fun NavigationHost(
             navigateToProfile = {navController.navigateToProfile()}
         )
 
-        detailScreen(navigateToApply = {navController.navigateToApply()})
+        detailScreen(navigateToApply = {navController.navigateToApply(it)})
 
         applyScreen()
 

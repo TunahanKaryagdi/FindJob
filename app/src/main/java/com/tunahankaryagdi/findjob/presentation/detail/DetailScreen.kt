@@ -47,7 +47,7 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 fun DetailScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = hiltViewModel(),
-    navigateToApply : () -> Unit
+    navigateToApply : (String) -> Unit
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -64,7 +64,7 @@ fun DetailScreenRoute(
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    navigateToApply : () -> Unit,
+    navigateToApply : (String) -> Unit,
     uiState: DetailUiState
 ) {
 
@@ -90,7 +90,7 @@ fun DetailScreen(
 @Composable
 fun DetailScreenContent(
     modifier: Modifier = Modifier,
-    navigateToApply: () -> Unit,
+    navigateToApply: (String) -> Unit,
     uiState: DetailUiState
 ) {
 
@@ -191,7 +191,7 @@ fun DetailScreenContent(
                 CustomButton(
                     modifier = Modifier
                         .weight(1f),
-                    onClick = { navigateToApply() },
+                    onClick = { navigateToApply(it.id) },
                     text = stringResource(id = R.string.apply_now)
                 )
                 SpacerWidth(size = CustomTheme.spaces.medium)

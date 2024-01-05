@@ -11,11 +11,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
@@ -25,16 +28,25 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 @Composable
 fun ProfileScreenRoute(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    ProfileScreen(modifier = modifier)
+
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle(initialValue = null)
+
+    ProfileScreen(
+        modifier = modifier,
+        uiState = uiState
+    )
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uiState: ProfileUiState
 ) {
     Scaffold(
         modifier = modifier,
@@ -51,14 +63,18 @@ fun ProfileScreen(
         },
         containerColor = CustomTheme.colors.primaryBackground
     ){
-        ProfileScreenContent(modifier = modifier.padding(it))
+        ProfileScreenContent(
+            modifier = modifier.padding(it),
+            uiState = uiState
+        )
     }
 }
 
 
 @Composable
 fun ProfileScreenContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uiState: ProfileUiState
 ){
 
     LazyColumn(
@@ -83,7 +99,7 @@ fun ProfileScreenContent(
                 )
                 CustomOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = uiState.name,
                     onValueChange ={}
                 )
 
@@ -95,7 +111,7 @@ fun ProfileScreenContent(
                 )
                 CustomOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = uiState.email,
                     onValueChange ={}
                 )
 
@@ -107,10 +123,10 @@ fun ProfileScreenContent(
                 )
             }
         }
-        items(5){
+        items(uiState.skills.size){
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "• MYfdkhfdajhfdasjfha",
+                text = "• ${uiState.skills[it].name}",
                 style = CustomTheme.typography.labelLarge
             )
         }

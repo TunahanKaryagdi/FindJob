@@ -9,13 +9,14 @@ import androidx.navigation.compose.composable
 const val applyRoute = "apply"
 
 fun NavController.navigateToApply(
+    jobId: String,
     navOptions: NavOptions? = null
 ){
-    this.navigate(applyRoute,navOptions)
+    this.navigate("$applyRoute/$jobId",navOptions)
 }
 
 fun NavGraphBuilder.applyScreen() {
-    composable(applyRoute){
+    composable("$applyRoute/{jobId}"){
         ApplyScreenRoute()
     }
 }
