@@ -1,5 +1,6 @@
 package com.tunahankaryagdi.findjob.presentation.home
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.domain.use_case.GetJobsUseCase
@@ -7,6 +8,7 @@ import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
+import com.tunahankaryagdi.findjob.presentation.home.components.DrawerItem
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,7 +27,16 @@ class HomeViewModel @Inject constructor(
     override fun setInitialState(): HomeUiState  = HomeUiState()
 
     override fun handleEvents(event: HomeEvent) {
+        when(event){
 
+            is HomeEvent.OnClickDrawerItem->{
+                if (event.drawerItem.title == "Profile"){
+                    setEffect(HomeEffect.NavigateToProfile)
+
+                }
+            }
+
+        }
     }
 
     private fun getJobs(){
@@ -56,8 +67,9 @@ data class HomeUiState(
 
 sealed interface HomeEffect : Effect{
     data class ShowErrorMessage(val message: String) : HomeEffect
+    object NavigateToProfile : HomeEffect
 }
 
 sealed interface HomeEvent : Event{
-
+    data class OnClickDrawerItem(val drawerItem: DrawerItem) : HomeEvent
 }

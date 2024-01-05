@@ -2,7 +2,6 @@ package com.tunahankaryagdi.findjob.presentation.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -32,13 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
+import com.tunahankaryagdi.findjob.presentation.profile.profileRoute
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import kotlinx.coroutines.launch
 
 
 data class DrawerItem(
     val icon: ImageVector,
-    val title : String
+    val title: String,
+    val route: String
 )
 
 
@@ -47,12 +48,13 @@ data class DrawerItem(
 fun AppDrawer(
     modifier: Modifier = Modifier,
     drawerState: DrawerState,
+    onClickDrawerItem : (DrawerItem)->Unit,
     content: @Composable ()->Unit
 ) {
 
     val items = listOf(
-        DrawerItem(icon = Icons.Filled.List, title = "adfd"),
-        DrawerItem(icon = Icons.Filled.Search, title = "adfd"),
+        DrawerItem(icon = Icons.Filled.List, title = stringResource(id = R.string.profile), route = profileRoute),
+        DrawerItem(icon = Icons.Filled.Search, title = stringResource(id = R.string.log_out), route = ""),
     )
 
     var selectedIndex by rememberSaveable{
@@ -106,6 +108,7 @@ fun AppDrawer(
                             selected = index == selectedIndex,
                             onClick = {
                                 selectedIndex = index
+                                onClickDrawerItem(drawerItem)
                                 scope.launch {
                                     drawerState.close()
                                 }

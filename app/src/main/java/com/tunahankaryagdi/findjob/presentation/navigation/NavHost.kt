@@ -14,6 +14,8 @@ import com.tunahankaryagdi.findjob.presentation.home.homeScreen
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
 import com.tunahankaryagdi.findjob.presentation.login.loginScreen
 import com.tunahankaryagdi.findjob.presentation.login.navigateToLogin
+import com.tunahankaryagdi.findjob.presentation.profile.navigateToProfile
+import com.tunahankaryagdi.findjob.presentation.profile.profileScreen
 import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 import com.tunahankaryagdi.findjob.presentation.signup.signupScreen
 import com.tunahankaryagdi.findjob.presentation.splash.splashScreen
@@ -46,13 +48,18 @@ fun NavigationHost(
             navigateToLogin = {navController.navigateToLogin()}
         )
 
-        homeScreen(navigateToDetail =  {navController.navigateToDetail(it)})
+        homeScreen(
+            navigateToDetail =  {navController.navigateToDetail(it)},
+            navigateToProfile = {navController.navigateToProfile()}
+        )
 
         detailScreen(navigateToApply = {navController.navigateToApply()})
 
         applyScreen()
 
         addScreen()
+
+        profileScreen()
     }
 
 }

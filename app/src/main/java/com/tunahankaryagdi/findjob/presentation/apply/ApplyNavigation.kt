@@ -1,6 +1,5 @@
 package com.tunahankaryagdi.findjob.presentation.apply
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions

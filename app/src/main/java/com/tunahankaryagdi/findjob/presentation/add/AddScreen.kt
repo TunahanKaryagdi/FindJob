@@ -225,7 +225,7 @@ fun AddScreenContent(
                             onTrigger(AddEvent.OnClickAddNewQualification)
                         },
                     imageVector = Icons.Outlined.Add,
-                    contentDescription = "add"
+                    contentDescription = stringResource(id = R.string.add_qualification)
                 )
             }
 

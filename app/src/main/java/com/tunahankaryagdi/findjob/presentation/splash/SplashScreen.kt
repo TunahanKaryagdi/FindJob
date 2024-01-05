@@ -40,18 +40,13 @@ fun SplashScreenRoute(
 
     SplashScreen(
         modifier = modifier,
-        navigateToLogin = navigateToLogin,
-        navigateToHome = navigateToHome
     )
 }
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    navigateToLogin: ()->Unit,
-    navigateToHome: ()->Unit,
 ) {
-
 
     SplashScreenContent(modifier = modifier)
 }
