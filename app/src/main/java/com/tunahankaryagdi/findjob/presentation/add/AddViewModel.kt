@@ -10,6 +10,7 @@ import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
+import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEvent
 import com.tunahankaryagdi.findjob.utils.JobTypes
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,24 +38,24 @@ class AddViewModel @Inject constructor(
             is AddEvent.OnSalaryValueChange->{
                 setState(getCurrentState().copy(salary = event.value))
             }
-            is AddEvent.OnNewQualificationValueChange->{
-                setState(getCurrentState().copy(newQualification = event.value))
+            is AddEvent.OnQualificationValueChange->{
+                setState(getCurrentState().copy(qualification = event.value))
             }
             is AddEvent.OnClickJobType->{
                 if (event.jobType != getCurrentState().selectedJobType){
                     setState(getCurrentState().copy(selectedJobType = event.jobType))
                 }
             }
-            is AddEvent.OnClickConfirmQualification->{
+            is AddEvent.OnClickEdit->{
+                setState(getCurrentState().copy(isOpenDialog = true))
+            }
+            is AddEvent.OnConfirmDialog->{
                 val newQualifications = getCurrentState().qualifications
-                newQualifications.add(getCurrentState().newQualification)
-                setState(getCurrentState().copy(qualifications = newQualifications, isNewQualificationSectionOpen = false, newQualification = ""))
+                newQualifications.add(getCurrentState().qualification)
+                setState(getCurrentState().copy(qualifications = newQualifications, isOpenDialog = false, qualification = ""))
             }
-            is AddEvent.OnClickCancelQualification->{
-                setState(getCurrentState().copy(isNewQualificationSectionOpen = false))
-            }
-            is AddEvent.OnClickAddNewQualification->{
-                setState(getCurrentState().copy(isNewQualificationSectionOpen = true))
+            is AddEvent.OnDismissDialog->{
+                setState(getCurrentState().copy(isOpenDialog = false, qualification = ""))
             }
             is AddEvent.OnClickPost->{
                 setState(getCurrentState().copy(isLoading = true))
@@ -114,8 +115,8 @@ data class AddUiState(
     val title : String = "",
     val location: String = "",
     val salary: String = "",
-    val newQualification : String = "",
-    val isNewQualificationSectionOpen : Boolean = false,
+    val qualification : String = "",
+    val isOpenDialog : Boolean = false,
     val qualifications : MutableList<String> = mutableListOf(),
     val selectedJobType: JobTypes = JobTypes.FullTime
 ) : State
@@ -130,10 +131,11 @@ sealed interface AddEvent : Event{
     data class OnTitleValueChange(val value : String) : AddEvent
     data class OnSalaryValueChange(val value : String) : AddEvent
     data class OnLocationValueChange(val value : String) : AddEvent
-    data class OnNewQualificationValueChange(val value : String)  :AddEvent
+    data class OnQualificationValueChange(val value : String)  :AddEvent
     data class OnClickJobType(val jobType: JobTypes) : AddEvent
-    object OnClickAddNewQualification : AddEvent
-    object OnClickConfirmQualification : AddEvent
-    object OnClickCancelQualification : AddEvent
+    object OnClickEdit : AddEvent
+    object OnDismissDialog : AddEvent
+    object OnConfirmDialog : AddEvent
     object OnClickPost: AddEvent
+
 }

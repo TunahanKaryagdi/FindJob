@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -55,6 +56,7 @@ fun AppDrawer(
     val items = listOf(
         DrawerItem(icon = Icons.Filled.List, title = stringResource(id = R.string.profile), route = profileRoute),
         DrawerItem(icon = Icons.Filled.Search, title = stringResource(id = R.string.log_out), route = ""),
+        DrawerItem(icon = Icons.Filled.Send, title = stringResource(id = R.string.applications), route = ""),
     )
 
     var selectedIndex by rememberSaveable{

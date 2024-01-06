@@ -178,7 +178,7 @@ fun EditProfileScreenContent(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "• ${uiState.skills[it].name}",
-                style = CustomTheme.typography.labelLarge
+                style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
             )
         }
     }

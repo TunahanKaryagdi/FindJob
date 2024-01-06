@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -135,7 +136,14 @@ fun ProfileScreenContent(
                     style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
                 )
 
-                SpacerHeight(size = CustomTheme.spaces.medium)
+
+                SpacerHeight(size = CustomTheme.spaces.small)
+
+                Divider(
+                    color = CustomTheme.colors.primary
+                )
+
+                SpacerHeight(size = CustomTheme.spaces.small)
 
                 Text(
                     text = stringResource(id = R.string.email)
@@ -145,7 +153,11 @@ fun ProfileScreenContent(
                     style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
                 )
 
-                SpacerHeight(size = CustomTheme.spaces.medium)
+                SpacerHeight(size = CustomTheme.spaces.small)
+                Divider(
+                    color = CustomTheme.colors.primary
+                )
+                SpacerHeight(size = CustomTheme.spaces.small)
 
                 Text(
                     text = stringResource(id = R.string.skills)
@@ -162,8 +174,9 @@ fun ProfileScreenContent(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "• ${uiState.skills[it].name}",
-                    style = CustomTheme.typography.labelLarge
+                    style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
                 )
+
             }
         }
 

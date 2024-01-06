@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Done
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.rememberScaffoldState
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.add.components.AddQualificationDialog
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomToggleButton
@@ -122,6 +124,13 @@ fun AddScreenContent(
     uiState: AddUiState,
     onTrigger: (AddEvent)->Unit
 ) {
+
+    if (uiState.isOpenDialog){
+        AddQualificationDialog(
+            onTrigger = onTrigger,
+            qualification = uiState.qualification
+        )
+    }
 
     LazyColumn(
         modifier = modifier
@@ -222,9 +231,9 @@ fun AddScreenContent(
                 Icon(
                     modifier = Modifier
                         .clickable {
-                            onTrigger(AddEvent.OnClickAddNewQualification)
+                            onTrigger(AddEvent.OnClickEdit)
                         },
-                    imageVector = Icons.Outlined.Add,
+                    imageVector = Icons.Outlined.Edit,
                     contentDescription = stringResource(id = R.string.add_qualification)
                 )
             }
@@ -236,33 +245,6 @@ fun AddScreenContent(
             SpacerHeight(size = CustomTheme.spaces.small)
         }
 
-        if (uiState.isNewQualificationSectionOpen){
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CustomOutlinedTextField(
-                        modifier = Modifier
-                            .weight(1f),
-                        value = uiState.newQualification,
-                        onValueChange = {onTrigger(AddEvent.OnNewQualificationValueChange(it))},
-                    )
-                    Icon(
-                        modifier = Modifier.clickable {
-                               onTrigger(AddEvent.OnClickConfirmQualification)
-                        },
-                        imageVector = Icons.Outlined.Done,
-                        contentDescription = stringResource(id = R.string.done))
-                    Icon(
-                        modifier = Modifier.clickable { onTrigger(AddEvent.OnClickCancelQualification) },
-                        imageVector = Icons.Outlined.Close,
-                        contentDescription = stringResource(id = R.string.close))
-                }
-                SpacerHeight(size = CustomTheme.spaces.small)
-            }
-        }
-
         item {
             CustomButton(
                 modifier = Modifier
@@ -272,11 +254,5 @@ fun AddScreenContent(
                 },
                 text = stringResource(id = R.string.post) )
         }
-
-
-
-
-
     }
-
 }
