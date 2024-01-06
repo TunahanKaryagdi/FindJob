@@ -8,6 +8,7 @@ import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
+import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEffect
 import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,11 +27,14 @@ class ProfileViewModel @Inject constructor(
     override fun setInitialState(): ProfileUiState = ProfileUiState()
 
     override fun handleEvents(event: ProfileEvent) {
+        when(event){
+            is ProfileEvent.OnClickEditProfile->{
+                setEffect(ProfileEffect.NavigateToEditProfile)
+            }
+        }
     }
-
     private fun getUserById(){
         viewModelScope.launch {
-
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
                 getUserByIdUseCase.invoke(userId).collect{resource->
@@ -48,6 +52,7 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
 }
 
 
@@ -61,8 +66,10 @@ data class ProfileUiState(
 
 sealed interface ProfileEffect : Effect{
     data class ShowMessage(val message: String) : ProfileEffect
+    object NavigateToEditProfile : ProfileEffect
 
 }
 
 sealed interface ProfileEvent : Event{
+    object OnClickEditProfile : ProfileEvent
 }

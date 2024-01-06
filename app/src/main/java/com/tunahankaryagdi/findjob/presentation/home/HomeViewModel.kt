@@ -2,6 +2,7 @@ package com.tunahankaryagdi.findjob.presentation.home
 
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
+import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.domain.use_case.GetJobsUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getJobsUseCase: GetJobsUseCase
+    private val getJobsUseCase: GetJobsUseCase,
+    private val tokenStore: TokenStore
 ) : BaseViewModel<HomeUiState,HomeEffect,HomeEvent>(){
 
     init {
@@ -32,7 +34,10 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnClickDrawerItem->{
                 if (event.drawerItem.title == "Profile"){
                     setEffect(HomeEffect.NavigateToProfile)
-
+                }
+                if (event.drawerItem.title == "Log out"){
+                    logout()
+                    setEffect(HomeEffect.NavigateToLogin)
                 }
             }
 
@@ -57,6 +62,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun logout(){
+        viewModelScope.launch {
+            tokenStore.saveToken("")
+        }
+    }
+
 }
 
 
@@ -68,6 +79,8 @@ data class HomeUiState(
 sealed interface HomeEffect : Effect{
     data class ShowErrorMessage(val message: String) : HomeEffect
     object NavigateToProfile : HomeEffect
+    object NavigateToLogin : HomeEffect
+
 }
 
 sealed interface HomeEvent : Event{

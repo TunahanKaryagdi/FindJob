@@ -50,7 +50,7 @@ class ApplyViewModel @Inject constructor(
                 val jobId = savedStateHandle.get<String>("jobId") ?: ""
                 val userId = JwtHelper.getUserId(it) ?: ""
                 setState(getCurrentState().copy(isLoading = true))
-                postApplicationUseCase.invoke(PostApplicationRequest(userId,jobId)).collect{resource->
+                postApplicationUseCase.invoke(PostApplicationRequest(userId,jobId,getCurrentState().message)).collect{resource->
                     when(resource){
                         is Resource.Success->{
                             if (resource.data){

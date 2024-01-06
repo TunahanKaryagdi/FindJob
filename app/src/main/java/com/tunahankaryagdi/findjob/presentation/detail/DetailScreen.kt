@@ -191,8 +191,8 @@ fun DetailScreenContent(
                 CustomButton(
                     modifier = Modifier
                         .weight(1f),
-                    onClick = { navigateToApply(it.id) },
-                    text = stringResource(id = R.string.apply_now)
+                    onClick = { if (!uiState.isApplied) navigateToApply(it.id) },
+                    text = if (uiState.isApplied) stringResource(id = R.string.applied) else stringResource(id = R.string.apply_now)
                 )
                 SpacerWidth(size = CustomTheme.spaces.medium)
                 CustomTinyButton(

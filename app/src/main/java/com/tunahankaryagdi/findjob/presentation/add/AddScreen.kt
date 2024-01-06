@@ -253,11 +253,11 @@ fun AddScreenContent(
                                onTrigger(AddEvent.OnClickConfirmQualification)
                         },
                         imageVector = Icons.Outlined.Done,
-                        contentDescription = "Done")
+                        contentDescription = stringResource(id = R.string.done))
                     Icon(
                         modifier = Modifier.clickable { onTrigger(AddEvent.OnClickCancelQualification) },
                         imageVector = Icons.Outlined.Close,
-                        contentDescription = "Close")
+                        contentDescription = stringResource(id = R.string.close))
                 }
                 SpacerHeight(size = CustomTheme.spaces.small)
             }

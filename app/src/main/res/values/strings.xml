@@ -40,4 +40,11 @@
     <string name="log_out">Log out</string>
     <string name="profile">Profile</string>
     <string name="skills">Skills</string>
+    <string name="applied">Applied</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="skill">Skill</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="close">Close</string>
 </resources>

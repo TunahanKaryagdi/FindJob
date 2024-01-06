@@ -9,6 +9,8 @@ import com.tunahankaryagdi.findjob.presentation.apply.applyScreen
 import com.tunahankaryagdi.findjob.presentation.apply.navigateToApply
 import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
 import com.tunahankaryagdi.findjob.presentation.detail.navigateToDetail
+import com.tunahankaryagdi.findjob.presentation.edit_profile.editProfileScreen
+import com.tunahankaryagdi.findjob.presentation.edit_profile.navigateToEditProfile
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.homeScreen
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
@@ -29,6 +31,7 @@ fun NavigationHost(
 ) {
 
     NavHost(
+        modifier = modifier,
         navController = navController ,
         startDestination = startDestination,
     ){
@@ -50,7 +53,8 @@ fun NavigationHost(
 
         homeScreen(
             navigateToDetail =  {navController.navigateToDetail(it)},
-            navigateToProfile = {navController.navigateToProfile()}
+            navigateToProfile = {navController.navigateToProfile()},
+            navigateToLogin = {navController.navigateToLogin()}
         )
 
         detailScreen(navigateToApply = {navController.navigateToApply(it)})
@@ -59,7 +63,11 @@ fun NavigationHost(
 
         addScreen()
 
-        profileScreen()
+        profileScreen(
+            navigateToEditProfile = {navController.navigateToEditProfile()}
+        )
+
+        editProfileScreen()
     }
 
 }

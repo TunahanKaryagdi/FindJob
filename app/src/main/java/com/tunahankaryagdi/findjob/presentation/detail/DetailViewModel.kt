@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.job.JobDetail
+import com.tunahankaryagdi.findjob.domain.use_case.GetApplicationsByUserIdUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.GetJobUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.PostApplicationUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
@@ -21,16 +22,16 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val getJobUseCase: GetJobUseCase,
-    private val postApplicationUseCase: PostApplicationUseCase,
+    private val getApplicationsByUserIdUseCase: GetApplicationsByUserIdUseCase,
     private val tokenStore: TokenStore,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<DetailUiState,DetailEffect,DetailEvent>() {
 
-    init {
-        savedStateHandle.get<String>("jobId")?.let {
-            getJob(it)
-        }
 
+    private lateinit var jobId: String
+    init {
+        jobId = savedStateHandle.get<String>("jobId") ?: ""
+        getJob()
     }
 
     override fun setInitialState(): DetailUiState = DetailUiState()
@@ -38,43 +39,45 @@ class DetailViewModel @Inject constructor(
     override fun handleEvents(event: DetailEvent) {
         when(event){
             is DetailEvent.OnClickApply->{
-                apply()
             }
         }
 
     }
 
-    private fun apply(){
 
+
+    private fun getJob(){
         viewModelScope.launch {
             setState(getCurrentState().copy(isLoading = true))
-            tokenStore.getToken().collect{token->
-                val userId = JwtHelper.getUserId(token) ?: ""
-                val jobId = getCurrentState().job?.id ?: ""
-                postApplicationUseCase.invoke(PostApplicationRequest(userId,jobId)).collect{resource->
-                    when(resource){
-                        is Resource.Success->{
-                            setState(getCurrentState().copy(isLoading = false, isApplied = true))
-                        }
-                        is Resource.Error->{
-                            setEffect(DetailEffect.ShowErrorMessage(resource.message))
-                        }
+            getJobUseCase.invoke(jobId).collect{resource->
+                when(resource){
+                    is Resource.Success->{
+                        isApplied()
+                        setState(getCurrentState().copy(job = resource.data, isLoading = false))
+
+                    }
+                    is Resource.Error->{
+                        setEffect(DetailEffect.ShowErrorMessage(resource.message))
                     }
                 }
             }
         }
     }
 
-    private fun getJob(jobId: String){
+    private fun isApplied(){
         viewModelScope.launch {
-            setState(getCurrentState().copy(isLoading = true))
-            getJobUseCase.invoke(jobId).collect{resource->
-                when(resource){
-                    is Resource.Success->{
-                        setState(getCurrentState().copy(job = resource.data, isLoading = false))
-                    }
-                    is Resource.Error->{
-                        setEffect(DetailEffect.ShowErrorMessage(resource.message))
+            tokenStore.getToken().collect{ token ->
+                val userId = JwtHelper.getUserId(token) ?: ""
+                getApplicationsByUserIdUseCase.invoke(userId).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            if (resource.data.any{it.job.id == jobId}){
+                                setState(getCurrentState().copy(isApplied = true))
+                            }
+                        }
+                        is Resource.Error->{
+
+                        }
                     }
                 }
             }
