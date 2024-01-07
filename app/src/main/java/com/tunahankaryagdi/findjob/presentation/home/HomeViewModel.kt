@@ -39,6 +39,9 @@ class HomeViewModel @Inject constructor(
                     logout()
                     setEffect(HomeEffect.NavigateToLogin)
                 }
+                if (event.drawerItem.title == "Applications"){
+                    setEffect(HomeEffect.NavigateToApplications)
+                }
             }
 
         }
@@ -80,6 +83,7 @@ sealed interface HomeEffect : Effect{
     data class ShowErrorMessage(val message: String) : HomeEffect
     object NavigateToProfile : HomeEffect
     object NavigateToLogin : HomeEffect
+    object NavigateToApplications : HomeEffect
 
 }
 

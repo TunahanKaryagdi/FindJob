@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 
 
 data class DrawerItem(
-    val icon: ImageVector,
+    val icon: Painter,
     val title: String,
     val route: String
 )
@@ -54,9 +55,9 @@ fun AppDrawer(
 ) {
 
     val items = listOf(
-        DrawerItem(icon = Icons.Filled.List, title = stringResource(id = R.string.profile), route = profileRoute),
-        DrawerItem(icon = Icons.Filled.Search, title = stringResource(id = R.string.log_out), route = ""),
-        DrawerItem(icon = Icons.Filled.Send, title = stringResource(id = R.string.applications), route = ""),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_user), title = stringResource(id = R.string.profile), route = profileRoute),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_applications), title = stringResource(id = R.string.applications), route = ""),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_logout), title = stringResource(id = R.string.log_out), route = ""),
     )
 
     var selectedIndex by rememberSaveable{
@@ -82,27 +83,6 @@ fun AppDrawer(
 
                     SpacerHeight(size = CustomTheme.spaces.medium)
 
-                    Image(
-                        modifier = Modifier
-                            .clip(CircleShape),
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = stringResource(id = R.string.job_image)
-                    )
-
-                    SpacerHeight(size = CustomTheme.spaces.small)
-
-                    Text(
-                        text = "Screen1",
-                        style = CustomTheme.typography.titleLarge
-                    )
-
-
-                    Text(
-                        text = "Screen2",
-                        style = CustomTheme.typography.labelLarge
-                    )
-
-                    SpacerHeight(size = CustomTheme.spaces.large)
 
                     items.forEachIndexed { index, drawerItem ->
                         NavigationDrawerItem(
@@ -116,7 +96,7 @@ fun AppDrawer(
                                 }
                             },
                             icon = {
-                                Icon(imageVector = drawerItem.icon, contentDescription = drawerItem.title)
+                                Icon(painter = drawerItem.icon, contentDescription = drawerItem.title)
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 selectedContainerColor = Color.Transparent,

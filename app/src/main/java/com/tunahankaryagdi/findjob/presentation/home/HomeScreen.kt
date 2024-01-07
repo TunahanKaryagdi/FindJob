@@ -48,7 +48,8 @@ fun HomeScreenRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToDetail: (String) -> Unit,
     navigateToProfile: () -> Unit,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    navigateToApplications: () -> Unit
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -59,6 +60,9 @@ fun HomeScreenRoute(
         }
         if (effect == HomeEffect.NavigateToLogin){
             navigateToLogin()
+        }
+        if (effect == HomeEffect.NavigateToApplications){
+            navigateToApplications()
         }
     }
 

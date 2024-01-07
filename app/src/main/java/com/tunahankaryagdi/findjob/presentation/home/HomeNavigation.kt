@@ -15,14 +15,16 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null){
 fun NavGraphBuilder.homeScreen(
     navigateToDetail : (String) -> Unit,
     navigateToProfile: () -> Unit,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    navigateToApplications: () -> Unit
 ){
 
     composable(homeRoute){
         HomeScreenRoute(
             navigateToDetail = navigateToDetail,
             navigateToProfile = navigateToProfile,
-            navigateToLogin = navigateToLogin
+            navigateToLogin = navigateToLogin,
+            navigateToApplications = navigateToApplications
         )
     }
 }

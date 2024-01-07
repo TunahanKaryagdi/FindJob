@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.tunahankaryagdi.findjob.presentation.add.addScreen
 import com.tunahankaryagdi.findjob.presentation.applications.applicationsScreen
+import com.tunahankaryagdi.findjob.presentation.applications.navigateToApplications
 import com.tunahankaryagdi.findjob.presentation.apply.applyScreen
 import com.tunahankaryagdi.findjob.presentation.apply.navigateToApply
 import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
@@ -55,7 +56,8 @@ fun NavigationHost(
         homeScreen(
             navigateToDetail =  {navController.navigateToDetail(it)},
             navigateToProfile = {navController.navigateToProfile()},
-            navigateToLogin = {navController.navigateToLogin()}
+            navigateToLogin = {navController.navigateToLogin()},
+            navigateToApplications = {navController.navigateToApplications()}
         )
 
         detailScreen(navigateToApply = {navController.navigateToApply(it)})
@@ -70,7 +72,9 @@ fun NavigationHost(
 
         editProfileScreen()
 
-        applicationsScreen()
+        applicationsScreen(
+            navigateToDetail = {navController.navigateToDetail(it)}
+        )
     }
 
 }

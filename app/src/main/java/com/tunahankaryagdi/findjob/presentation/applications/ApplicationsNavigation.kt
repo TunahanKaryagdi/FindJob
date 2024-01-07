@@ -14,9 +14,13 @@ fun NavController.navigateToApplications(
     this.navigate(applicationsRoute,navOptions)
 }
 
-fun NavGraphBuilder.applicationsScreen() {
+fun NavGraphBuilder.applicationsScreen(
+    navigateToDetail: (String) -> Unit
+) {
     composable(applicationsRoute){
-        ApplicationsScreenRoute()
+        ApplicationsScreenRoute(
+            navigateToDetail = navigateToDetail
+        )
     }
 }
 
