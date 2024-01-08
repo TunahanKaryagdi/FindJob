@@ -5,17 +5,20 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.tunahankaryagdi.findjob.presentation.add.addScreen
-import com.tunahankaryagdi.findjob.presentation.applications.applicationsScreen
-import com.tunahankaryagdi.findjob.presentation.applications.navigateToApplications
+import com.tunahankaryagdi.findjob.presentation.application.applicationScreen
+import com.tunahankaryagdi.findjob.presentation.application.navigateToApplication
+import com.tunahankaryagdi.findjob.presentation.my_applications.myApplicationsScreen
+import com.tunahankaryagdi.findjob.presentation.my_applications.navigateToMyApplications
 import com.tunahankaryagdi.findjob.presentation.apply.applyScreen
 import com.tunahankaryagdi.findjob.presentation.apply.navigateToApply
 import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
 import com.tunahankaryagdi.findjob.presentation.detail.navigateToDetail
 import com.tunahankaryagdi.findjob.presentation.edit_profile.editProfileScreen
 import com.tunahankaryagdi.findjob.presentation.edit_profile.navigateToEditProfile
-import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.homeScreen
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
+import com.tunahankaryagdi.findjob.presentation.jobs.jobScreen
+import com.tunahankaryagdi.findjob.presentation.jobs.navigateToJobs
 import com.tunahankaryagdi.findjob.presentation.login.loginScreen
 import com.tunahankaryagdi.findjob.presentation.login.navigateToLogin
 import com.tunahankaryagdi.findjob.presentation.profile.navigateToProfile
@@ -57,7 +60,8 @@ fun NavigationHost(
             navigateToDetail =  {navController.navigateToDetail(it)},
             navigateToProfile = {navController.navigateToProfile()},
             navigateToLogin = {navController.navigateToLogin()},
-            navigateToApplications = {navController.navigateToApplications()}
+            navigateToApplications = {navController.navigateToMyApplications()},
+            navigateToJobs = {navController.navigateToJobs()}
         )
 
         detailScreen(navigateToApply = {navController.navigateToApply(it)})
@@ -72,9 +76,15 @@ fun NavigationHost(
 
         editProfileScreen()
 
-        applicationsScreen(
+        myApplicationsScreen(
             navigateToDetail = {navController.navigateToDetail(it)}
         )
+
+        jobScreen(
+            navigateToApplication = {navController.navigateToApplication(it)}
+        )
+
+        applicationScreen()
     }
 
 }

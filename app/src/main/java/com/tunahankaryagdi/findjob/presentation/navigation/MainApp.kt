@@ -6,11 +6,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.tunahankaryagdi.b_log.presentation.appstate.MainAppState
-import com.tunahankaryagdi.b_log.presentation.appstate.rememberMainAppState
-import com.tunahankaryagdi.findjob.presentation.home.homeRoute
-import com.tunahankaryagdi.findjob.presentation.login.loginRoute
-import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 import com.tunahankaryagdi.findjob.presentation.splash.splashRoute
 
 

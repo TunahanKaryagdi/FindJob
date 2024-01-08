@@ -42,6 +42,9 @@ class HomeViewModel @Inject constructor(
                 if (event.drawerItem.title == "Applications"){
                     setEffect(HomeEffect.NavigateToApplications)
                 }
+                if (event.drawerItem.title == "Jobs"){
+                    setEffect(HomeEffect.NavigateToJobs)
+                }
             }
 
         }
@@ -84,6 +87,7 @@ sealed interface HomeEffect : Effect{
     object NavigateToProfile : HomeEffect
     object NavigateToLogin : HomeEffect
     object NavigateToApplications : HomeEffect
+    object NavigateToJobs : HomeEffect
 
 }
 

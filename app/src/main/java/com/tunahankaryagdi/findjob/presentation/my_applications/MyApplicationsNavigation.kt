@@ -1,24 +1,24 @@
-package com.tunahankaryagdi.findjob.presentation.applications
+package com.tunahankaryagdi.findjob.presentation.my_applications
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-const val applicationsRoute = "applications"
+const val myApplicationsRoute = "myApplications"
 
 
-fun NavController.navigateToApplications(
+fun NavController.navigateToMyApplications(
     navOptions: NavOptions? = null
 ){
-    this.navigate(applicationsRoute,navOptions)
+    this.navigate(myApplicationsRoute,navOptions)
 }
 
-fun NavGraphBuilder.applicationsScreen(
+fun NavGraphBuilder.myApplicationsScreen(
     navigateToDetail: (String) -> Unit
 ) {
-    composable(applicationsRoute){
-        ApplicationsScreenRoute(
+    composable(myApplicationsRoute){
+        MyApplicationsScreenRoute(
             navigateToDetail = navigateToDetail
         )
     }

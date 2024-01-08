@@ -1,5 +1,7 @@
 package com.tunahankaryagdi.findjob.data.repository
 
+import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsByJobIdResponse
+import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsByUserIdResponse
 import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsResponse
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationRequest
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationResponse
@@ -17,7 +19,13 @@ class ApplicationRepositoryImpl @Inject constructor(private val applicationServi
         return applicationService.postApplication(postApplicationRequest)
     }
 
-    override suspend fun getApplicationsByUserId(userId: String): GetApplicationsResponse {
+    override suspend fun getApplicationsByUserId(userId: String): GetApplicationsByUserIdResponse {
         return applicationService.getApplicationsByUserId(userId)
     }
+
+    override suspend fun getApplicationsByJobId(jobId: String): GetApplicationsByJobIdResponse {
+        return applicationService.getApplicationsByJobId(jobId)
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.tunahankaryagdi.findjob.data.source.remote
 
 import com.tunahankaryagdi.findjob.data.model.job.GetJobResponse
+import com.tunahankaryagdi.findjob.data.model.job.GetJobsByUserIdResponse
 import com.tunahankaryagdi.findjob.data.model.job.GetJobsResponse
 import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.PostJobResponse
@@ -21,4 +22,7 @@ interface JobService {
 
     @GET("Jobs/{jobId}")
     suspend fun getJobById(@Path("jobId") jobId: String) : GetJobResponse
+
+    @GET("Jobs/User/{userId}")
+    suspend fun getJobsByUserId(@Path("userId") userId: String) : GetJobsByUserIdResponse
 }

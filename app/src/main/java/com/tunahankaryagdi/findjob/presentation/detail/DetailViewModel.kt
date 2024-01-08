@@ -28,7 +28,7 @@ class DetailViewModel @Inject constructor(
 ) : BaseViewModel<DetailUiState,DetailEffect,DetailEvent>() {
 
 
-    private lateinit var jobId: String
+    private val jobId: String
     init {
         jobId = savedStateHandle.get<String>("jobId") ?: ""
         getJob()

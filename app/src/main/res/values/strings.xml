@@ -51,4 +51,6 @@
     <string name="applications">Applications</string>
     <string name="accepted">Accepted</string>
     <string name="pending">Pending</string>
+    <string name="job">Job</string>
+    <string name="jobs">Jobs</string>
 </resources>

@@ -16,7 +16,8 @@ fun NavGraphBuilder.homeScreen(
     navigateToDetail : (String) -> Unit,
     navigateToProfile: () -> Unit,
     navigateToLogin: () -> Unit,
-    navigateToApplications: () -> Unit
+    navigateToApplications: () -> Unit,
+    navigateToJobs: () -> Unit
 ){
 
     composable(homeRoute){
@@ -24,7 +25,8 @@ fun NavGraphBuilder.homeScreen(
             navigateToDetail = navigateToDetail,
             navigateToProfile = navigateToProfile,
             navigateToLogin = navigateToLogin,
-            navigateToApplications = navigateToApplications
+            navigateToApplications = navigateToApplications,
+            navigateToJobs = navigateToJobs
         )
     }
 }

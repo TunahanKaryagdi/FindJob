@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.presentation.applications
+package com.tunahankaryagdi.findjob.presentation.my_applications
 
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
@@ -11,7 +11,6 @@ import com.tunahankaryagdi.findjob.presentation.base.State
 import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,15 +18,15 @@ import javax.inject.Inject
 class ApplicationsViewModel @Inject constructor(
     private val getApplicationsByUserIdUseCase: GetApplicationsByUserIdUseCase,
     private val tokenStore: TokenStore
-) : BaseViewModel<ApplicationsUiState,ApplicationsEffect,ApplicationsEvent>() {
+) : BaseViewModel<MyApplicationsUiState,MyApplicationsEffect,MyApplicationsEvent>() {
 
     init {
         getApplicationsByUserId()
     }
 
-    override fun setInitialState(): ApplicationsUiState = ApplicationsUiState()
+    override fun setInitialState(): MyApplicationsUiState = MyApplicationsUiState()
 
-    override fun handleEvents(event: ApplicationsEvent) {
+    override fun handleEvents(event: MyApplicationsEvent) {
 
     }
 
@@ -43,7 +42,7 @@ class ApplicationsViewModel @Inject constructor(
                         }
                         is Resource.Error->{
                             setState(getCurrentState().copy(isLoading = false))
-                            setEffect(ApplicationsEffect.ShowMessage(resource.message))
+                            setEffect(MyApplicationsEffect.ShowMessage(resource.message))
                         }
                     }
                 }
@@ -54,15 +53,15 @@ class ApplicationsViewModel @Inject constructor(
 
 
 
-data class ApplicationsUiState(
+data class MyApplicationsUiState(
     val isLoading: Boolean = false,
     val applications: List<Application> = emptyList()
 ) : State
 
-sealed interface ApplicationsEffect : Effect{
-    data class ShowMessage(val message: String) : ApplicationsEffect
+sealed interface MyApplicationsEffect : Effect{
+    data class ShowMessage(val message: String) : MyApplicationsEffect
 }
 
-sealed interface ApplicationsEvent : Event{
+sealed interface MyApplicationsEvent : Event{
 
 }

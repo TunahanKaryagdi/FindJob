@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
@@ -29,8 +30,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.profile.profileRoute
@@ -57,6 +61,7 @@ fun AppDrawer(
     val items = listOf(
         DrawerItem(icon = painterResource(id = R.drawable.ic_user), title = stringResource(id = R.string.profile), route = profileRoute),
         DrawerItem(icon = painterResource(id = R.drawable.ic_applications), title = stringResource(id = R.string.applications), route = ""),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_job), title = stringResource(id = R.string.jobs), route = ""),
         DrawerItem(icon = painterResource(id = R.drawable.ic_logout), title = stringResource(id = R.string.log_out), route = ""),
     )
 
@@ -64,6 +69,7 @@ fun AppDrawer(
         mutableStateOf(0)
     }
     val scope  = rememberCoroutineScope()
+    val width = LocalConfiguration.current.screenWidthDp
 
     ModalNavigationDrawer(
         modifier = modifier,
@@ -71,6 +77,7 @@ fun AppDrawer(
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = CustomTheme.colors.secondaryBackground,
+                modifier = Modifier.width((width * 0.6).dp)
             ) {
                 Column(
                     modifier = Modifier

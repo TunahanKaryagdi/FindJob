@@ -1,5 +1,7 @@
 package com.tunahankaryagdi.findjob.data.source.remote
 
+import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsByJobIdResponse
+import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsByUserIdResponse
 import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsResponse
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationRequest
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationResponse
@@ -17,7 +19,10 @@ interface ApplicationService {
     @POST("Applications")
     suspend fun postApplication(@Body postApplicationRequest: PostApplicationRequest) : PostApplicationResponse
 
-    @GET("Applications/{userId}")
-    suspend fun getApplicationsByUserId(@Path("userId") userId: String) : GetApplicationsResponse
+    @GET("Applications/User/{userId}")
+    suspend fun getApplicationsByUserId(@Path("userId") userId: String) : GetApplicationsByUserIdResponse
+
+    @GET("Applications/Job/{jobId}")
+    suspend fun getApplicationsByJobId(@Path("jobId") userId: String) : GetApplicationsByJobIdResponse
 
 }

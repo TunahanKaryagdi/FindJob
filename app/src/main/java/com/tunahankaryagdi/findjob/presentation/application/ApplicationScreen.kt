@@ -1,8 +1,6 @@
-package com.tunahankaryagdi.findjob.presentation.applications
+package com.tunahankaryagdi.findjob.presentation.application
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -13,45 +11,35 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
-import com.tunahankaryagdi.findjob.presentation.applications.components.ApplicationCard
-import com.tunahankaryagdi.findjob.presentation.apply.ApplyScreenContent
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
-import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
+import com.tunahankaryagdi.findjob.presentation.my_applications.MyApplicationsScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 
 @Composable
-fun ApplicationsScreenRoute(
+fun ApplicationScreenRoute(
     modifier: Modifier = Modifier,
-    viewModel: ApplicationsViewModel = hiltViewModel(),
-    navigateToDetail: (String) -> Unit,
+    viewModel: ApplicationViewModel = hiltViewModel()
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsStateWithLifecycle(null)
 
-    ApplicationsScreen(
+    ApplicationScreen(
         modifier = modifier,
-        uiState = uiState,
-        navigateToDetail = navigateToDetail,
-        onTrigger = viewModel::handleEvents
+        uiState = uiState
     )
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ApplicationsScreen(
+fun ApplicationScreen(
     modifier: Modifier = Modifier,
-    uiState: ApplicationsUiState,
-    navigateToDetail: (String) -> Unit,
-    onTrigger: (ApplicationsEvent) -> Unit
+    uiState: ApplicationUiState
 ) {
-
 
     Scaffold(
         modifier = modifier,
@@ -65,7 +53,7 @@ fun ApplicationsScreen(
                 },
                 title = {
                     Text(
-                        text = stringResource(id = R.string.applications),
+                        text = if (uiState.applications.isEmpty()) stringResource(id = R.string.applications) else uiState.applications[0].job.title,
                         style = CustomTheme.typography.titleNormal
                     )
                 }
@@ -73,41 +61,21 @@ fun ApplicationsScreen(
         },
         containerColor = CustomTheme.colors.primaryBackground
     ){
-        ApplicationsScreenContent(
+        ApplicationScreenContent(
             modifier = modifier.padding(it),
-            uiState = uiState,
-            navigateToDetail = navigateToDetail,
-            onTrigger = onTrigger
+            uiState = uiState
         )
     }
 
-
 }
 
-
-
 @Composable
-fun ApplicationsScreenContent(
+fun ApplicationScreenContent(
     modifier: Modifier = Modifier,
-    uiState: ApplicationsUiState,
-    navigateToDetail: (String) -> Unit,
-    onTrigger: (ApplicationsEvent) -> Unit
+    uiState: ApplicationUiState
 ) {
 
+    LazyColumn(){
 
-    LazyColumn(
-        modifier = modifier
-            .padding(CustomTheme.spaces.medium)
-    ){
-        items(uiState.applications.size){
-            ApplicationCard(
-                modifier = Modifier
-                    .clickable {
-                        navigateToDetail(uiState.applications[it].job.id)
-                    },
-                application = uiState.applications[it]
-            )
-            SpacerHeight(size = 10.dp)
-        }
     }
 }

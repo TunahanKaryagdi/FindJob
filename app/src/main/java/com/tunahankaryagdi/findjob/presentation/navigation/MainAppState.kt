@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.b_log.presentation.appstate
+package com.tunahankaryagdi.findjob.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -13,7 +13,6 @@ import androidx.navigation.navOptions
 import com.tunahankaryagdi.findjob.presentation.add.navigateToAdd
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
-import com.tunahankaryagdi.findjob.presentation.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -21,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 fun rememberMainAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController : NavHostController  = rememberNavController()
-) : MainAppState{
+) : MainAppState {
     return remember(coroutineScope,navController){
         MainAppState(navController,coroutineScope)
     }
@@ -39,7 +38,8 @@ class MainAppState(
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
 
-    val topLevelDestinations = TopLevelDestination.values().toList()
+    private val topLevelDestinations = TopLevelDestination.values().toList()
+
 
     val shouldShowBottomBar: Boolean
         @Composable get() = currentDestination?.hierarchy?.any { destination ->
@@ -63,8 +63,4 @@ class MainAppState(
 
         }
     }
-
-
-
-
 }
