@@ -130,10 +130,11 @@ fun ProfileScreenContent(
 
                 Text(
                     text = stringResource(id = R.string.name),
+                    style = CustomTheme.typography.bodyLarge
                 )
                 Text(
                     text = uiState.name,
-                    style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+                    style = CustomTheme.typography.body
                 )
 
 
@@ -146,11 +147,12 @@ fun ProfileScreenContent(
                 SpacerHeight(size = CustomTheme.spaces.small)
 
                 Text(
-                    text = stringResource(id = R.string.email)
+                    text = stringResource(id = R.string.email),
+                    style = CustomTheme.typography.bodyLarge
                 )
                 Text(
                     text = uiState.email,
-                    style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+                    style = CustomTheme.typography.body
                 )
 
                 SpacerHeight(size = CustomTheme.spaces.small)
@@ -160,7 +162,8 @@ fun ProfileScreenContent(
                 SpacerHeight(size = CustomTheme.spaces.small)
 
                 Text(
-                    text = stringResource(id = R.string.skills)
+                    text = stringResource(id = R.string.skills),
+                    style = CustomTheme.typography.bodyLarge
                 )
             }
         }
@@ -173,8 +176,8 @@ fun ProfileScreenContent(
             items(uiState.skills.size){
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "• ${uiState.skills[it].name}",
-                    style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+                    text = "• ${uiState.skills[it].experience} year experience in ${uiState.skills[it].name}",
+                    style = CustomTheme.typography.labelLarge
                 )
 
             }

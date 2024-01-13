@@ -5,5 +5,6 @@ data class Skill(
     val id: String,
     val name: String,
     val updatedDate: String,
-    val userId: String
+    val userId: String,
+    val experience: Int
 )

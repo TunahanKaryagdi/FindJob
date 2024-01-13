@@ -32,17 +32,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomDropdownMenu
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
+import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
 import com.tunahankaryagdi.findjob.presentation.profile.ProfileEvent
 import com.tunahankaryagdi.findjob.presentation.profile.ProfileScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.skills
 
 
 @Composable
@@ -102,9 +106,11 @@ fun EditProfileScreenContent(
 ) {
 
     if (uiState.isOpenDialog){
-        SkillDialog(
+        AddSkillDialog(
             onTrigger = onTrigger,
-            uiState.skill
+            isExpandedDropdown = uiState.isExpandedDropdown,
+            selectedDropdownValue = uiState.selectedDropdownValue,
+            experienceValue = uiState.experienceValue
         )
     }
 
@@ -132,6 +138,7 @@ fun EditProfileScreenContent(
 
                 Text(
                     text = stringResource(id = R.string.name),
+                    style = CustomTheme.typography.bodyLarge
                 )
                 CustomOutlinedTextField(
                     modifier = Modifier
@@ -143,7 +150,8 @@ fun EditProfileScreenContent(
                 SpacerHeight(size = CustomTheme.spaces.medium)
 
                 Text(
-                    text = stringResource(id = R.string.email)
+                    text = stringResource(id = R.string.email),
+                    style = CustomTheme.typography.bodyLarge
                 )
                 CustomOutlinedTextField(
                     modifier = Modifier
@@ -160,7 +168,8 @@ fun EditProfileScreenContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = stringResource(id = R.string.skills)
+                        text = stringResource(id = R.string.skills),
+                        style = CustomTheme.typography.bodyLarge,
                     )
 
                     Icon(
@@ -177,50 +186,11 @@ fun EditProfileScreenContent(
         items(uiState.skills.size){
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "• ${uiState.skills[it].name}",
-                style = CustomTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+                text = "• ${uiState.skills[it].experience} year experience in ${uiState.skills[it].name}",
+                style = CustomTheme.typography.labelLarge
             )
         }
     }
 }
 
 
-@Composable
-fun SkillDialog(
-    onTrigger: (EditProfileEvent) -> Unit,
-    skill: String
-) {
-
-    AlertDialog(
-        onDismissRequest = {
-            onTrigger(EditProfileEvent.OnDismissDialog)
-        },
-        confirmButton = {
-            Icon(
-                modifier = Modifier
-                    .clickable {
-                        onTrigger(EditProfileEvent.OnConfirmDialog)
-                    },
-                imageVector = Icons.Default.Done ,
-                contentDescription = stringResource(id = R.string.done))
-        },
-        dismissButton = {
-            Icon(
-                modifier = Modifier
-                    .clickable {
-                        onTrigger(EditProfileEvent.OnDismissDialog)
-                    },
-                imageVector = Icons.Default.Close ,
-                contentDescription = stringResource(id = R.string.close))
-        },
-        containerColor = CustomTheme.colors.primaryBackground,
-        titleContentColor = CustomTheme.colors.primary,
-        textContentColor = CustomTheme.colors.secondaryText,
-        title = {
-            Text(text = stringResource(id = R.string.skill))
-        },
-        text = {
-            CustomOutlinedTextField(value = skill, onValueChange = { onTrigger(EditProfileEvent.OnSkillValueChange(it))} )
-        }
-    )
-}

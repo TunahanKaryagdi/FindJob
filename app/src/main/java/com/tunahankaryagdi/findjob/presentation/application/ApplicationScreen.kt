@@ -1,5 +1,6 @@
 package com.tunahankaryagdi.findjob.presentation.application
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,8 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.application.components.ApplicationCard
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
-import com.tunahankaryagdi.findjob.presentation.my_applications.MyApplicationsScreenContent
+import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 
@@ -75,7 +77,19 @@ fun ApplicationScreenContent(
     uiState: ApplicationUiState
 ) {
 
-    LazyColumn(){
+    LazyColumn(
+        modifier = modifier
+            .padding(CustomTheme.spaces.medium)
+    ){
+        items(uiState.applications.size){
+            ApplicationCard(
+                modifier = Modifier
+                    .clickable {
 
+                    },
+                application = uiState.applications[it]
+            )
+            SpacerHeight(size = CustomTheme.spaces.small)
+        }
     }
 }

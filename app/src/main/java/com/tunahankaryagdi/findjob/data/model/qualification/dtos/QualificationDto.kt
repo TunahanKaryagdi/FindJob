@@ -7,12 +7,13 @@ data class QualificationDto(
     val id: String,
     val jobId: String,
     val name: String,
-    val updatedDate: String
+    val updatedDate: String,
+    val experience: Int
 )
 
 
 fun QualificationDto.toQualification(): Qualification{
     return Qualification(
-        createdDate, id, jobId, name, updatedDate
+        createdDate, id, jobId, name, updatedDate, experience
     )
 }

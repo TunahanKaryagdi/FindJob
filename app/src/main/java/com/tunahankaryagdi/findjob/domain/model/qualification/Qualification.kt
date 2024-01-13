@@ -5,5 +5,6 @@ data class Qualification(
     val id: String,
     val jobId: String,
     val name: String,
-    val updatedDate: String
+    val updatedDate: String,
+    val experience: Int
 )

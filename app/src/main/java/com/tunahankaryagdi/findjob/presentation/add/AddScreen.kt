@@ -10,28 +10,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
@@ -44,8 +37,6 @@ import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.JobTypes
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -128,7 +119,9 @@ fun AddScreenContent(
     if (uiState.isOpenDialog){
         AddQualificationDialog(
             onTrigger = onTrigger,
-            qualification = uiState.qualification
+            qualificationValue = uiState.qualification,
+            experienceValue = uiState.experienceValue,
+            isExpandedDropdown = uiState.isExpandedDropdown
         )
     }
 
@@ -208,10 +201,11 @@ fun AddScreenContent(
                         onValueChange = {onTrigger(AddEvent.OnSalaryValueChange(it))},
                         leadingIcon = {
                             Icon(
-                                imageVector = Icons.Outlined.Star,
+                                painter = painterResource(id = R.drawable.ic_salary),
                                 contentDescription = stringResource(id = R.string.salary)
                             )
-                        }
+                        },
+                        keyboardType = KeyboardType.Number
                     )
                 }
             }
@@ -241,7 +235,10 @@ fun AddScreenContent(
             SpacerHeight(size = CustomTheme.spaces.medium)
         }
         items(uiState.qualifications.size){
-            Text(text = "• ${uiState.qualifications[it]}")
+            Text(
+                text = "• ${uiState.qualifications[it].experience} year experience in ${uiState.qualifications[it].name}",
+                style = CustomTheme.typography.labelLarge
+            )
             SpacerHeight(size = CustomTheme.spaces.small)
         }
 

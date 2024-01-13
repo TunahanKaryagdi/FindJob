@@ -2,6 +2,7 @@ package com.tunahankaryagdi.findjob.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.tunahankaryagdi.findjob.R
@@ -22,7 +23,7 @@ enum class TopLevelDestination(
 
     ADD(
         route = addRoute,
-        icon = Icons.Default.Add,
+        icon = Icons.Default.Edit,
         textId = R.string.add_job
     )
 }

@@ -1,5 +1,7 @@
 package com.tunahankaryagdi.findjob.data.model.user.dtos
 
+import com.tunahankaryagdi.findjob.data.model.skill.dtos.SkillDto
+import com.tunahankaryagdi.findjob.data.model.skill.dtos.toSkill
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 
 

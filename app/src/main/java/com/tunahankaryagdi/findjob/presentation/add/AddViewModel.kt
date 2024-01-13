@@ -5,13 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.Qualification
 import com.tunahankaryagdi.findjob.data.model.job.dtos.JobDto
+import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.use_case.PostJobUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
 import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEvent
+import com.tunahankaryagdi.findjob.utils.DropdownItem
 import com.tunahankaryagdi.findjob.utils.JobTypes
+import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddViewModel @Inject constructor(
-    private val postJobUseCase: PostJobUseCase
+    private val postJobUseCase: PostJobUseCase,
+    private val tokenStore: TokenStore
 ): BaseViewModel<AddUiState,AddEffect,AddEvent>() {
 
 
@@ -38,8 +42,8 @@ class AddViewModel @Inject constructor(
             is AddEvent.OnSalaryValueChange->{
                 setState(getCurrentState().copy(salary = event.value))
             }
-            is AddEvent.OnQualificationValueChange->{
-                setState(getCurrentState().copy(qualification = event.value))
+            is AddEvent.OnExperienceValueChange->{
+                setState(getCurrentState().copy(experienceValue = event.value))
             }
             is AddEvent.OnClickJobType->{
                 if (event.jobType != getCurrentState().selectedJobType){
@@ -51,8 +55,8 @@ class AddViewModel @Inject constructor(
             }
             is AddEvent.OnConfirmDialog->{
                 val newQualifications = getCurrentState().qualifications
-                newQualifications.add(getCurrentState().qualification)
-                setState(getCurrentState().copy(qualifications = newQualifications, isOpenDialog = false, qualification = ""))
+                newQualifications.add(Qualification(getCurrentState().qualification,getCurrentState().experienceValue.toInt()))
+                setState(getCurrentState().copy(qualifications = newQualifications, isOpenDialog = false, qualification = "", experienceValue = ""))
             }
             is AddEvent.OnDismissDialog->{
                 setState(getCurrentState().copy(isOpenDialog = false, qualification = ""))
@@ -63,6 +67,15 @@ class AddViewModel @Inject constructor(
                 setState(getCurrentState().copy(isLoading = false))
             }
 
+            is AddEvent.OnClickDropdownItem -> {
+                setState(getCurrentState().copy(isExpandedDropdown = false, qualification = event.item.name))
+            }
+            is AddEvent.OnDismissDropdown -> {
+                setState(getCurrentState().copy(isExpandedDropdown = false))
+            }
+            is AddEvent.OnDropdownExpandedChange -> {
+                setState(getCurrentState().copy(isExpandedDropdown = event.expanded))
+            }
         }
 
 
@@ -76,26 +89,30 @@ class AddViewModel @Inject constructor(
             uiState.salary.isNotBlank() &&
             uiState.location.isNotBlank()){
             viewModelScope.launch {
-                postJobUseCase.invoke(PostJobRequest(
-                    "8147d1b4-ca17-4a33-bd2a-483a2789ef18",
-                    uiState.location,
-                    listOf(Qualification("Flutter")),
-                    5000,
-                    uiState.title,
-                    JobTypes.FullTime.name,
-                    "13d1b55e-fada-4ff9-a81d-d41a3fcfabaa"
-                )).collect{resource->
-                    when(resource){
-                        is Resource.Success->{
-                            if (resource.data){
-                                setEffect(AddEffect.ShowMessage("Successfully added"))
+                tokenStore.getToken().collect{token->
+                    val userId = JwtHelper.getUserId(token) ?: ""
+                    postJobUseCase.invoke(PostJobRequest(
+                        "8147d1b4-ca17-4a33-bd2a-483a2789ef18",
+                        uiState.location,
+                        uiState.qualifications,
+                        uiState.salary.toInt(),
+                        uiState.title,
+                        JobTypes.FullTime.name,
+                        userId
+                    )).collect{resource->
+                        when(resource){
+                            is Resource.Success->{
+                                if (resource.data){
+                                    setEffect(AddEffect.ShowMessage("Successfully added"))
+                                    setState(AddUiState())
+                                }
+                                else{
+                                    setEffect(AddEffect.ShowMessage("Failed"))
+                                }
                             }
-                            else{
-                                setEffect(AddEffect.ShowMessage("Failed"))
+                            is Resource.Error->{
+                                setEffect(AddEffect.ShowMessage(resource.message))
                             }
-                        }
-                        is Resource.Error->{
-                            setEffect(AddEffect.ShowMessage(resource.message))
                         }
                     }
                 }
@@ -117,8 +134,10 @@ data class AddUiState(
     val salary: String = "",
     val qualification : String = "",
     val isOpenDialog : Boolean = false,
-    val qualifications : MutableList<String> = mutableListOf(),
-    val selectedJobType: JobTypes = JobTypes.FullTime
+    val qualifications : MutableList<Qualification> = mutableListOf(),
+    val selectedJobType: JobTypes = JobTypes.FullTime,
+    val experienceValue: String = "",
+    val isExpandedDropdown: Boolean = false,
 ) : State
 
 sealed interface AddEffect : Effect{
@@ -131,11 +150,14 @@ sealed interface AddEvent : Event{
     data class OnTitleValueChange(val value : String) : AddEvent
     data class OnSalaryValueChange(val value : String) : AddEvent
     data class OnLocationValueChange(val value : String) : AddEvent
-    data class OnQualificationValueChange(val value : String)  :AddEvent
+    data class OnExperienceValueChange(val value : String)  :AddEvent
     data class OnClickJobType(val jobType: JobTypes) : AddEvent
     object OnClickEdit : AddEvent
     object OnDismissDialog : AddEvent
     object OnConfirmDialog : AddEvent
+    object OnDismissDropdown: AddEvent
+    data class OnClickDropdownItem(val item: DropdownItem) : AddEvent
+    data class OnDropdownExpandedChange(val expanded: Boolean) : AddEvent
     object OnClickPost: AddEvent
 
 }

@@ -11,5 +11,6 @@ data class PostJobRequest(
 )
 
 data class Qualification(
-    val name: String
+    val name: String,
+    val experience: Int
 )

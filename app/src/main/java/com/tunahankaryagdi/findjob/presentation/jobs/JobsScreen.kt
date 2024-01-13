@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomContentMessage
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.jobs.components.JobCard
@@ -80,6 +81,11 @@ fun JobScreenContent(
     uiState: JobsUiState,
     navigateToApplication: (String) -> Unit
 ) {
+
+    if (uiState.jobs.isEmpty()){
+        CustomContentMessage(message = stringResource(id = R.string.no_job_yet))
+    }
+
     LazyColumn(
         modifier = modifier
             .padding(CustomTheme.spaces.medium)

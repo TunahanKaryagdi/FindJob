@@ -53,4 +53,8 @@
     <string name="pending">Pending</string>
     <string name="job">Job</string>
     <string name="jobs">Jobs</string>
+    <string name="no_applications_yet">No applications yet</string>
+    <string name="no_job_yet">No job yet</string>
+    <string name="experience">Experience</string>
+    <string name="select_a_skill">Select a skill</string>
 </resources>

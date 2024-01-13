@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomContentMessage
 import com.tunahankaryagdi.findjob.presentation.my_applications.components.ApplicationCard
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
@@ -91,6 +92,9 @@ fun MyApplicationsScreenContent(
     onTrigger: (MyApplicationsEvent) -> Unit
 ) {
 
+    if (uiState.applications.isEmpty()){
+        CustomContentMessage(message = stringResource(id = R.string.no_applications_yet))
+    }
 
     LazyColumn(
         modifier = modifier
