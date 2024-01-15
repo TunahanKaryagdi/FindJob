@@ -14,7 +14,10 @@ data class Skill(
     override val name: String
 ) : DropdownItem
 
-
+data class ApplicationStatus(
+    override val id: Int,
+    override val name: String
+) : DropdownItem
 
 
 val skills = listOf(
@@ -24,4 +27,10 @@ val skills = listOf(
     Skill(4,"Kotlin"),
     Skill(5,"JavaScript"),
     Skill(6,"C"),
+)
+
+val applicationStatuses = listOf(
+    ApplicationStatus(1,"All"),
+    ApplicationStatus(2,"Waiting"),
+    ApplicationStatus(3,"Confirmed"),
 )

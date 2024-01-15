@@ -9,5 +9,6 @@ data class Application(
     val job: Job,
     val status: Boolean,
     val updatedDate: String,
-    val user: User
+    val user: User,
+    val message: String
 )

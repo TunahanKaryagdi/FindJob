@@ -12,12 +12,13 @@ data class ApplicationDto(
     val job: JobDto,
     val status: Boolean,
     val updatedDate: String,
-    val user: UserDto
+    val user: UserDto,
+    val message: String
 )
 
 
 fun ApplicationDto.toApplication() : Application{
     return Application(
-        createdDate,id,job.toJob(),status,updatedDate,user.toUser()
+        createdDate,id,job.toJob(),status,updatedDate,user.toUser(), message
     )
 }
