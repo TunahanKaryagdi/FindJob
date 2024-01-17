@@ -6,5 +6,6 @@ data class UserDetail(
     val email: String,
     val id: String,
     val nameSurname: String,
-    val skills: List<Skill>
+    val skills: List<Skill>,
+    val image: String
 )

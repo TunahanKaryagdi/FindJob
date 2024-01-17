@@ -202,20 +202,13 @@ fun HomeScreenContent(
 
             LazyRow() {
                 items(uiState.jobs.size) {
-
-                    uiState.jobs[it].apply {
-                        PopularJobCard(
-                            modifier = Modifier
-                                .clickable {
-                                    navigateToDetail(this.id)
-                                },
-                            companyName = this.company.name,
-                            jobName = this.title,
-                            salary = this.salary,
-                            location = this.location
-                        )
-                    }
-
+                    PopularJobCard(
+                        modifier = Modifier
+                            .clickable {
+                                navigateToDetail(uiState.jobs[it].id)
+                            },
+                        job = uiState.jobs[it]
+                    )
                     SpacerWidth(size = CustomTheme.spaces.small)
                 }
 
@@ -245,18 +238,15 @@ fun HomeScreenContent(
 
         items(uiState.jobs.size){
 
-            uiState.jobs[it].apply {
                 RecentPostCard(
                     modifier = Modifier
                         .clickable {
-                            navigateToDetail(this.id)
+                            navigateToDetail(uiState.jobs[it].id)
                         },
-                    jobName = this.title,
-                    jobType = this.type,
-                    salary = this.salary
+                    job = uiState.jobs[it]
                 )
                 SpacerHeight(size = CustomTheme.spaces.small)
-            }
+
         }
     }
 

@@ -3,6 +3,7 @@ package com.tunahankaryagdi.findjob.presentation.profile
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.user.Skill
+import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
@@ -41,7 +42,8 @@ class ProfileViewModel @Inject constructor(
                     when(resource){
                         is Resource.Success->{
                             resource.data.apply {
-                                setState(getCurrentState().copy(name = this.nameSurname, email = this.email, skills = this.skills))
+                                setState(getCurrentState().copy(userDetail = resource.data))
+
                             }
                         }
                         is Resource.Error->{
@@ -59,9 +61,7 @@ class ProfileViewModel @Inject constructor(
 
 data class ProfileUiState(
     val isLoading: Boolean = false,
-    val name: String = "",
-    val email: String = "",
-    val skills: List<Skill> = emptyList()
+    val userDetail: UserDetail? = null,
 ) : State
 
 sealed interface ProfileEffect : Effect{

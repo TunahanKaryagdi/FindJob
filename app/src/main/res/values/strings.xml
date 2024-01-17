@@ -61,4 +61,5 @@
     <string name="user_profile">User profile</string>
     <string name="arrow">Arrow</string>
     <string name="dropdown_icon">Dropdown icon</string>
+    <string name="upload_photo">Upload photo</string>
 </resources>

@@ -1,21 +1,19 @@
 package com.tunahankaryagdi.findjob.domain.use_case
 
-import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
-import com.tunahankaryagdi.findjob.data.model.job.dtos.toJob
-import com.tunahankaryagdi.findjob.domain.model.job.Job
-import com.tunahankaryagdi.findjob.domain.repository.JobRepository
+import com.tunahankaryagdi.findjob.data.model.company.PostCompanyRequest
+import com.tunahankaryagdi.findjob.domain.repository.CompanyRepository
 import com.tunahankaryagdi.findjob.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class PostJobUseCase @Inject constructor(private val jobRepository: JobRepository){
-    operator fun invoke(postJobRequest: PostJobRequest) : Flow<Resource<Boolean>> {
+class PostCompanyUseCase @Inject constructor(private val companyRepository: CompanyRepository){
+    operator fun invoke(postCompanyRequest: PostCompanyRequest) : Flow<Resource<Boolean>> {
 
         return flow {
 
             try {
-                val response = jobRepository.postJob(postJobRequest)
+                val response = companyRepository.postCompany(postCompanyRequest)
                 if (response.success){
                     emit(Resource.Success(true))
                 }

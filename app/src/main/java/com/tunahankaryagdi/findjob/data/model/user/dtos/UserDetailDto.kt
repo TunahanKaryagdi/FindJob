@@ -9,7 +9,8 @@ data class UserDetailDto(
     val email: String,
     val id: String,
     val nameSurname: String,
-    val skills: List<SkillDto>
+    val skills: List<SkillDto>,
+    val image: String
 )
 
 
@@ -18,6 +19,7 @@ fun UserDetailDto.toUserDetail() : UserDetail{
         id = id,
         email = email,
         nameSurname = nameSurname,
-        skills = skills.map { it.toSkill() }
+        skills = skills.map { it.toSkill() },
+        image = image
     )
 }

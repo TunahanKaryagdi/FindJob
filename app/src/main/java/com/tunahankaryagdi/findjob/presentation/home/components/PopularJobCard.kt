@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
@@ -17,10 +18,8 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 @Composable
 fun PopularJobCard(
     modifier: Modifier = Modifier,
-    companyName : String,
-    jobName : String,
-    salary : Int,
-    location : String
+    job: Job,
+
 ) {
 
     Box(
@@ -36,22 +35,22 @@ fun PopularJobCard(
         Column() {
             Row() {
                 Text(
-                    text = companyName,
+                    text = job.company.name,
                     style = CustomTheme.typography.bodySmall
                 )
             }
             Text(
-                text = jobName,
+                text = job.title,
                 style = CustomTheme.typography.bodyLarge
             )
             Row {
                 Text(
-                    text = "$salary/m",
+                    text = "${job.salary}/m",
                     style = CustomTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                 )
                 SpacerWidth(size = CustomTheme.spaces.extraSmall)
                 Text(
-                    text = location,
+                    text = job.location,
                     style = CustomTheme.typography.bodySmall,
                 )
             }

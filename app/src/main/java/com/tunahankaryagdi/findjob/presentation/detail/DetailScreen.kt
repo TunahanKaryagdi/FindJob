@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -25,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.apply.ApplyScreenContent
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
@@ -41,6 +46,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.Constants
 
 
 @Composable
@@ -95,6 +101,7 @@ fun DetailScreenContent(
 ) {
 
     val context = LocalContext.current
+    val width = LocalConfiguration.current.screenWidthDp
 
 
     Box(
@@ -106,6 +113,7 @@ fun DetailScreenContent(
                 .fillMaxWidth()
                 .padding(CustomTheme.spaces.medium),
         ){
+
             item{
                 Column(
                     modifier = Modifier
@@ -113,12 +121,17 @@ fun DetailScreenContent(
                 ) {
 
                     uiState.job?.let {job->
-                        Image(
+
+                        AsyncImage(
                             modifier = Modifier
+                                .size((width * 0.3).dp)
                                 .align(CenterHorizontally)
-                                .clip(RoundedCornerShape(10.dp)),
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
-                            contentDescription = stringResource(id = R.string.company_image)
+                                .clip(RoundedCornerShape(CustomTheme.spaces.small)),
+                            model = "${Constants.BASE_IMAGE_URL}${uiState.job.company.image}",
+                            contentDescription = stringResource(id = R.string.profile),
+                            contentScale = ContentScale.Crop,
+                            placeholder = painterResource(id = R.drawable.ic_default_company),
+                            error = painterResource(id = R.drawable.ic_default_company),
                         )
 
                         SpacerHeight(size = CustomTheme.spaces.medium)

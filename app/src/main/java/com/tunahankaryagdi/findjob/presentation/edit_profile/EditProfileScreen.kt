@@ -1,5 +1,9 @@
 package com.tunahankaryagdi.findjob.presentation.edit_profile
 
+import android.app.LocaleConfig
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.TextField
@@ -29,13 +34,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomDropdownMenu
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
@@ -46,6 +56,7 @@ import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkill
 import com.tunahankaryagdi.findjob.presentation.profile.ProfileEvent
 import com.tunahankaryagdi.findjob.presentation.profile.ProfileScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.skills
 
 
@@ -105,6 +116,16 @@ fun EditProfileScreenContent(
     onTrigger: (EditProfileEvent)->Unit
 ) {
 
+    val context = LocalContext.current
+    val width = LocalConfiguration.current.screenWidthDp
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult ={uri ->
+            onTrigger(EditProfileEvent.OnChangeUri(uri, context))
+        }
+    )
+
+
     if (uiState.isOpenDialog){
         AddSkillDialog(
             onTrigger = onTrigger,
@@ -127,12 +148,34 @@ fun EditProfileScreenContent(
                 horizontalAlignment = Alignment.Start
             ) {
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = stringResource(id = R.string.profile),
-                    modifier = Modifier.clip(CircleShape)
-                )
+                    AsyncImage(
+                        modifier = Modifier
+                            .size((width * 0.25).dp)
+                            .clip(CircleShape),
+                        model = "${Constants.BASE_IMAGE_URL}${uiState.image}",
+                        contentDescription = stringResource(id = R.string.profile),
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(id = R.drawable.ic_default_company),
+                        error = painterResource(id = R.drawable.ic_default_company),
+                    )
+
+                    CustomOutlinedButton(
+                        onClick = {
+                            photoPickerLauncher.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
+                        },
+                        text = stringResource(id = R.string.upload_photo))
+
+                }
 
                 SpacerHeight(size = CustomTheme.spaces.medium)
 

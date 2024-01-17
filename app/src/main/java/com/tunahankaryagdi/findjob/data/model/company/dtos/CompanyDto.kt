@@ -6,11 +6,12 @@ data class CompanyDto(
     val createdDate: String,
     val id: String,
     val name: String,
-    val updatedDate: String
+    val updatedDate: String,
+    val image: String
 )
 
 fun CompanyDto.toCompany(): Company{
     return Company(
-        createdDate, id, name, updatedDate
+        createdDate, id, name, updatedDate, image
     )
 }

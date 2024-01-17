@@ -4,4 +4,5 @@ data class User(
     val email: String,
     val id: String,
     val nameSurname: String,
+    val image: String
 )

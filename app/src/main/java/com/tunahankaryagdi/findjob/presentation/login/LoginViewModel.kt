@@ -54,7 +54,6 @@ class LoginViewModel @Inject constructor(
                 signInUseCase.invoke(SignInRequest(uiState.email.trim(),uiState.password.trim())).collect{resource->
                     when(resource){
                         is Resource.Success->{
-                            println("")
                             tokenStore.saveToken(resource.data)
                             setState(getCurrentState().copy(isLoading = false))
                             setEffect(LoginEffect.NavigateToHome)

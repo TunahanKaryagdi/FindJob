@@ -4,8 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
@@ -19,16 +21,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.Constants
+import org.jetbrains.annotations.Async
 
 
 @Composable
@@ -93,96 +103,107 @@ fun ProfileScreenContent(
     onTrigger: (ProfileEvent) -> Unit
 ){
 
-    LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(CustomTheme.spaces.medium),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        item{
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.Start
-            ) {
+    val width = LocalConfiguration.current.screenWidthDp
 
-                Row(
+    uiState.userDetail?.let {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(CustomTheme.spaces.medium),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            
+            item{
+
+                Column(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = stringResource(id = R.string.profile),
-                        modifier = Modifier.clip(CircleShape)
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+
+                        AsyncImage(
+                            modifier = Modifier
+                                .size((width * 0.25).dp)
+                                .clip(CircleShape),
+                            model = "${Constants.BASE_IMAGE_URL}${uiState.userDetail.image}",
+                            contentDescription = stringResource(id = R.string.profile),
+                            contentScale = ContentScale.Crop,
+                            placeholder = painterResource(id = R.drawable.ic_default_company),
+                            error = painterResource(id = R.drawable.ic_default_company),
+                        )
+
+                        CustomOutlinedButton(
+                            onClick = {
+                                onTrigger(ProfileEvent.OnClickEditProfile)
+                            },
+                            text = stringResource(id = R.string.edit_profile))
+                    }
+
+
+                    SpacerHeight(size = CustomTheme.spaces.medium)
+
+                    Text(
+                        text = stringResource(id = R.string.name),
+                        style = CustomTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = uiState.userDetail.nameSurname,
+                        style = CustomTheme.typography.body
                     )
 
-                    CustomOutlinedButton(
-                        onClick = {
-                            onTrigger(ProfileEvent.OnClickEditProfile)
-                        },
-                        text = stringResource(id = R.string.edit_profile))
-                    
+
+                    SpacerHeight(size = CustomTheme.spaces.small)
+
+                    Divider(
+                        color = CustomTheme.colors.primary
+                    )
+
+                    SpacerHeight(size = CustomTheme.spaces.small)
+
+                    Text(
+                        text = stringResource(id = R.string.email),
+                        style = CustomTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = uiState.userDetail.email,
+                        style = CustomTheme.typography.body
+                    )
+
+                    SpacerHeight(size = CustomTheme.spaces.small)
+                    Divider(
+                        color = CustomTheme.colors.primary
+                    )
+                    SpacerHeight(size = CustomTheme.spaces.small)
+
+                    Text(
+                        text = stringResource(id = R.string.skills),
+                        style = CustomTheme.typography.bodyLarge
+                    )
                 }
-
-
-                SpacerHeight(size = CustomTheme.spaces.medium)
-
-                Text(
-                    text = stringResource(id = R.string.name),
-                    style = CustomTheme.typography.bodyLarge
-                )
-                Text(
-                    text = uiState.name,
-                    style = CustomTheme.typography.body
-                )
-
-
-                SpacerHeight(size = CustomTheme.spaces.small)
-
-                Divider(
-                    color = CustomTheme.colors.primary
-                )
-
-                SpacerHeight(size = CustomTheme.spaces.small)
-
-                Text(
-                    text = stringResource(id = R.string.email),
-                    style = CustomTheme.typography.bodyLarge
-                )
-                Text(
-                    text = uiState.email,
-                    style = CustomTheme.typography.body
-                )
-
-                SpacerHeight(size = CustomTheme.spaces.small)
-                Divider(
-                    color = CustomTheme.colors.primary
-                )
-                SpacerHeight(size = CustomTheme.spaces.small)
-
-                Text(
-                    text = stringResource(id = R.string.skills),
-                    style = CustomTheme.typography.bodyLarge
-                )
             }
-        }
-        if(uiState.skills.isEmpty()){
-            item {
-                Text(text = "No skill yet")
+            if(uiState.userDetail.skills.isEmpty()){
+                item {
+                    Text(text = stringResource(id = R.string.no_skills))
+                }
             }
-        }
-        else{
-            items(uiState.skills.size){
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "• ${uiState.skills[it].experience} year experience in ${uiState.skills[it].name}",
-                    style = CustomTheme.typography.labelLarge
-                )
+            else{
+                items(uiState.userDetail.skills.size){
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "• ${uiState.userDetail.skills[it].experience} year experience in ${uiState.userDetail.skills[it].name}",
+                        style = CustomTheme.typography.labelLarge
+                    )
 
+                }
             }
-        }
 
+        }
     }
 }
 
