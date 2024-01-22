@@ -8,15 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
-import com.tunahankaryagdi.findjob.utils.JobTypes
+import com.tunahankaryagdi.findjob.utils.JobType
 
 
 @Composable
 fun CustomToggleButton(
     modifier : Modifier = Modifier,
-    text :JobTypes,
+    text :JobType,
     isSelected : Boolean,
-    onCheckedChange : (JobTypes)-> Unit
+    onCheckedChange : (JobType)-> Unit
 ) {
 
 

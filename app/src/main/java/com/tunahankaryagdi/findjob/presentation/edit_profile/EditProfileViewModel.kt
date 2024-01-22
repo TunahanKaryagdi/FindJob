@@ -82,7 +82,7 @@ class EditProfileViewModel @Inject constructor(
                     when(resource){
                         is Resource.Success->{
                             resource.data.apply {
-                                setState(getCurrentState().copy(name = this.nameSurname, email = this.email, skills = this.skills, image = this.image))
+                                setState(getCurrentState().copy(name = this.nameSurname, email = this.email, skills = this.skills, image = this.image ?: ""))
                             }
                         }
                         is Resource.Error->{

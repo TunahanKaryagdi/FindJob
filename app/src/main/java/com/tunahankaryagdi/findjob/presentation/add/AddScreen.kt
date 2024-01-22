@@ -36,7 +36,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
-import com.tunahankaryagdi.findjob.utils.JobTypes
+import com.tunahankaryagdi.findjob.utils.JobType
 
 
 @Composable
@@ -138,7 +138,7 @@ fun AddScreenContent(
             )
 
             FlowRow() {
-                enumValues<JobTypes>().forEach {
+                enumValues<JobType>().forEach {
                     CustomToggleButton(
                         text = it,
                         isSelected = uiState.selectedJobType == it,

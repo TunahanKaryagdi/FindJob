@@ -33,11 +33,13 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
+import com.tunahankaryagdi.findjob.utils.ImageType
 import org.jetbrains.annotations.Async
 
 
@@ -127,16 +129,14 @@ fun ProfileScreenContent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
 
-                        AsyncImage(
+
+                        CustomAsyncImage(
                             modifier = Modifier
                                 .size((width * 0.25).dp)
                                 .clip(CircleShape),
                             model = "${Constants.BASE_IMAGE_URL}${uiState.userDetail.image}",
-                            contentDescription = stringResource(id = R.string.profile),
-                            contentScale = ContentScale.Crop,
-                            placeholder = painterResource(id = R.drawable.ic_default_company),
-                            error = painterResource(id = R.drawable.ic_default_company),
-                        )
+                            type = ImageType.User)
+
 
                         CustomOutlinedButton(
                             onClick = {

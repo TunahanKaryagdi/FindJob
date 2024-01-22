@@ -5,5 +5,5 @@ data class Company(
     val id: String,
     val name: String,
     val updatedDate: String,
-    val image: String
+    val image: String?
 )

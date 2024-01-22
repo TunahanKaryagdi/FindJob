@@ -2,6 +2,6 @@ package com.tunahankaryagdi.findjob.utils
 
 
 
-enum class JobTypes {
+enum class JobType {
     FullTime,Remote,PartTime,Freelance
 }

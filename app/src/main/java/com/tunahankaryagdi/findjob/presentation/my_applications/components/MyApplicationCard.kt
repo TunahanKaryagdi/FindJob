@@ -15,15 +15,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.domain.model.application.Application
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.Constants
+import com.tunahankaryagdi.findjob.utils.ImageType
 
 
 @Composable
@@ -43,12 +48,14 @@ fun ApplicationCard(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Image(
+
+                CustomAsyncImage(
                     modifier = Modifier
                         .weight(2f)
                         .clip(RoundedCornerShape(CustomTheme.spaces.small)),
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = stringResource(id = R.string.company_image)
+                    model = "${Constants.BASE_IMAGE_URL}/${application.job.company.image}",
+                    type = ImageType.Company,
+                    contentScale = ContentScale.Inside
                 )
 
                 SpacerWidth(size = CustomTheme.spaces.small)
@@ -79,8 +86,14 @@ fun ApplicationCard(
             ) {
                 Box(
                     modifier = Modifier
-                        .background(color = if (application.status) Color.Yellow else Color.Red, shape = RoundedCornerShape(CustomTheme.spaces.small))
-                        .padding(horizontal = CustomTheme.spaces.small, vertical = CustomTheme.spaces.extraSmall)
+                        .background(
+                            color = if (application.status) Color.Green else Color.Red,
+                            shape = RoundedCornerShape(CustomTheme.spaces.small)
+                        )
+                        .padding(
+                            horizontal = CustomTheme.spaces.small,
+                            vertical = CustomTheme.spaces.extraSmall
+                        )
                 ) {
                     Text(
                         text = if (application.status) stringResource(id = R.string.accepted) else stringResource(id = R.string.pending),

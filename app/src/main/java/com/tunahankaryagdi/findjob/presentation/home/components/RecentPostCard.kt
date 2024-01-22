@@ -22,10 +22,12 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.domain.model.job.Job
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.Constants.BASE_IMAGE_URL
+import com.tunahankaryagdi.findjob.utils.ImageType
 
 
 @Composable
@@ -50,14 +52,13 @@ fun RecentPostCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            AsyncImage(
+            CustomAsyncImage(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(CustomTheme.spaces.small)),
                 model = "${Constants.BASE_IMAGE_URL}${job.company.image}",
-                contentDescription = stringResource(id = R.string.job_image),
-                placeholder = painterResource(id = R.drawable.ic_default_company),
-                error = painterResource(id = R.drawable.ic_default_company)
+                type = ImageType.Company,
+                contentScale = ContentScale.Inside
             )
 
             SpacerWidth(size = CustomTheme.spaces.small)

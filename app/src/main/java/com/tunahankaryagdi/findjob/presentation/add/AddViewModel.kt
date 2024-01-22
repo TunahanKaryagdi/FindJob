@@ -1,19 +1,16 @@
 package com.tunahankaryagdi.findjob.presentation.add
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.Qualification
-import com.tunahankaryagdi.findjob.data.model.job.dtos.JobDto
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.use_case.PostJobUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
-import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEvent
 import com.tunahankaryagdi.findjob.utils.DropdownItem
-import com.tunahankaryagdi.findjob.utils.JobTypes
+import com.tunahankaryagdi.findjob.utils.JobType
 import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -97,7 +94,7 @@ class AddViewModel @Inject constructor(
                         uiState.qualifications,
                         uiState.salary.toInt(),
                         uiState.title,
-                        JobTypes.FullTime.name,
+                        JobType.FullTime.name,
                         userId
                     )).collect{resource->
                         when(resource){
@@ -135,7 +132,7 @@ data class AddUiState(
     val qualification : String = "",
     val isOpenDialog : Boolean = false,
     val qualifications : MutableList<Qualification> = mutableListOf(),
-    val selectedJobType: JobTypes = JobTypes.FullTime,
+    val selectedJobType: JobType = JobType.FullTime,
     val experienceValue: String = "",
     val isExpandedDropdown: Boolean = false,
 ) : State
@@ -151,7 +148,7 @@ sealed interface AddEvent : Event{
     data class OnSalaryValueChange(val value : String) : AddEvent
     data class OnLocationValueChange(val value : String) : AddEvent
     data class OnExperienceValueChange(val value : String)  :AddEvent
-    data class OnClickJobType(val jobType: JobTypes) : AddEvent
+    data class OnClickJobType(val jobType: JobType) : AddEvent
     object OnClickEdit : AddEvent
     object OnDismissDialog : AddEvent
     object OnConfirmDialog : AddEvent

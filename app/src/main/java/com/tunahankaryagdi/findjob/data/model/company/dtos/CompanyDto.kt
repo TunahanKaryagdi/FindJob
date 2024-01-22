@@ -7,7 +7,7 @@ data class CompanyDto(
     val id: String,
     val name: String,
     val updatedDate: String,
-    val image: String
+    val image: String?
 )
 
 fun CompanyDto.toCompany(): Company{

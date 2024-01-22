@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.apply.ApplyScreenContent
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTinyButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
@@ -47,6 +48,7 @@ import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
+import com.tunahankaryagdi.findjob.utils.ImageType
 
 
 @Composable
@@ -122,16 +124,13 @@ fun DetailScreenContent(
 
                     uiState.job?.let {job->
 
-                        AsyncImage(
+                        CustomAsyncImage(
                             modifier = Modifier
                                 .size((width * 0.3).dp)
                                 .align(CenterHorizontally)
                                 .clip(RoundedCornerShape(CustomTheme.spaces.small)),
-                            model = "${Constants.BASE_IMAGE_URL}${uiState.job.company.image}",
-                            contentDescription = stringResource(id = R.string.profile),
-                            contentScale = ContentScale.Crop,
-                            placeholder = painterResource(id = R.drawable.ic_default_company),
-                            error = painterResource(id = R.drawable.ic_default_company),
+                            model = "${Constants.BASE_IMAGE_URL}${uiState.job.company.image}", 
+                            type = ImageType.Company
                         )
 
                         SpacerHeight(size = CustomTheme.spaces.medium)

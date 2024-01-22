@@ -18,16 +18,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 import com.tunahankaryagdi.findjob.presentation.application.ApplicationEvent
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.ui.theme.secondaryTextLight
+import com.tunahankaryagdi.findjob.utils.Constants
+import com.tunahankaryagdi.findjob.utils.ImageType
 
 @Composable
 fun UserDetailDialog(
@@ -72,14 +76,18 @@ fun UserDetailDialog(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
+
+                        CustomAsyncImage(
                             modifier = Modifier
                                 .weight(2f)
                                 .clip(CircleShape),
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
-                            contentDescription = stringResource(id = R.string.job_image)
+                            model = "${Constants.BASE_IMAGE_URL}/${userDetail.image}",
+                            type = ImageType.User,
+                            contentScale = ContentScale.Inside
                         )
+
                         SpacerWidth(size = CustomTheme.spaces.medium)
+
                         Column(
                             modifier = Modifier
                                 .weight(7f),

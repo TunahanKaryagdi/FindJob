@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.application.components.ApplicationCard
 import com.tunahankaryagdi.findjob.presentation.application.components.UserDetailDialog
+import com.tunahankaryagdi.findjob.presentation.components.CustomContentMessage
 import com.tunahankaryagdi.findjob.presentation.components.CustomDropdownMenu
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
@@ -98,7 +99,6 @@ fun ApplicationScreenContent(
         )
     }
 
-
     LazyColumn(
         modifier = modifier
             .padding(CustomTheme.spaces.medium)
@@ -117,15 +117,25 @@ fun ApplicationScreenContent(
             )
         }
 
-        items(uiState.filteredApplications.size){
-            ApplicationCard(
-                modifier = Modifier
-                    .clickable {
-                        onTrigger(ApplicationEvent.OnClickUser(uiState.filteredApplications[it]))
-                    },
-                application = uiState.filteredApplications[it]
-            )
-            SpacerHeight(size = CustomTheme.spaces.small)
+        if (uiState.filteredApplications.isEmpty()){
+            item {
+                CustomContentMessage(message = stringResource(id = R.string.no_applications_yet))
+            }
         }
+        else{
+            items(uiState.filteredApplications.size){
+                ApplicationCard(
+                    modifier = Modifier
+                        .clickable {
+                            onTrigger(ApplicationEvent.OnClickUser(uiState.filteredApplications[it]))
+                        },
+                    application = uiState.filteredApplications[it]
+                )
+                SpacerHeight(size = CustomTheme.spaces.small)
+            }
+        }
+
     }
+
+
 }

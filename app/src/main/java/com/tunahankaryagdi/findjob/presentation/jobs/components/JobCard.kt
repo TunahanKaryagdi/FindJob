@@ -15,15 +15,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.domain.model.job.Job
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.Constants
+import com.tunahankaryagdi.findjob.utils.ImageType
 
 
 @Composable
@@ -43,12 +47,14 @@ fun JobCard(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Image(
+
+                CustomAsyncImage(
                     modifier = Modifier
                         .weight(2f)
                         .clip(RoundedCornerShape(CustomTheme.spaces.small)),
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = stringResource(id = R.string.company_image)
+                    model = "${Constants.BASE_IMAGE_URL}/${job.company.image}",
+                    type = ImageType.Company,
+                    contentScale = ContentScale.Inside
                 )
 
                 SpacerWidth(size = CustomTheme.spaces.small)

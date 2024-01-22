@@ -7,5 +7,5 @@ data class UserDetail(
     val id: String,
     val nameSurname: String,
     val skills: List<Skill>,
-    val image: String
+    val image: String?
 )

@@ -47,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomDropdownMenu
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
@@ -57,6 +58,7 @@ import com.tunahankaryagdi.findjob.presentation.profile.ProfileEvent
 import com.tunahankaryagdi.findjob.presentation.profile.ProfileScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
+import com.tunahankaryagdi.findjob.utils.ImageType
 import com.tunahankaryagdi.findjob.utils.skills
 
 
@@ -154,15 +156,12 @@ fun EditProfileScreenContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
 
-                    AsyncImage(
+                    CustomAsyncImage(
                         modifier = Modifier
                             .size((width * 0.25).dp)
                             .clip(CircleShape),
                         model = "${Constants.BASE_IMAGE_URL}${uiState.image}",
-                        contentDescription = stringResource(id = R.string.profile),
-                        contentScale = ContentScale.Crop,
-                        placeholder = painterResource(id = R.drawable.ic_default_company),
-                        error = painterResource(id = R.drawable.ic_default_company),
+                        type = ImageType.User
                     )
 
                     CustomOutlinedButton(
