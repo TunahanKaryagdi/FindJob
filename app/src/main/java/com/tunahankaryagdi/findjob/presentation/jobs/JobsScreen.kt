@@ -26,7 +26,8 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 fun JobScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: JobsViewModel = hiltViewModel(),
-    navigateToApplication: (String) -> Unit
+    navigateToApplication: (String) -> Unit,
+    navigatePop: () -> Unit,
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsStateWithLifecycle(null)
@@ -34,7 +35,8 @@ fun JobScreenRoute(
     JobScreen(
         modifier = modifier,
         uiState = uiState,
-        navigateToApplication = navigateToApplication
+        navigateToApplication = navigateToApplication,
+        navigatePop = navigatePop
     )
 
 }
@@ -44,8 +46,9 @@ fun JobScreenRoute(
 fun JobScreen(
     modifier: Modifier = Modifier,
     uiState: JobsUiState,
-    navigateToApplication: (String) -> Unit
-) {
+    navigateToApplication: (String) -> Unit,
+    navigatePop: () -> Unit,
+){
 
     Scaffold(
         modifier = modifier,
@@ -53,6 +56,10 @@ fun JobScreen(
             CustomTopAppbar(
                 navigationIcon = {
                     Icon(
+                        modifier = Modifier
+                            .clickable {
+                              navigatePop()
+                            },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = stringResource(id = R.string.arraw_back)
                     )

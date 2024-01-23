@@ -17,11 +17,13 @@ fun NavController.navigateToDetail(
 }
 
 fun NavGraphBuilder.detailScreen(
-    navigateToApply : (String) -> Unit
+    navigateToApply : (String) -> Unit,
+    navigatePop: () -> Unit
 ){
     composable("$detailRoute/{jobId}"){
         DetailScreenRoute(
-            navigateToApply = navigateToApply
+            navigateToApply = navigateToApply,
+            navigatePop = navigatePop
         )
     }
 }

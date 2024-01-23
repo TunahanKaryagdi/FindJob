@@ -15,8 +15,12 @@ fun NavController.navigateToApplication(
     this.navigate("$applicationRoute/$jobId",navOptions)
 }
 
-fun NavGraphBuilder.applicationScreen(){
+fun NavGraphBuilder.applicationScreen(
+    navigatePop: () -> Unit
+){
     composable("$applicationRoute/{jobId}"){
-        ApplicationScreenRoute()
+        ApplicationScreenRoute(
+            navigatePop = navigatePop
+        )
     }
 }

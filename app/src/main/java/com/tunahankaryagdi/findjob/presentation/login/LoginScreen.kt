@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -31,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
+import com.tunahankaryagdi.findjob.presentation.components.CustomCircularProgress
 import com.tunahankaryagdi.findjob.presentation.components.CustomGoogleButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
@@ -109,6 +111,10 @@ fun LoginScreenContent(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         onTrigger(LoginEvent.OnClickGoogleSignIn(result))
+    }
+
+    if (uiState.isLoading){
+        CustomCircularProgress()
     }
 
     Column(

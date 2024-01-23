@@ -13,8 +13,12 @@ fun NavController.navigateToEditProfile(
     this.navigate(editProfileRoute,navOptions)
 }
 
-fun NavGraphBuilder.editProfileScreen(){
+fun NavGraphBuilder.editProfileScreen(
+    navigatePop: () -> Unit
+){
     composable(editProfileRoute){
-        EditProfileScreenRoute()
+        EditProfileScreenRoute(
+            navigatePop = navigatePop
+        )
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +56,8 @@ import com.tunahankaryagdi.findjob.utils.ImageType
 fun DetailScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = hiltViewModel(),
-    navigateToApply : (String) -> Unit
+    navigateToApply : (String) -> Unit,
+    navigatePop: () -> Unit
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -63,6 +65,7 @@ fun DetailScreenRoute(
     DetailScreen(
         modifier = modifier,
         navigateToApply = navigateToApply,
+        navigatePop = navigatePop,
         uiState = uiState
     )
 }
@@ -72,7 +75,8 @@ fun DetailScreenRoute(
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    navigateToApply : (String) -> Unit,
+    navigateToApply: (String) -> Unit,
+    navigatePop: () -> Unit,
     uiState: DetailUiState
 ) {
 
@@ -80,7 +84,18 @@ fun DetailScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            CustomTopAppbar()
+            CustomTopAppbar(
+                navigationIcon = {
+                    Icon(
+                        modifier = Modifier
+                            .clickable {
+                                 navigatePop()
+                            },
+                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(id = R.string.arraw_back)
+                    )
+                }
+            )
         },
         containerColor = CustomTheme.colors.primaryBackground
     ){

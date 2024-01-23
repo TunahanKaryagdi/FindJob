@@ -27,6 +27,7 @@ fun MyApplicationsScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: ApplicationsViewModel = hiltViewModel(),
     navigateToDetail: (String) -> Unit,
+    navigatePop: () -> Unit,
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -36,6 +37,7 @@ fun MyApplicationsScreenRoute(
         modifier = modifier,
         uiState = uiState,
         navigateToDetail = navigateToDetail,
+        navigatePop = navigatePop,
         onTrigger = viewModel::handleEvents
     )
 }
@@ -47,6 +49,7 @@ fun MyApplicationsScreen(
     modifier: Modifier = Modifier,
     uiState: MyApplicationsUiState,
     navigateToDetail: (String) -> Unit,
+    navigatePop: () -> Unit,
     onTrigger: (MyApplicationsEvent) -> Unit
 ) {
 
@@ -57,6 +60,10 @@ fun MyApplicationsScreen(
             CustomTopAppbar(
                 navigationIcon = {
                     Icon(
+                        modifier = Modifier
+                            .clickable {
+                              navigatePop()
+                            },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = stringResource(id = R.string.arraw_back)
                     )

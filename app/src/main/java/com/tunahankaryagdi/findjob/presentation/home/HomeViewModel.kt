@@ -10,6 +10,7 @@ import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
 import com.tunahankaryagdi.findjob.presentation.home.components.DrawerItem
+import com.tunahankaryagdi.findjob.utils.DrawerItemTitle
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,18 +33,22 @@ class HomeViewModel @Inject constructor(
         when(event){
 
             is HomeEvent.OnClickDrawerItem->{
-                if (event.drawerItem.title == "Profile"){
-                    setEffect(HomeEffect.NavigateToProfile)
-                }
-                if (event.drawerItem.title == "Log out"){
-                    logout()
-                    setEffect(HomeEffect.NavigateToLogin)
-                }
-                if (event.drawerItem.title == "Applications"){
-                    setEffect(HomeEffect.NavigateToApplications)
-                }
-                if (event.drawerItem.title == "Jobs"){
-                    setEffect(HomeEffect.NavigateToJobs)
+                when(event.drawerItem.id){
+                    DrawerItemTitle.Profile->{
+                        setEffect(HomeEffect.NavigateToProfile)
+                    }
+                    DrawerItemTitle.Applications->{
+                        setEffect(HomeEffect.NavigateToApplications)
+
+                    }
+                    DrawerItemTitle.Jobs->{
+                        setEffect(HomeEffect.NavigateToJobs)
+
+                    }
+                    DrawerItemTitle.Logout->{
+                        logout()
+                        setEffect(HomeEffect.NavigateToLogin)
+                    }
                 }
             }
 
@@ -62,7 +67,6 @@ class HomeViewModel @Inject constructor(
                         setState(getCurrentState().copy(isLoading = false,))
                         setEffect(HomeEffect.ShowErrorMessage(resource.message))
                     }
-
                 }
             }
         }

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomCircularProgress
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTinyButton
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
@@ -56,17 +57,20 @@ fun HomeScreenRoute(
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsStateWithLifecycle(initialValue = null)
     LaunchedEffect(key1 = effect){
-        if (effect == HomeEffect.NavigateToProfile){
-            navigateToProfile()
-        }
-        if (effect == HomeEffect.NavigateToLogin){
-            navigateToLogin()
-        }
-        if (effect == HomeEffect.NavigateToApplications){
-            navigateToApplications()
-        }
-        if (effect == HomeEffect.NavigateToJobs){
-            navigateToJobs()
+        when(effect){
+            HomeEffect.NavigateToProfile->{
+                navigateToProfile()
+            }
+            HomeEffect.NavigateToApplications->{
+                navigateToApplications()
+            }
+            HomeEffect.NavigateToJobs->{
+                navigateToJobs()
+            }
+            HomeEffect.NavigateToLogin->{
+                navigateToLogin()
+            }
+            else->{}
         }
     }
 
@@ -124,6 +128,10 @@ fun HomeScreenContent(
     onTrigger: (HomeEvent) -> Unit,
     uiState: HomeUiState,
 ) {
+
+    if (uiState.isLoading){
+        CustomCircularProgress()
+    }
 
     LazyColumn(
         modifier = modifier

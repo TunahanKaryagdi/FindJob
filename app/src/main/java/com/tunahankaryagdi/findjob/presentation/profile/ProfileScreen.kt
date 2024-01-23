@@ -1,10 +1,9 @@
 package com.tunahankaryagdi.findjob.presentation.profile
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,17 +20,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
@@ -40,14 +34,14 @@ import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.ImageType
-import org.jetbrains.annotations.Async
 
 
 @Composable
 fun ProfileScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel(),
-    navigateToEditProfile: () -> Unit
+    navigateToEditProfile: () -> Unit,
+    navigatePop: () -> Unit,
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -62,7 +56,8 @@ fun ProfileScreenRoute(
     ProfileScreen(
         modifier = modifier,
         uiState = uiState,
-        onTrigger = viewModel::handleEvents
+        onTrigger = viewModel::handleEvents,
+        navigatePop = navigatePop
     )
 }
 
@@ -72,7 +67,8 @@ fun ProfileScreenRoute(
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     uiState: ProfileUiState,
-    onTrigger: (ProfileEvent) -> Unit
+    onTrigger: (ProfileEvent) -> Unit,
+    navigatePop: () -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
@@ -81,6 +77,10 @@ fun ProfileScreen(
                 title =  {Text(text = stringResource(id = R.string.profile))},
                 navigationIcon = {
                     Icon(
+                        modifier = Modifier
+                            .clickable {
+                                navigatePop()
+                            },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = stringResource(id = R.string.arraw_back)
                     )

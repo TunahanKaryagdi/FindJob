@@ -32,8 +32,9 @@ import com.tunahankaryagdi.findjob.utils.applicationStatuses
 @Composable
 fun ApplicationScreenRoute(
     modifier: Modifier = Modifier,
-    viewModel: ApplicationViewModel = hiltViewModel()
-) {
+    viewModel: ApplicationViewModel = hiltViewModel(),
+    navigatePop: () -> Unit,
+){
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val effect by viewModel.effect.collectAsStateWithLifecycle(null)
@@ -41,7 +42,8 @@ fun ApplicationScreenRoute(
     ApplicationScreen(
         modifier = modifier,
         onTrigger = viewModel::handleEvents,
-        uiState = uiState
+        uiState = uiState,
+        navigatePop = navigatePop
     )
 }
 
@@ -50,6 +52,7 @@ fun ApplicationScreenRoute(
 fun ApplicationScreen(
     modifier: Modifier = Modifier,
     onTrigger: (ApplicationEvent) -> Unit,
+    navigatePop: () -> Unit,
     uiState: ApplicationUiState
 ) {
 
@@ -59,6 +62,10 @@ fun ApplicationScreen(
             CustomTopAppbar(
                 navigationIcon = {
                     Icon(
+                        modifier = Modifier
+                            .clickable {
+                                navigatePop()
+                            },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = stringResource(id = R.string.arraw_back)
                     )

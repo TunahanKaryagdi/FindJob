@@ -13,11 +13,13 @@ fun NavController.navigateToJobs(navOptions: NavOptions? = null){
 
 
 fun NavGraphBuilder.jobScreen(
-    navigateToApplication: (String) -> Unit
+    navigateToApplication: (String) -> Unit,
+    navigatePop: () -> Unit,
 ){
     composable(jobsRoute){
         JobScreenRoute(
-            navigateToApplication = navigateToApplication
+            navigateToApplication = navigateToApplication,
+            navigatePop = navigatePop
         )
     }
 }

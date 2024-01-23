@@ -39,13 +39,14 @@ import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.profile.profileRoute
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
+import com.tunahankaryagdi.findjob.utils.DrawerItemTitle
 import kotlinx.coroutines.launch
 
 
 data class DrawerItem(
     val icon: Painter,
+    val id: DrawerItemTitle,
     val title: String,
-    val route: String
 )
 
 
@@ -59,10 +60,18 @@ fun AppDrawer(
 ) {
 
     val items = listOf(
-        DrawerItem(icon = painterResource(id = R.drawable.ic_user), title = stringResource(id = R.string.profile), route = profileRoute),
-        DrawerItem(icon = painterResource(id = R.drawable.ic_applications), title = stringResource(id = R.string.applications), route = ""),
-        DrawerItem(icon = painterResource(id = R.drawable.ic_job), title = stringResource(id = R.string.jobs), route = ""),
-        DrawerItem(icon = painterResource(id = R.drawable.ic_logout), title = stringResource(id = R.string.log_out), route = ""),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_user), id = DrawerItemTitle.Profile, title = stringResource(
+            id = R.string.profile
+        )),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_applications), id = DrawerItemTitle.Applications, title = stringResource(
+            id = R.string.applications
+        )),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_job), id = DrawerItemTitle.Jobs, title = stringResource(
+            id = R.string.jobs
+        )),
+        DrawerItem(icon = painterResource(id = R.drawable.ic_logout), id = DrawerItemTitle.Logout, title = stringResource(
+            id = R.string.log_out
+        )),
     )
 
     var selectedIndex by rememberSaveable{

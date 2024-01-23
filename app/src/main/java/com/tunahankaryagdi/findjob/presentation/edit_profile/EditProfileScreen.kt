@@ -1,13 +1,10 @@
 package com.tunahankaryagdi.findjob.presentation.edit_profile
 
-import android.app.LocaleConfig
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,57 +12,41 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
-import com.tunahankaryagdi.findjob.presentation.components.CustomDropdownMenu
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
-import com.tunahankaryagdi.findjob.presentation.profile.ProfileEvent
-import com.tunahankaryagdi.findjob.presentation.profile.ProfileScreenContent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.ImageType
-import com.tunahankaryagdi.findjob.utils.skills
 
 
 @Composable
 fun EditProfileScreenRoute(
     modifier: Modifier = Modifier,
-    viewModel: EditProfileViewModel = hiltViewModel()
+    viewModel: EditProfileViewModel = hiltViewModel(),
+    navigatePop: () -> Unit,
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -73,8 +54,9 @@ fun EditProfileScreenRoute(
 
     EditProfileScreen(
         modifier = modifier,
+        onTrigger = viewModel::handleEvents,
         uiState = uiState,
-        onTrigger = viewModel::handleEvents
+        navigatePop = navigatePop
     )
 }
 
@@ -82,6 +64,7 @@ fun EditProfileScreenRoute(
 @Composable
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
+    navigatePop: () -> Unit,
     uiState: EditProfileUiState,
     onTrigger: (EditProfileEvent)->Unit
 ) {
@@ -93,6 +76,10 @@ fun EditProfileScreen(
                 title =  {Text(text = stringResource(id = R.string.edit_profile))},
                 navigationIcon = {
                     Icon(
+                        modifier = Modifier
+                            .clickable {
+                                navigatePop()
+                            },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = stringResource(id = R.string.arraw_back)
                     )

@@ -64,27 +64,37 @@ fun NavigationHost(
             navigateToJobs = {navController.navigateToJobs()}
         )
 
-        detailScreen(navigateToApply = {navController.navigateToApply(it)})
+        detailScreen(
+            navigateToApply = {navController.navigateToApply(it)},
+            navigatePop = {navController.popBackStack()}
+        )
 
         applyScreen()
 
         addScreen()
 
         profileScreen(
-            navigateToEditProfile = {navController.navigateToEditProfile()}
+            navigateToEditProfile = {navController.navigateToEditProfile()},
+            navigatePop = {navController.popBackStack()}
         )
 
-        editProfileScreen()
+        editProfileScreen(
+            navigatePop = {navController.popBackStack()}
+        )
 
         myApplicationsScreen(
-            navigateToDetail = {navController.navigateToDetail(it)}
+            navigateToDetail = {navController.navigateToDetail(it)},
+            navigatePop = {navController.popBackStack()}
         )
 
         jobScreen(
-            navigateToApplication = {navController.navigateToApplication(it)}
+            navigateToApplication = {navController.navigateToApplication(it)},
+            navigatePop = {navController.popBackStack()}
         )
 
-        applicationScreen()
+        applicationScreen(
+            navigatePop = {navController.popBackStack()}
+        )
     }
 
 }
