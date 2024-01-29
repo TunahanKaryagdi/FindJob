@@ -28,6 +28,11 @@ class ApplicationsViewModel @Inject constructor(
 
     override fun handleEvents(event: MyApplicationsEvent) {
 
+        when(event){
+            is MyApplicationsEvent.OnRefresh->{
+                getApplicationsByUserId()
+            }
+        }
     }
 
     private fun getApplicationsByUserId(){
@@ -63,5 +68,5 @@ sealed interface MyApplicationsEffect : Effect{
 }
 
 sealed interface MyApplicationsEvent : Event{
-
+    object OnRefresh : MyApplicationsEvent
 }

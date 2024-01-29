@@ -37,6 +37,9 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.OnClickLogout -> {
                 logout()
             }
+            is ProfileEvent.OnRefresh ->{
+                getUserById()
+            }
         }
     }
     private fun getUserById(){
@@ -87,5 +90,6 @@ sealed interface ProfileEvent : Event{
     object OnClickEditProfile : ProfileEvent
     data class OnBottomSheetValueChange(val value: Boolean) : ProfileEvent
     object OnClickLogout : ProfileEvent
+    object OnRefresh : ProfileEvent
 
 }

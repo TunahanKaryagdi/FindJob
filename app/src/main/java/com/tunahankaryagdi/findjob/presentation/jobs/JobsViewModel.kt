@@ -27,7 +27,11 @@ class JobsViewModel @Inject constructor(
     override fun setInitialState(): JobsUiState = JobsUiState()
 
     override fun handleEvents(event: JobsEvent) {
-
+        when(event){
+            is JobsEvent.OnRefresh->{
+                getJobsByUserId()
+            }
+        }
     }
 
 
@@ -61,5 +65,5 @@ sealed interface JobsEffect : Effect{
 }
 
 sealed interface JobsEvent : Event{
-
+    object OnRefresh : JobsEvent
 }

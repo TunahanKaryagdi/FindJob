@@ -33,7 +33,11 @@ class HomeViewModel @Inject constructor(
     override fun setInitialState(): HomeUiState  = HomeUiState()
 
     override fun handleEvents(event: HomeEvent) {
-
+        when(event){
+            is HomeEvent.OnRefresh->{
+                getJobs()
+            }
+        }
     }
 
     fun getJobs(){
@@ -91,5 +95,5 @@ sealed interface HomeEffect : Effect{
 }
 
 sealed interface HomeEvent : Event{
-
+    object OnRefresh : HomeEvent
 }
