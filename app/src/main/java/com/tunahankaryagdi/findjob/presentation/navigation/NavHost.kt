@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import com.tunahankaryagdi.findjob.presentation.add.addScreen
+import com.tunahankaryagdi.findjob.presentation.admin.adminScreen
 import com.tunahankaryagdi.findjob.presentation.application.applicationScreen
 import com.tunahankaryagdi.findjob.presentation.application.navigateToApplication
 import com.tunahankaryagdi.findjob.presentation.my_applications.myApplicationsScreen
@@ -15,16 +17,19 @@ import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
 import com.tunahankaryagdi.findjob.presentation.detail.navigateToDetail
 import com.tunahankaryagdi.findjob.presentation.edit_profile.editProfileScreen
 import com.tunahankaryagdi.findjob.presentation.edit_profile.navigateToEditProfile
+import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.homeScreen
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
 import com.tunahankaryagdi.findjob.presentation.jobs.jobScreen
 import com.tunahankaryagdi.findjob.presentation.jobs.navigateToJobs
+import com.tunahankaryagdi.findjob.presentation.login.loginRoute
 import com.tunahankaryagdi.findjob.presentation.login.loginScreen
 import com.tunahankaryagdi.findjob.presentation.login.navigateToLogin
 import com.tunahankaryagdi.findjob.presentation.profile.navigateToProfile
 import com.tunahankaryagdi.findjob.presentation.profile.profileScreen
 import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 import com.tunahankaryagdi.findjob.presentation.signup.signupScreen
+import com.tunahankaryagdi.findjob.presentation.splash.splashRoute
 import com.tunahankaryagdi.findjob.presentation.splash.splashScreen
 
 
@@ -41,14 +46,33 @@ fun NavigationHost(
         startDestination = startDestination,
     ){
 
+
         splashScreen(
-            navigateToLogin = {navController.navigateToLogin()},
-            navigateToHome = {navController.navigateToHome()}
+            navigateToLogin = {navController.navigateToLogin(
+                navOptions {
+                    popUpTo(splashRoute) {
+                        inclusive = true
+                    }
+                }
+            )},
+            navigateToHome = {navController.navigateToHome(
+                navOptions {
+                    popUpTo(splashRoute) {
+                        inclusive = true
+                    }
+                }
+            )}
         )
 
         loginScreen(
             navigateToSignup = {navController.navigate(signupRoute)},
-            navigateToHome = {navController.navigateToHome()}
+            navigateToHome = {navController.navigateToHome(
+                navOptions {
+                    popUpTo(loginRoute) {
+                        inclusive = true
+                    }
+                }
+            )}
         )
 
         signupScreen(
@@ -58,10 +82,6 @@ fun NavigationHost(
 
         homeScreen(
             navigateToDetail =  {navController.navigateToDetail(it)},
-            navigateToProfile = {navController.navigateToProfile()},
-            navigateToLogin = {navController.navigateToLogin()},
-            navigateToApplications = {navController.navigateToMyApplications()},
-            navigateToJobs = {navController.navigateToJobs()}
         )
 
         detailScreen(
@@ -75,6 +95,13 @@ fun NavigationHost(
 
         profileScreen(
             navigateToEditProfile = {navController.navigateToEditProfile()},
+            navigateToLogin = {navController.navigateToLogin(
+                navOptions {
+                    popUpTo(homeRoute) {
+                        inclusive = true
+                    }
+                }
+            )},
             navigatePop = {navController.popBackStack()}
         )
 
@@ -95,6 +122,8 @@ fun NavigationHost(
         applicationScreen(
             navigatePop = {navController.popBackStack()}
         )
+
+        adminScreen()
     }
 
 }

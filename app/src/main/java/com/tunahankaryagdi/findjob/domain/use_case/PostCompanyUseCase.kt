@@ -14,12 +14,7 @@ class PostCompanyUseCase @Inject constructor(private val companyRepository: Comp
 
             try {
                 val response = companyRepository.postCompany(postCompanyRequest)
-                if (response.success){
-                    emit(Resource.Success(true))
-                }
-                else{
-                    emit(Resource.Success(false))
-                }
+                emit(Resource.Success(response.success))
 
             }
             catch (e: Exception){

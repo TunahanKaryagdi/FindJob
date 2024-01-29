@@ -39,6 +39,7 @@ fun AddQualificationDialog(
                     .clickable {
                         onTrigger(AddEvent.OnConfirmDialog)
                     },
+                tint = CustomTheme.colors.primary,
                 imageVector = Icons.Default.Done ,
                 contentDescription = stringResource(id = R.string.done)
             )
@@ -49,6 +50,7 @@ fun AddQualificationDialog(
                     .clickable {
                         onTrigger(AddEvent.OnDismissDialog)
                     },
+                tint = CustomTheme.colors.secondary,
                 imageVector = Icons.Default.Close ,
                 contentDescription = stringResource(id = R.string.close)
             )

@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.domain.use_case.GetJobsUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
 import com.tunahankaryagdi.findjob.presentation.home.components.DrawerItem
 import com.tunahankaryagdi.findjob.utils.DrawerItemTitle
+import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getJobsUseCase: GetJobsUseCase,
-    private val tokenStore: TokenStore
+    private val tokenStore: TokenStore,
+    private val getUserByIdUseCase: GetUserByIdUseCase
 ) : BaseViewModel<HomeUiState,HomeEffect,HomeEvent>(){
 
     init {
@@ -30,32 +33,10 @@ class HomeViewModel @Inject constructor(
     override fun setInitialState(): HomeUiState  = HomeUiState()
 
     override fun handleEvents(event: HomeEvent) {
-        when(event){
 
-            is HomeEvent.OnClickDrawerItem->{
-                when(event.drawerItem.id){
-                    DrawerItemTitle.Profile->{
-                        setEffect(HomeEffect.NavigateToProfile)
-                    }
-                    DrawerItemTitle.Applications->{
-                        setEffect(HomeEffect.NavigateToApplications)
-
-                    }
-                    DrawerItemTitle.Jobs->{
-                        setEffect(HomeEffect.NavigateToJobs)
-
-                    }
-                    DrawerItemTitle.Logout->{
-                        logout()
-                        setEffect(HomeEffect.NavigateToLogin)
-                    }
-                }
-            }
-
-        }
     }
 
-    private fun getJobs(){
+    fun getJobs(){
         viewModelScope.launch {
             setState(getCurrentState().copy(isLoading = true))
             getJobsUseCase(1).collect{resource->
@@ -72,11 +53,26 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun logout(){
+    private fun getUser(){
         viewModelScope.launch {
-            tokenStore.saveToken("")
+            tokenStore.getToken().collect{
+                val userId = JwtHelper.getUserId(it) ?: ""
+                getUserByIdUseCase.invoke(userId).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            if (resource.data.image != null){
+                                setState(getCurrentState().copy(userImage = resource.data.image))
+                            }
+                        }
+                        is Resource.Error->{
+                            setEffect(HomeEffect.ShowErrorMessage(resource.message))
+                        }
+                    }
+                }
+            }
         }
     }
+
 
 }
 
@@ -84,17 +80,16 @@ class HomeViewModel @Inject constructor(
 data class HomeUiState(
     val isLoading: Boolean = false,
     val jobs: List<Job> = emptyList(),
+    val userImage: String? = null
+
 ) : State
 
 sealed interface HomeEffect : Effect{
     data class ShowErrorMessage(val message: String) : HomeEffect
-    object NavigateToProfile : HomeEffect
-    object NavigateToLogin : HomeEffect
-    object NavigateToApplications : HomeEffect
-    object NavigateToJobs : HomeEffect
+
 
 }
 
 sealed interface HomeEvent : Event{
-    data class OnClickDrawerItem(val drawerItem: DrawerItem) : HomeEvent
+
 }

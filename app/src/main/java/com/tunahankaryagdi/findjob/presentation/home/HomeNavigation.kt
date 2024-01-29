@@ -4,29 +4,24 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 
 
 const val homeRoute = "home"
 
-fun NavController.navigateToHome(navOptions: NavOptions? = null){
+fun NavController.navigateToHome(
+    navOptions: NavOptions? =  null
+){
     this.navigate(homeRoute,navOptions)
 }
 
 fun NavGraphBuilder.homeScreen(
     navigateToDetail : (String) -> Unit,
-    navigateToProfile: () -> Unit,
-    navigateToLogin: () -> Unit,
-    navigateToApplications: () -> Unit,
-    navigateToJobs: () -> Unit
 ){
 
     composable(homeRoute){
         HomeScreenRoute(
             navigateToDetail = navigateToDetail,
-            navigateToProfile = navigateToProfile,
-            navigateToLogin = navigateToLogin,
-            navigateToApplications = navigateToApplications,
-            navigateToJobs = navigateToJobs
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.tunahankaryagdi.findjob.presentation.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -15,8 +16,9 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 @Composable
 fun CustomTopAppbar(
     modifier: Modifier = Modifier,
-    title  : @Composable ()-> Unit = {},
-    navigationIcon : @Composable () ->Unit = {}
+    title: @Composable ()-> Unit = {},
+    navigationIcon: @Composable () ->Unit = {},
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
 
 
@@ -29,6 +31,7 @@ fun CustomTopAppbar(
             navigationIconContentColor = CustomTheme.colors.secondaryText,
             titleContentColor = CustomTheme.colors.secondaryText
         ),
+        actions = actions,
         navigationIcon = navigationIcon
     )
 }

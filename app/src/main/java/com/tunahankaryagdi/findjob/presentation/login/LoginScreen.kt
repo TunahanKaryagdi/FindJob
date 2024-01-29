@@ -68,7 +68,6 @@ fun LoginScreenRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -111,10 +110,6 @@ fun LoginScreenContent(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         onTrigger(LoginEvent.OnClickGoogleSignIn(result))
-    }
-
-    if (uiState.isLoading){
-        CustomCircularProgress()
     }
 
     Column(
@@ -174,7 +169,9 @@ fun LoginScreenContent(
             onClick = {
                 onTrigger(LoginEvent.OnClickLogin)
             },
-            text = stringResource(id = R.string.login),
+            text = if (!uiState.isLoading) stringResource(id = R.string.login) else stringResource(
+                id = R.string.loading
+            ),
         )
 
         SpacerHeight(size = CustomTheme.spaces.medium)

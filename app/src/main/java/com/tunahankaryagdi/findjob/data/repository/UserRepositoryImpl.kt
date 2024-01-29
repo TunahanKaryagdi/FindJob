@@ -2,7 +2,9 @@ package com.tunahankaryagdi.findjob.data.repository
 
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserResponse
+import com.tunahankaryagdi.findjob.data.model.user.DeleteUserByIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetUserByIdResponse
+import com.tunahankaryagdi.findjob.data.model.user.GetUsersResponse
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SigninResponse
@@ -26,6 +28,14 @@ class UserRepositoryImpl @Inject constructor(private val userService: UserServic
 
     override suspend fun getUserById(id: String): GetUserByIdResponse {
         return userService.getUserById(id)
+    }
+
+    override suspend fun getUsers(): GetUsersResponse {
+        return userService.getUsers()
+    }
+
+    override suspend fun deleteUserById(id: String): DeleteUserByIdResponse {
+        return userService.deleteUserById(id)
     }
 
     override suspend fun updateUser(

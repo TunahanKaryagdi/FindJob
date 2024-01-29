@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.TextButton
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,6 +34,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
+import com.tunahankaryagdi.findjob.presentation.profile.components.ProfileBottomSheet
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.ImageType
@@ -41,6 +45,7 @@ fun ProfileScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateToEditProfile: () -> Unit,
+    navigateToLogin: () -> Unit,
     navigatePop: () -> Unit,
 ) {
 
@@ -51,7 +56,11 @@ fun ProfileScreenRoute(
         if (effect == ProfileEffect.NavigateToEditProfile){
             navigateToEditProfile()
         }
+        if (effect == ProfileEffect.NavigateToLogin){
+            navigateToLogin()
+        }
     }
+
 
     ProfileScreen(
         modifier = modifier,
@@ -62,7 +71,6 @@ fun ProfileScreenRoute(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
@@ -84,6 +92,15 @@ fun ProfileScreen(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = stringResource(id = R.string.arraw_back)
                     )
+                },
+                actions = {
+                    Icon(
+                        modifier = Modifier
+                            .clickable {
+                                onTrigger(ProfileEvent.OnBottomSheetValueChange(true))
+                            },
+                        painter = painterResource(id = R.drawable.ic_more),
+                        contentDescription = stringResource(id = R.string.more))
                 }
             )
         },
@@ -106,6 +123,13 @@ fun ProfileScreenContent(
 ){
 
     val width = LocalConfiguration.current.screenWidthDp
+
+    if (uiState.isBottomSheetVisible){
+        ProfileBottomSheet(
+            onTrigger = onTrigger
+        )
+    }
+
 
     uiState.userDetail?.let {
         LazyColumn(
@@ -137,14 +161,7 @@ fun ProfileScreenContent(
                             model = "${Constants.BASE_IMAGE_URL}${uiState.userDetail.image}",
                             type = ImageType.User)
 
-
-                        CustomOutlinedButton(
-                            onClick = {
-                                onTrigger(ProfileEvent.OnClickEditProfile)
-                            },
-                            text = stringResource(id = R.string.edit_profile))
                     }
-
 
                     SpacerHeight(size = CustomTheme.spaces.medium)
 
@@ -196,7 +213,7 @@ fun ProfileScreenContent(
                 items(uiState.userDetail.skills.size){
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "• ${uiState.userDetail.skills[it].experience} year experience in ${uiState.userDetail.skills[it].name}",
+                        text = stringResource(id = R.string.experience_of, uiState.userDetail.skills[it].name,uiState.userDetail.skills[it].experience),
                         style = CustomTheme.typography.labelLarge
                     )
 

@@ -2,14 +2,12 @@ package com.tunahankaryagdi.findjob.presentation.profile
 
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
-import com.tunahankaryagdi.findjob.domain.model.user.Skill
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
-import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEffect
 import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +28,14 @@ class ProfileViewModel @Inject constructor(
     override fun handleEvents(event: ProfileEvent) {
         when(event){
             is ProfileEvent.OnClickEditProfile->{
+                setState(getCurrentState().copy(isBottomSheetVisible = false))
                 setEffect(ProfileEffect.NavigateToEditProfile)
+            }
+            is ProfileEvent.OnBottomSheetValueChange->{
+                setState(getCurrentState().copy(isBottomSheetVisible = event.value))
+            }
+            is ProfileEvent.OnClickLogout -> {
+                logout()
             }
         }
     }
@@ -43,7 +48,6 @@ class ProfileViewModel @Inject constructor(
                         is Resource.Success->{
                             resource.data.apply {
                                 setState(getCurrentState().copy(userDetail = resource.data))
-
                             }
                         }
                         is Resource.Error->{
@@ -55,6 +59,13 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    private fun logout(){
+        viewModelScope.launch {
+            tokenStore.saveToken("")
+            setEffect(ProfileEffect.NavigateToLogin)
+        }
+    }
+
 }
 
 
@@ -62,14 +73,19 @@ class ProfileViewModel @Inject constructor(
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val userDetail: UserDetail? = null,
+    val isBottomSheetVisible: Boolean = false
 ) : State
 
 sealed interface ProfileEffect : Effect{
     data class ShowMessage(val message: String) : ProfileEffect
     object NavigateToEditProfile : ProfileEffect
+    object NavigateToLogin : ProfileEffect
 
 }
 
 sealed interface ProfileEvent : Event{
     object OnClickEditProfile : ProfileEvent
+    data class OnBottomSheetValueChange(val value: Boolean) : ProfileEvent
+    object OnClickLogout : ProfileEvent
+
 }

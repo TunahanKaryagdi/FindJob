@@ -2,8 +2,10 @@ package com.tunahankaryagdi.findjob.presentation.apply
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
+import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.PostApplicationUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
@@ -21,10 +23,14 @@ import javax.inject.Inject
 class ApplyViewModel @Inject constructor(
     private val tokenStore: TokenStore,
     private val savedStateHandle: SavedStateHandle,
-    private val postApplicationUseCase: PostApplicationUseCase
+    private val postApplicationUseCase: PostApplicationUseCase,
+    private val getUserByIdUseCase: GetUserByIdUseCase
 ): BaseViewModel<ApplyUiState,ApplyEffect,ApplyEvent>() {
     override fun setInitialState(): ApplyUiState = ApplyUiState()
 
+    init {
+        getUser()
+    }
     override fun handleEvents(event: ApplyEvent) {
 
         when(event){
@@ -61,6 +67,29 @@ class ApplyViewModel @Inject constructor(
                                 setEffect(ApplyEffect.ShowMessage("cannot applied"))
                             }
                             setState(getCurrentState().copy(isLoading = false))
+                        }
+
+                        is Resource.Error->{
+                            setEffect(ApplyEffect.ShowMessage(resource.message))
+                            setState(getCurrentState().copy(isLoading = false))
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    private fun getUser(){
+        viewModelScope.launch {
+            tokenStore.getToken().collect{
+                val userId = JwtHelper.getUserId(it) ?: ""
+                setState(getCurrentState().copy(isLoading = true))
+                getUserByIdUseCase.invoke(userId).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(isLoading = false, email = resource.data.email, nameSurname = resource.data.nameSurname))
                         }
 
                         is Resource.Error->{

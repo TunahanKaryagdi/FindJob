@@ -50,6 +50,7 @@ fun UserDetailDialog(
                     .clickable {
                         onTrigger(ApplicationEvent.OnConfirmDialog)
                     },
+                tint = CustomTheme.colors.primary,
                 imageVector = Icons.Default.Done ,
                 contentDescription = stringResource(id = R.string.done)
             )
@@ -60,6 +61,7 @@ fun UserDetailDialog(
                     .clickable {
                         onTrigger(ApplicationEvent.OnDismissDialog)
                     },
+                tint = CustomTheme.colors.secondary,
                 imageVector = Icons.Default.Close ,
                 contentDescription = stringResource(id = R.string.close)
             )

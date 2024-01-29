@@ -16,13 +16,7 @@ class PostJobUseCase @Inject constructor(private val jobRepository: JobRepositor
 
             try {
                 val response = jobRepository.postJob(postJobRequest)
-                if (response.success){
-                    emit(Resource.Success(true))
-                }
-                else{
-                    emit(Resource.Success(false))
-                }
-
+                emit(Resource.Success(response.success))
             }
             catch (e: Exception){
                 emit(Resource.Error(e.message ?: ""))

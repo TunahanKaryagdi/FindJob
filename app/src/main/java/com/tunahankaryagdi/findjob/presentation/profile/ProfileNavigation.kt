@@ -17,11 +17,13 @@ fun NavController.navigateToProfile(
 
 fun NavGraphBuilder.profileScreen(
     navigateToEditProfile: () -> Unit,
+    navigateToLogin: () -> Unit,
     navigatePop: () -> Unit
 ){
     composable(profileRoute){
         ProfileScreenRoute(
             navigateToEditProfile = navigateToEditProfile,
+            navigateToLogin = navigateToLogin,
             navigatePop = navigatePop
         )
     }

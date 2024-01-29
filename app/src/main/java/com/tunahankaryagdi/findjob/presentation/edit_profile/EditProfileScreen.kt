@@ -215,7 +215,7 @@ fun EditProfileScreenContent(
         items(uiState.skills.size){
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "• ${uiState.skills[it].experience} year experience in ${uiState.skills[it].name}",
+                text = stringResource(id = R.string.experience_of, uiState.skills[it].name,uiState.skills[it].experience),
                 style = CustomTheme.typography.labelLarge
             )
         }

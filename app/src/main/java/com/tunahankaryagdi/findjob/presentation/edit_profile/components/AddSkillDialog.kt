@@ -37,7 +37,8 @@ fun AddSkillDialog(
                     .clickable {
                         onTrigger(EditProfileEvent.OnConfirmDialog)
                     },
-                imageVector = Icons.Default.Done ,
+                imageVector = Icons.Default.Done,
+                tint = CustomTheme.colors.primary,
                 contentDescription = stringResource(id = R.string.done)
             )
         },
@@ -47,7 +48,8 @@ fun AddSkillDialog(
                     .clickable {
                         onTrigger(EditProfileEvent.OnDismissDialog)
                     },
-                imageVector = Icons.Default.Close ,
+                imageVector = Icons.Default.Close,
+                tint = CustomTheme.colors.secondary,
                 contentDescription = stringResource(id = R.string.close)
             )
         },

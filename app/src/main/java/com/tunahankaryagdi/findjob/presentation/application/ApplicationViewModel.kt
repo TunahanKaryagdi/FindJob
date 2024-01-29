@@ -105,6 +105,7 @@ class ApplicationViewModel @Inject constructor(
                 when(resource){
                     is Resource.Success->{
                         setState(getCurrentState().copy(isOpenDialog = false))
+                        getApplicationsByJobId()
                     }
                     is Resource.Error->{
                         setState(getCurrentState().copy(isLoading = false))

@@ -1,5 +1,6 @@
 package com.tunahankaryagdi.findjob.presentation.splash
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +13,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
+import com.tunahankaryagdi.findjob.presentation.components.CustomCircularProgress
+import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 
 @Composable
@@ -60,9 +64,15 @@ fun SplashScreenContent(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ){
-        Column {
-            Icon(imageVector = Icons.Default.Person, contentDescription = stringResource(id = R.string.app_icon))
-            CircularProgressIndicator()
+        Column(
+            modifier= Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(painter = painterResource(id = R.drawable.ic_work), contentDescription = stringResource(id = R.string.app_icon))
+            CircularProgressIndicator(
+                color = CustomTheme.colors.primary
+            )
         }
     }
 }

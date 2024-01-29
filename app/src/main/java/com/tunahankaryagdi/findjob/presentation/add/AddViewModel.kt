@@ -89,7 +89,7 @@ class AddViewModel @Inject constructor(
                 tokenStore.getToken().collect{token->
                     val userId = JwtHelper.getUserId(token) ?: ""
                     postJobUseCase.invoke(PostJobRequest(
-                        "8147d1b4-ca17-4a33-bd2a-483a2789ef18",
+                        "b7c876b2-72a7-4052-addf-662c243a2afe",
                         uiState.location,
                         uiState.qualifications,
                         uiState.salary.toInt(),

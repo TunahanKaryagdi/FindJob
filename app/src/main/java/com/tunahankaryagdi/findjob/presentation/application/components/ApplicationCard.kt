@@ -62,7 +62,7 @@ fun ApplicationCard(
                 modifier = Modifier
                     .weight(2f)
                     .clip(CircleShape),
-                model = "${Constants.BASE_IMAGE_URL}/${application.job.company.image}",
+                model = "${Constants.BASE_IMAGE_URL}/${application.user.image}",
                 type = ImageType.User,
                 contentScale = ContentScale.Inside
             )

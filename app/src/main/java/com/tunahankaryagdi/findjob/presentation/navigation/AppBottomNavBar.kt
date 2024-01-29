@@ -1,6 +1,9 @@
 package com.tunahankaryagdi.findjob.presentation.navigation
 
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -12,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -26,36 +30,40 @@ fun AppBottomNavBar(
      onNavigateToDestination : (TopLevelDestination) -> Unit
 ) {
 
+    val width = LocalConfiguration.current.screenWidthDp
 
     NavigationBar(
+        modifier = Modifier
+            .height((width * 0.16).dp),
         containerColor = CustomTheme.colors.secondaryBackground,
-        modifier = Modifier,
-        tonalElevation =  50.dp,
-
     ) {
 
         destinations.map { destination->
             val selected = currentDestination?.hierarchy?.any{ it.route == destination.route} == true
             NavigationBarItem(
+                modifier = Modifier
+                    .fillMaxSize(),
                 selected = selected,
                 onClick = {
                     onNavigateToDestination(destination)
                 },
                 icon = {
-                    Icon(imageVector = destination.icon , contentDescription = destination.name)
+                    Icon(painter = painterResource(id = destination.painterId) , contentDescription = destination.name)
                 },
                 label = {
-                    Text(text = stringResource(id = destination.textId))
+                    Text(
+                        text = stringResource(id = destination.textId),
+                        style = CustomTheme.typography.bodySmall
+                    )
                 },
+                alwaysShowLabel = false,
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = CustomTheme.colors.primary,
-                    indicatorColor = CustomTheme.colors.primary
+                    selectedIconColor = CustomTheme.colors.primary,
+                    unselectedIconColor = Color.LightGray,
+                    indicatorColor = CustomTheme.colors.secondaryBackground
                 ),
             )
- }
-
+        }
     }
-
 }
 

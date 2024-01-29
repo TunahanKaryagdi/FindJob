@@ -13,6 +13,9 @@ import androidx.navigation.navOptions
 import com.tunahankaryagdi.findjob.presentation.add.navigateToAdd
 import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
+import com.tunahankaryagdi.findjob.presentation.jobs.navigateToJobs
+import com.tunahankaryagdi.findjob.presentation.my_applications.navigateToMyApplications
+import com.tunahankaryagdi.findjob.presentation.profile.navigateToProfile
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -60,6 +63,9 @@ class MainAppState(
         when (topLevelDestination) {
             TopLevelDestination.HOME -> navController.navigateToHome(topLevelOptions)
             TopLevelDestination.ADD -> navController.navigateToAdd(topLevelOptions)
+            TopLevelDestination.APPLICATIONS -> navController.navigateToMyApplications(topLevelOptions)
+            TopLevelDestination.MY_JOBS -> navController.navigateToJobs(topLevelOptions)
+            TopLevelDestination.PROFILE -> navController.navigateToProfile(topLevelOptions)
 
         }
     }

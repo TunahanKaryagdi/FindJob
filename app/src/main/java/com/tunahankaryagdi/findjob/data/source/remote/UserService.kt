@@ -2,7 +2,9 @@ package com.tunahankaryagdi.findjob.data.source.remote
 
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserResponse
+import com.tunahankaryagdi.findjob.data.model.user.DeleteUserByIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetUserByIdResponse
+import com.tunahankaryagdi.findjob.data.model.user.GetUsersResponse
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SigninResponse
@@ -11,6 +13,7 @@ import com.tunahankaryagdi.findjob.data.model.user.UpdateUserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -23,6 +26,12 @@ interface UserService {
 
     @POST("Users")
     suspend fun createUser(@Body user: CreateUserRequest) : CreateUserResponse
+
+    @GET("Users")
+    suspend fun getUsers() : GetUsersResponse
+
+    @DELETE("Users/{id}")
+    suspend fun deleteUserById(@Path("id") id: String) : DeleteUserByIdResponse
 
     @GET("Users/{id}")
     suspend fun getUserById(@Path("id") id: String) : GetUserByIdResponse
@@ -38,9 +47,6 @@ interface UserService {
     suspend fun signIn(@Body signinRequest: SignInRequest) : SigninResponse
 
     @POST("Users/googlesignin")
-    suspend fun signInWithGoogle(@Body googleSignInRequest: GoogleSignInRequest) : Unit
-
-
-
+    suspend fun signInWithGoogle(@Body googleSignInRequest: GoogleSignInRequest)
 
 }

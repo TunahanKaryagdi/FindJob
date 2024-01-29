@@ -196,7 +196,7 @@ fun DetailScreenContent(
 
                         repeat(job.qualifications.size){
                             Text(
-                                text = "• ${job.qualifications[it].name}",
+                                text = stringResource(id = R.string.experience_of,uiState.job.qualifications[it].name,uiState.job.qualifications[it].experience),
                                 style = CustomTheme.typography.labelLarge
                             )
 
@@ -225,7 +225,7 @@ fun DetailScreenContent(
                 CustomTinyButton(
                     icon = Icons.Filled.Email,
                     onClick = {
-                        openGmail(context)
+                        gmailIntent(context,it.user.email,it.title)
                     }
                 )
             }
@@ -253,5 +253,16 @@ fun openGmail(context: Context) {
             data = Uri.parse("market://details?id=$packageName")
         }
         context.startActivity(playStoreIntent)
+    }
+}
+
+fun gmailIntent(context: Context,email: String,title: String){
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        putExtra(Intent.EXTRA_SUBJECT, title)
+    }
+    if (intent.resolveActivity(context.packageManager) != null){
+        context.startActivity(intent)
     }
 }
