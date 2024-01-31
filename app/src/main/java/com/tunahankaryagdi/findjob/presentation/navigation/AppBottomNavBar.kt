@@ -34,15 +34,14 @@ fun AppBottomNavBar(
 
     NavigationBar(
         modifier = Modifier
-            .height((width * 0.16).dp),
+            .height((width * 0.14).dp),
         containerColor = CustomTheme.colors.secondaryBackground,
     ) {
 
         destinations.map { destination->
             val selected = currentDestination?.hierarchy?.any{ it.route == destination.route} == true
             NavigationBarItem(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier,
                 selected = selected,
                 onClick = {
                     onNavigateToDestination(destination)

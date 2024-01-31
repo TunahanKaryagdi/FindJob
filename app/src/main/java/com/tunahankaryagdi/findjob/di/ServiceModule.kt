@@ -12,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.create
 import javax.inject.Singleton
@@ -29,8 +30,11 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideJobService(retrofit: Retrofit): JobService{
-        return retrofit.create(JobService::class.java)
+    fun provideJobService(retrofitBuilder: Retrofit.Builder, okHttpClient: OkHttpClient): JobService{
+        return retrofitBuilder
+            .client(okHttpClient)
+            .build()
+            .create(JobService::class.java)
     }
 
     @Provides

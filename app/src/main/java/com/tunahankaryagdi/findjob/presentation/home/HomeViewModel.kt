@@ -40,7 +40,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getJobs(){
+    private fun getJobs(){
         viewModelScope.launch {
             setState(getCurrentState().copy(isLoading = true))
             getJobsUseCase(1).collect{resource->

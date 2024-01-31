@@ -189,11 +189,6 @@ fun ProfileScreenContent(
 
                         SpacerHeight(size = CustomTheme.spaces.small)
 
-                        Divider(
-                            color = CustomTheme.colors.primary
-                        )
-
-                        SpacerHeight(size = CustomTheme.spaces.small)
 
                         Text(
                             text = stringResource(id = R.string.email),
@@ -205,11 +200,11 @@ fun ProfileScreenContent(
                         )
 
                         SpacerHeight(size = CustomTheme.spaces.small)
-                        Divider(
-                            color = CustomTheme.colors.primary
-                        )
-                        SpacerHeight(size = CustomTheme.spaces.small)
 
+                        Text(
+                            text = stringResource(id = R.string.job),
+                            style = CustomTheme.typography.bodyLarge
+                        )
                         Text(
                             text = stringResource(id = R.string.skills),
                             style = CustomTheme.typography.bodyLarge
