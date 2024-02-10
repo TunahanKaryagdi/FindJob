@@ -1,17 +1,14 @@
 package com.tunahankaryagdi.findjob.presentation.home
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.job.Job
-import com.tunahankaryagdi.findjob.domain.use_case.GetJobsUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.job.GetJobsUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
-import com.tunahankaryagdi.findjob.presentation.home.components.DrawerItem
-import com.tunahankaryagdi.findjob.utils.DrawerItemTitle
 import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

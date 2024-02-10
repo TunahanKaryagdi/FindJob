@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.user
 
 import com.google.gson.Gson
 import com.tunahankaryagdi.findjob.data.model.application.UpdateApplicationRequest

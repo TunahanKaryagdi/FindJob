@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.Qualification
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
-import com.tunahankaryagdi.findjob.domain.use_case.PostJobUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.job.PostJobUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

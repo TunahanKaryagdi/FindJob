@@ -37,6 +37,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextFie
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
+import com.tunahankaryagdi.findjob.presentation.profile.components.CompanyStaffCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.ImageType
@@ -128,90 +129,113 @@ fun EditProfileScreenContent(
         modifier = modifier
             .fillMaxWidth()
             .padding(CustomTheme.spaces.medium),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(CustomTheme.spaces.small)
     ) {
-        item{
-            Column(
+
+        item {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalAlignment = Alignment.Start
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Row(
+                CustomAsyncImage(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+                        .size((width * 0.25).dp)
+                        .clip(CircleShape),
+                    model = "${Constants.BASE_IMAGE_URL}${uiState.image}",
+                    type = ImageType.User
+                )
 
-                    CustomAsyncImage(
-                        modifier = Modifier
-                            .size((width * 0.25).dp)
-                            .clip(CircleShape),
-                        model = "${Constants.BASE_IMAGE_URL}${uiState.image}",
-                        type = ImageType.User
-                    )
-
-                    CustomOutlinedButton(
-                        onClick = {
-                            photoPickerLauncher.launch(
-                                PickVisualMediaRequest(
-                                    ActivityResultContracts.PickVisualMedia.ImageOnly
-                                )
+                CustomOutlinedButton(
+                    onClick = {
+                        photoPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
                             )
-                        },
-                        text = stringResource(id = R.string.upload_photo))
-
-                }
-
-                SpacerHeight(size = CustomTheme.spaces.medium)
-
-                Text(
-                    text = stringResource(id = R.string.name),
-                    style = CustomTheme.typography.bodyLarge
-                )
-                CustomOutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = uiState.name,
-                    onValueChange = {}
-                )
-
-                SpacerHeight(size = CustomTheme.spaces.medium)
-
-                Text(
-                    text = stringResource(id = R.string.email),
-                    style = CustomTheme.typography.bodyLarge
-                )
-                CustomOutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = uiState.email,
-                    onValueChange = {}
-                )
-
-                SpacerHeight(size = CustomTheme.spaces.medium)
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.skills),
-                        style = CustomTheme.typography.bodyLarge,
-                    )
-
-                    Icon(
-                        modifier = Modifier
-                            .clickable {
-                                onTrigger(EditProfileEvent.OnClickEdit)
-                            },
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = stringResource(id = R.string.edit_profile)
-                    )
-                }
+                        )
+                    },
+                    text = stringResource(id = R.string.upload_photo))
             }
         }
+
+        item {
+            Text(
+                text = stringResource(id = R.string.name),
+                style = CustomTheme.typography.bodyLarge
+            )
+            CustomOutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = uiState.name,
+                onValueChange = {}
+            )
+        }
+
+        item{
+            Text(
+                text = stringResource(id = R.string.email),
+                style = CustomTheme.typography.bodyLarge
+            )
+            CustomOutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = uiState.email,
+                onValueChange = {}
+            )
+        }
+
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.experience),
+                    style = CustomTheme.typography.bodyLarge
+                )
+                Icon(
+                    modifier = Modifier
+                        .clickable {
+                            onTrigger(EditProfileEvent.OnClickEdit)
+                        },
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(id = R.string.edit_profile)
+                )
+            }
+            if(uiState.companies.isEmpty()){
+                Text(text = stringResource(id = R.string.experience))
+            }
+        }
+
+        items(uiState.companies.size){
+            CompanyStaffCard(companyStaff = uiState.companies[it])
+        }
+
+        item{
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.skills),
+                    style = CustomTheme.typography.bodyLarge,
+                )
+
+                Icon(
+                    modifier = Modifier
+                        .clickable {
+                            onTrigger(EditProfileEvent.OnClickEdit)
+                        },
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(id = R.string.edit_profile)
+                )
+            }
+        }
+
         items(uiState.skills.size){
             Text(
                 modifier = Modifier.fillMaxWidth(),

@@ -2,11 +2,10 @@ package com.tunahankaryagdi.findjob.presentation.apply
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tunahankaryagdi.findjob.data.model.application.PostApplicationRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
-import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.PostApplicationUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.application.PostApplicationUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
@@ -14,7 +13,6 @@ import com.tunahankaryagdi.findjob.presentation.base.State
 import com.tunahankaryagdi.findjob.utils.JwtHelper
 import com.tunahankaryagdi.findjob.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

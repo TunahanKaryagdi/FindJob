@@ -2,22 +2,16 @@ package com.tunahankaryagdi.findjob.presentation.profile
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.TextButton
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,10 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
-import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
-import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
-import com.tunahankaryagdi.findjob.presentation.jobs.JobsEvent
+import com.tunahankaryagdi.findjob.presentation.profile.components.CompanyStaffCard
 import com.tunahankaryagdi.findjob.presentation.profile.components.ProfileBottomSheet
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
@@ -141,99 +133,88 @@ fun ProfileScreenContent(
     }
 
 
+
     uiState.userDetail?.let {
-        Box() {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(CustomTheme.spaces.medium)
-                    .pullRefresh(pullRefreshState),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(CustomTheme.spaces.medium)
+                .pullRefresh(pullRefreshState),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(CustomTheme.spaces.small)
+        ) {
 
-                item{
+            item {
+                CustomAsyncImage(
+                    modifier = Modifier
+                        .size((width * 0.25).dp)
+                        .clip(CircleShape),
+                    model = "${Constants.BASE_IMAGE_URL}${uiState.userDetail.image}",
+                    type = ImageType.User
+                )
+            }
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.Start
-                    ) {
+            item {
+                Text(
+                    text = stringResource(id = R.string.name),
+                    style = CustomTheme.typography.bodyLarge
+                )
+                Text(
+                    text = uiState.userDetail.nameSurname,
+                    style = CustomTheme.typography.body
+                )
+            }
 
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                        ) {
-
-
-                            CustomAsyncImage(
-                                modifier = Modifier
-                                    .size((width * 0.25).dp)
-                                    .clip(CircleShape),
-                                model = "${Constants.BASE_IMAGE_URL}${uiState.userDetail.image}",
-                                type = ImageType.User)
-
-                        }
-
-                        SpacerHeight(size = CustomTheme.spaces.medium)
-
-                        Text(
-                            text = stringResource(id = R.string.name),
-                            style = CustomTheme.typography.bodyLarge
-                        )
-                        Text(
-                            text = uiState.userDetail.nameSurname,
-                            style = CustomTheme.typography.body
-                        )
-
-
-                        SpacerHeight(size = CustomTheme.spaces.small)
-
-
-                        Text(
-                            text = stringResource(id = R.string.email),
-                            style = CustomTheme.typography.bodyLarge
-                        )
-                        Text(
-                            text = uiState.userDetail.email,
-                            style = CustomTheme.typography.body
-                        )
-
-                        SpacerHeight(size = CustomTheme.spaces.small)
-
-                        Text(
-                            text = stringResource(id = R.string.job),
-                            style = CustomTheme.typography.bodyLarge
-                        )
-                        Text(
-                            text = stringResource(id = R.string.skills),
-                            style = CustomTheme.typography.bodyLarge
-                        )
-                    }
+            item {
+                Text(
+                    text = stringResource(id = R.string.email),
+                    style = CustomTheme.typography.bodyLarge
+                )
+                Text(
+                    text = uiState.userDetail.email,
+                    style = CustomTheme.typography.body
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.experience),
+                    style = CustomTheme.typography.bodyLarge
+                )
+                if(uiState.companies.isEmpty()){
+                    Text(text = stringResource(id = R.string.experience))
                 }
+            }
+
+            items(uiState.companies.size){
+                CompanyStaffCard(companyStaff = uiState.companies[it])
+            }
+
+            item {
+                Text(
+                    text = stringResource(id = R.string.skills),
+                    style = CustomTheme.typography.bodyLarge
+                )
                 if(uiState.userDetail.skills.isEmpty()){
-                    item {
-                        Text(text = stringResource(id = R.string.no_skills))
-                    }
+                    Text(text = stringResource(id = R.string.no_skills))
                 }
-                else{
-                    items(uiState.userDetail.skills.size){
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = R.string.experience_of, uiState.userDetail.skills[it].name,uiState.userDetail.skills[it].experience),
-                            style = CustomTheme.typography.labelLarge
-                        )
-
-                    }
-                }
+            }
+            items(uiState.userDetail.skills.size){
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.experience_of, uiState.userDetail.skills[it].name,uiState.userDetail.skills[it].experience),
+                    style = CustomTheme.typography.labelLarge
+                )
 
             }
-            PullRefreshIndicator(
-                modifier = Modifier.align(Alignment.TopCenter),
-                refreshing = uiState.isLoading,
-                state = pullRefreshState,
-            )
+
         }
+        PullRefreshIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(),
+            refreshing = uiState.isLoading,
+            state = pullRefreshState,
+        )
     }
 }
 

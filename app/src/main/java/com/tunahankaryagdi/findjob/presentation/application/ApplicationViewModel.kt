@@ -2,20 +2,16 @@ package com.tunahankaryagdi.findjob.presentation.application
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.tunahankaryagdi.findjob.data.model.application.GetApplicationsByJobIdResponse
 import com.tunahankaryagdi.findjob.data.model.application.UpdateApplicationRequest
 import com.tunahankaryagdi.findjob.domain.model.application.Application
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
-import com.tunahankaryagdi.findjob.domain.use_case.GetApplicationsByJobIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.UpdateApplicationByIdUseCase
-import com.tunahankaryagdi.findjob.presentation.add.AddEvent
+import com.tunahankaryagdi.findjob.domain.use_case.application.GetApplicationsByJobIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.application.UpdateApplicationByIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
 import com.tunahankaryagdi.findjob.presentation.base.State
-import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEvent
-import com.tunahankaryagdi.findjob.presentation.my_applications.MyApplicationsEffect
 import com.tunahankaryagdi.findjob.utils.DropdownItem
 import com.tunahankaryagdi.findjob.utils.Resource
 import com.tunahankaryagdi.findjob.utils.applicationStatuses

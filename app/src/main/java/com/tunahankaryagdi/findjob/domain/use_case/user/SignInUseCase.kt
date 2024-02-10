@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.user
 
 import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
 import com.tunahankaryagdi.findjob.domain.repository.UserRepository

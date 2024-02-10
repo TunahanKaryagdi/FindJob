@@ -2,7 +2,7 @@ package com.tunahankaryagdi.findjob.presentation.signup
 
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserRequest
-import com.tunahankaryagdi.findjob.domain.use_case.CreateUserUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.CreateUserUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

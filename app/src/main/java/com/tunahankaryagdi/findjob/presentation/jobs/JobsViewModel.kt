@@ -3,7 +3,7 @@ package com.tunahankaryagdi.findjob.presentation.jobs
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.job.Job
-import com.tunahankaryagdi.findjob.domain.use_case.GetJobsByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.job.GetJobsByUserIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

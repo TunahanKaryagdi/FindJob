@@ -2,8 +2,10 @@ package com.tunahankaryagdi.findjob.presentation.profile
 
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
+import com.tunahankaryagdi.findjob.domain.model.company.CompanyStaff
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
-import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetCompaniesByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
@@ -17,11 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val tokenStore: TokenStore
+    private val getCompaniesByUserIdUseCase: GetCompaniesByUserIdUseCase,
+    private val tokenStore: TokenStore,
 ) : BaseViewModel<ProfileUiState,ProfileEffect,ProfileEvent>() {
 
     init {
         getUserById()
+        getCompaniesByUserId()
     }
     override fun setInitialState(): ProfileUiState = ProfileUiState()
 
@@ -44,14 +48,36 @@ class ProfileViewModel @Inject constructor(
     }
     private fun getUserById(){
         viewModelScope.launch {
+            setState(getCurrentState().copy(isLoading = true))
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
                 getUserByIdUseCase.invoke(userId).collect{resource->
                     when(resource){
                         is Resource.Success->{
                             resource.data.apply {
-                                setState(getCurrentState().copy(userDetail = resource.data))
+                                setState(getCurrentState().copy(userDetail = resource.data, isLoading = false))
                             }
+                        }
+                        is Resource.Error->{
+                            setEffect(ProfileEffect.ShowMessage(resource.message))
+                            setState(getCurrentState().copy(isLoading = false))
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun getCompaniesByUserId(){
+        viewModelScope.launch {
+            tokenStore.getToken().collect{
+                val userId = JwtHelper.getUserId(it) ?: ""
+                getCompaniesByUserIdUseCase.invoke(userId).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(companies = resource.data))
                         }
                         is Resource.Error->{
                             setEffect(ProfileEffect.ShowMessage(resource.message))
@@ -64,8 +90,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun logout(){
         viewModelScope.launch {
-            tokenStore.saveToken("")
             setEffect(ProfileEffect.NavigateToLogin)
+            tokenStore.saveToken("")
+
         }
     }
 
@@ -76,6 +103,7 @@ class ProfileViewModel @Inject constructor(
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val userDetail: UserDetail? = null,
+    val companies: List<CompanyStaff> = emptyList(),
     val isBottomSheetVisible: Boolean = false
 ) : State
 

@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.application
 
 import com.tunahankaryagdi.findjob.data.model.application.dtos.toApplication
 import com.tunahankaryagdi.findjob.domain.model.application.Application

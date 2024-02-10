@@ -1,8 +1,11 @@
 package com.tunahankaryagdi.findjob.data.source.remote
 
+import com.tunahankaryagdi.findjob.data.model.user.CreateCompanyForUserRequest
+import com.tunahankaryagdi.findjob.data.model.user.CreateCompanyForUserResponse
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserResponse
 import com.tunahankaryagdi.findjob.data.model.user.DeleteUserByIdResponse
+import com.tunahankaryagdi.findjob.data.model.user.GetCompaniesByUserIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetUserByIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetUsersResponse
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
@@ -35,6 +38,12 @@ interface UserService {
 
     @GET("Users/{id}")
     suspend fun getUserById(@Path("id") id: String) : GetUserByIdResponse
+
+    @GET("Users/{id}/Companies")
+    suspend fun getCompaniesByUserId(@Path("id") id: String) : GetCompaniesByUserIdResponse
+
+    @POST("Users/Companies")
+    suspend fun createCompanyForUser(@Body createCompanyForUserRequest: CreateCompanyForUserRequest) : CreateCompanyForUserResponse
 
     @Multipart
     @PUT("Users")

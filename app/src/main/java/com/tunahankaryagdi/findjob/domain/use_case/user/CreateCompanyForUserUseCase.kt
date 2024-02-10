@@ -1,5 +1,6 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.user
 
+import com.tunahankaryagdi.findjob.data.model.user.CreateCompanyForUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.dtos.toUserDetail
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 import com.tunahankaryagdi.findjob.domain.repository.UserRepository
@@ -8,14 +9,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetUsersUseCase @Inject constructor(private val userRepository: UserRepository){
-    operator fun invoke() : Flow<Resource<List<UserDetail>>> {
+class CreateCompanyForUserUseCase @Inject constructor(private val userRepository: UserRepository){
+    operator fun invoke(createCompanyForUserRequest: CreateCompanyForUserRequest) : Flow<Resource<Boolean>> {
 
         return flow {
 
             try {
-                val response = userRepository.getUsers()
-                emit(Resource.Success(response.data.map { it.toUserDetail() }))
+                val response = userRepository.createCompanyForUser(createCompanyForUserRequest)
+                emit(Resource.Success(response.success))
             }
             catch (e: Exception){
                 emit(Resource.Error(e.message ?: ""))

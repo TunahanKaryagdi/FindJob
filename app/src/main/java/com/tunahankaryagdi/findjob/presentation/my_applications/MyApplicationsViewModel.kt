@@ -3,7 +3,7 @@ package com.tunahankaryagdi.findjob.presentation.my_applications
 import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.application.Application
-import com.tunahankaryagdi.findjob.domain.use_case.GetApplicationsByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.application.GetApplicationsByUserIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

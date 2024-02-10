@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.company
 
 import com.tunahankaryagdi.findjob.data.model.company.PostCompanyRequest
 import com.tunahankaryagdi.findjob.domain.repository.CompanyRepository

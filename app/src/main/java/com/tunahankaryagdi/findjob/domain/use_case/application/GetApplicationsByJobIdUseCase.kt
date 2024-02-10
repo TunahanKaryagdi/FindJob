@@ -1,6 +1,5 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.application
 
-import com.tunahankaryagdi.findjob.data.model.application.UpdateApplicationRequest
 import com.tunahankaryagdi.findjob.data.model.application.dtos.toApplication
 import com.tunahankaryagdi.findjob.domain.model.application.Application
 import com.tunahankaryagdi.findjob.domain.repository.ApplicationRepository
@@ -9,14 +8,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class UpdateApplicationByIdUseCase @Inject constructor(private val applicationRepository: ApplicationRepository){
-    operator fun invoke(updateApplicationRequest: UpdateApplicationRequest) : Flow<Resource<Boolean>> {
+class GetApplicationsByJobIdUseCase @Inject constructor(private val applicationRepository: ApplicationRepository){
+    operator fun invoke(jobId: String) : Flow<Resource<List<Application>>> {
 
         return flow {
-
             try {
-                val response = applicationRepository.updateApplication(updateApplicationRequest)
-                emit(Resource.Success(response.success))
+                val response = applicationRepository.getApplicationsByJobId(jobId)
+                emit(Resource.Success(response.data.map { it.toApplication()}))
             }
             catch (e: Exception){
                 emit(Resource.Error(e.message ?: ""))

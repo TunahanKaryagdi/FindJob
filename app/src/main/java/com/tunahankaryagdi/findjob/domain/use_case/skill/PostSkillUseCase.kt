@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.domain.use_case
+package com.tunahankaryagdi.findjob.domain.use_case.skill
 
 import com.tunahankaryagdi.findjob.data.model.skill.PostSkillRequest
 import com.tunahankaryagdi.findjob.domain.repository.SkillRepository

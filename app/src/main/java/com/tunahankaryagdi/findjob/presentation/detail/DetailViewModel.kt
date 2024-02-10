@@ -2,12 +2,10 @@ package com.tunahankaryagdi.findjob.presentation.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.tunahankaryagdi.findjob.data.model.application.PostApplicationRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.job.JobDetail
-import com.tunahankaryagdi.findjob.domain.use_case.GetApplicationsByUserIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.GetJobUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.PostApplicationUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.application.GetApplicationsByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.job.GetJobUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

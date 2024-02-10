@@ -66,5 +66,6 @@
     <string name="loading">Yükleniyor</string>
     <string name="experience_of">• %s alanında %d yıl tecrübe</string>
     <string name="more">Daha fazla</string>
+    <string name="no_experience">Henüz bir tecrübe yok</string>
 
 </resources>

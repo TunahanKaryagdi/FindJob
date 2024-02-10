@@ -2,10 +2,10 @@ package com.tunahankaryagdi.findjob.presentation.admin
 
 import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
-import com.tunahankaryagdi.findjob.domain.use_case.DeleteJobByIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.DeleteUserByUserIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.GetJobUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.GetUsersUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.job.DeleteJobByIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.DeleteUserByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.job.GetJobUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUsersUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

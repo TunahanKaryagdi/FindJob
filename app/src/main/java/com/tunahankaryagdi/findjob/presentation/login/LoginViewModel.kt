@@ -9,8 +9,8 @@ import com.google.android.gms.common.api.ApiException
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
 import com.tunahankaryagdi.findjob.data.model.user.SignInRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
-import com.tunahankaryagdi.findjob.domain.use_case.SignInUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.SignInWithGoogleUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.SignInUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.SignInWithGoogleUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event

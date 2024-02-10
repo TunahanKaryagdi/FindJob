@@ -6,11 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.skill.PostSkillRequest
 import com.tunahankaryagdi.findjob.data.model.user.UpdateUserRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
+import com.tunahankaryagdi.findjob.domain.model.company.CompanyStaff
 import com.tunahankaryagdi.findjob.domain.model.user.Skill
-import com.tunahankaryagdi.findjob.domain.use_case.GetUserByIdUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.PostSkillUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.UpdateUserUseCase
-import com.tunahankaryagdi.findjob.presentation.add.AddEvent
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.skill.PostSkillUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetCompaniesByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.UpdateUserUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
@@ -29,12 +30,14 @@ class EditProfileViewModel @Inject constructor(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val postSkillUseCase: PostSkillUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
+    private val getCompaniesByUserIdUseCase: GetCompaniesByUserIdUseCase,
     private val tokenStore: TokenStore
 ) : BaseViewModel<EditProfileUiState,EditProfileEffect,EditProfileEvent>() {
 
 
     init {
         getUserById()
+        getCompaniesByUserId()
     }
 
     override fun setInitialState(): EditProfileUiState  = EditProfileUiState()
@@ -138,6 +141,23 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
+    private fun getCompaniesByUserId(){
+        viewModelScope.launch {
+            tokenStore.getToken().collect{
+                val userId = JwtHelper.getUserId(it) ?: ""
+                getCompaniesByUserIdUseCase.invoke(userId).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(companies = resource.data))
+                        }
+                        is Resource.Error->{
+                            setEffect(EditProfileEffect.ShowMessage(resource.message))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -149,12 +169,12 @@ data class EditProfileUiState(
     val image: String = "",
     val selectedImage: Uri? = null,
     val skills: List<Skill> = emptyList(),
+    val companies: List<CompanyStaff> = emptyList(),
     val isOpenDialog: Boolean = false,
     val selectedDropdownValue: String = "",
     val experienceValue: String = "",
     val isExpandedDropdown: Boolean = false,
-
-    ) : State
+) : State
 
 
 sealed interface EditProfileEffect : Effect{
