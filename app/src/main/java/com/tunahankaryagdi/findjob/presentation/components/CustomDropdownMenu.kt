@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.Placeholder
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.utils.DropdownItem
 
@@ -23,7 +24,8 @@ fun CustomDropdownMenu(
     onExpandedChange: (Boolean) ->Unit,
     onDismiss: ()-> Unit,
     onClickItem: (DropdownItem) -> Unit,
-    isExpanded: Boolean
+    isExpanded: Boolean,
+    placeholder: String  = ""
 ) {
 
 
@@ -37,7 +39,7 @@ fun CustomDropdownMenu(
             CustomOutlinedTextField(
                 value = selectedDropdownValue,
                 readOnly = true,
-                placeholder = stringResource(id = R.string.select_a_skill),
+                placeholder = placeholder,
                 onValueChange = {},
                 trailingIcon = {
                     Icon(

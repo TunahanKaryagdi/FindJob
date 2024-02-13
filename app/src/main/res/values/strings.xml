@@ -66,5 +66,7 @@
     <string name="experience_of">• %s experience %d year</string>
     <string name="more">More</string>
     <string name="no_experience">No experience</string>
+    <string name="select_a_company">Select a company</string>
+    <string name="select_a_qualification">Select a qualification</string>
 
 </resources>

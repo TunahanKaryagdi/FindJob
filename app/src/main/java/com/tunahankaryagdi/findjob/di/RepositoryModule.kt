@@ -1,14 +1,17 @@
 package com.tunahankaryagdi.findjob.di
 
 import com.tunahankaryagdi.findjob.data.repository.ApplicationRepositoryImpl
+import com.tunahankaryagdi.findjob.data.repository.CompanyRepositoryImpl
 import com.tunahankaryagdi.findjob.data.repository.JobRepositoryImpl
 import com.tunahankaryagdi.findjob.data.repository.SkillRepositoryImpl
 import com.tunahankaryagdi.findjob.data.repository.UserRepositoryImpl
 import com.tunahankaryagdi.findjob.data.source.remote.ApplicationService
+import com.tunahankaryagdi.findjob.data.source.remote.CompanyService
 import com.tunahankaryagdi.findjob.data.source.remote.JobService
 import com.tunahankaryagdi.findjob.data.source.remote.SkillService
 import com.tunahankaryagdi.findjob.data.source.remote.UserService
 import com.tunahankaryagdi.findjob.domain.repository.ApplicationRepository
+import com.tunahankaryagdi.findjob.domain.repository.CompanyRepository
 import com.tunahankaryagdi.findjob.domain.repository.JobRepository
 import com.tunahankaryagdi.findjob.domain.repository.SkillRepository
 import com.tunahankaryagdi.findjob.domain.repository.UserRepository
@@ -44,5 +47,11 @@ object RepositoryModule {
     @Singleton
     fun provideSkillRepository(skillService: SkillService) : SkillRepository{
         return SkillRepositoryImpl(skillService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCompanyRepository(companyService: CompanyService) : CompanyRepository{
+        return CompanyRepositoryImpl(companyService)
     }
 }

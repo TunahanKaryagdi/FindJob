@@ -4,6 +4,7 @@ import android.content.Context
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.data.source.local.TokenStoreImpl
 import com.tunahankaryagdi.findjob.data.source.remote.ApplicationService
+import com.tunahankaryagdi.findjob.data.source.remote.CompanyService
 import com.tunahankaryagdi.findjob.data.source.remote.JobService
 import com.tunahankaryagdi.findjob.data.source.remote.SkillService
 import com.tunahankaryagdi.findjob.data.source.remote.UserService
@@ -53,5 +54,11 @@ object ServiceModule {
     @Singleton
     fun provideTokenStore(@ApplicationContext context: Context) : TokenStore{
         return TokenStoreImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCompanyService(retrofit: Retrofit): CompanyService{
+        return retrofit.create(CompanyService::class.java)
     }
 }

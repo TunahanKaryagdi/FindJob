@@ -181,7 +181,7 @@ fun ProfileScreenContent(
                     style = CustomTheme.typography.bodyLarge
                 )
                 if(uiState.companies.isEmpty()){
-                    Text(text = stringResource(id = R.string.experience))
+                    Text(text = stringResource(id = R.string.no_experience))
                 }
             }
 

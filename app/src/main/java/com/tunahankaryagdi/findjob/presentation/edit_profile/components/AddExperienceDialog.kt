@@ -1,4 +1,4 @@
-package com.tunahankaryagdi.findjob.presentation.add.components
+package com.tunahankaryagdi.findjob.presentation.edit_profile.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -11,36 +11,39 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import com.tunahankaryagdi.findjob.R
-import com.tunahankaryagdi.findjob.presentation.add.AddEvent
+import com.tunahankaryagdi.findjob.domain.model.company.Company
 import com.tunahankaryagdi.findjob.presentation.components.CustomDropdownMenu
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEvent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
-import com.tunahankaryagdi.findjob.utils.skills
-
+import com.tunahankaryagdi.findjob.utils.CompanyItem
 
 @Composable
-fun AddQualificationDialog(
-    onTrigger: (AddEvent) -> Unit,
-    qualificationValue: String,
-    experienceValue: String,
-    isExpandedDropdown: Boolean
+fun AddExperienceDialog(
+    onTrigger: (EditProfileEvent) -> Unit,
+    selectedCompany: Company?,
+    companies: List<Company>,
+    isExpandedDropdown: Boolean,
+    titleValue: String,
 ) {
+
+    val dropdownValues = companies.map {
+        CompanyItem(1,it.name,it.id)
+    }
 
     AlertDialog(
         onDismissRequest = {
-            onTrigger(AddEvent.OnDismissDialog)
+            onTrigger(EditProfileEvent.OnDismissDialog)
         },
         confirmButton = {
             Icon(
                 modifier = Modifier
                     .clickable {
-                        onTrigger(AddEvent.OnConfirmDialog)
+                        onTrigger(EditProfileEvent.OnConfirmExperienceDialog)
                     },
+                imageVector = Icons.Default.Done,
                 tint = CustomTheme.colors.primary,
-                imageVector = Icons.Default.Done ,
                 contentDescription = stringResource(id = R.string.done)
             )
         },
@@ -48,10 +51,10 @@ fun AddQualificationDialog(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        onTrigger(AddEvent.OnDismissDialog)
+                        onTrigger(EditProfileEvent.OnDismissDialog)
                     },
+                imageVector = Icons.Default.Close,
                 tint = CustomTheme.colors.secondary,
-                imageVector = Icons.Default.Close ,
                 contentDescription = stringResource(id = R.string.close)
             )
         },
@@ -59,26 +62,24 @@ fun AddQualificationDialog(
         titleContentColor = CustomTheme.colors.primary,
         textContentColor = CustomTheme.colors.secondaryText,
         title = {
-            Text(text = stringResource(id = R.string.qualification))
+            Text(text = stringResource(id = R.string.experience))
         },
         text = {
             Column() {
                 CustomDropdownMenu(
-                    items = skills,
-                    selectedDropdownValue = qualificationValue,
-                    onDismiss = { onTrigger(AddEvent.OnDismissDropdown) },
-                    onClickItem = {onTrigger(AddEvent.OnClickDropdownItem(it))},
-                    onExpandedChange = {onTrigger(AddEvent.OnDropdownExpandedChange(it))},
+                    items = dropdownValues,
+                    selectedDropdownValue = selectedCompany?.name ?: "",
+                    onDismiss = { onTrigger(EditProfileEvent.OnDismissDropdown) },
+                    onClickItem = {onTrigger(EditProfileEvent.OnClickExperienceDropdownItem(it))},
+                    onExpandedChange = {onTrigger(EditProfileEvent.OnDropdownExpandedChange(it))},
                     isExpanded = isExpandedDropdown,
-                    placeholder = stringResource(id = R.string.select_a_qualification)
+                    placeholder = stringResource(id = R.string.select_a_company)
                 )
                 CustomOutlinedTextField(
-                    value = experienceValue,
-                    placeholder = stringResource(id = R.string.experience),
-                    onValueChange = {onTrigger(AddEvent.OnExperienceValueChange(it))},
-                    keyboardType = KeyboardType.Number
+                    value = titleValue,
+                    placeholder = stringResource(id = R.string.title),
+                    onValueChange = {onTrigger(EditProfileEvent.OnTitleValueChange(it))},
                 )
-
             }
         }
     )

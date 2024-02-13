@@ -19,6 +19,12 @@ data class ApplicationStatus(
     override val name: String
 ) : DropdownItem
 
+data class CompanyItem(
+    override val id: Int,
+    override val name: String,
+    val companyId: String
+) : DropdownItem
+
 
 val skills = listOf(
     Skill(1,"Java"),

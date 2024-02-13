@@ -5,7 +5,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,7 +33,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
-import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
+import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddExperienceDialog
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
 import com.tunahankaryagdi.findjob.presentation.profile.components.CompanyStaffCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
@@ -61,7 +59,6 @@ fun EditProfileScreenRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
@@ -116,12 +113,21 @@ fun EditProfileScreenContent(
     )
 
 
-    if (uiState.isOpenDialog){
+    if (uiState.isOpenSkillDialog){
         AddSkillDialog(
             onTrigger = onTrigger,
             isExpandedDropdown = uiState.isExpandedDropdown,
             selectedDropdownValue = uiState.selectedDropdownValue,
             experienceValue = uiState.experienceValue
+        )
+    }
+    if (uiState.isOpenExperienceDialog){
+        AddExperienceDialog(
+            onTrigger = onTrigger,
+            selectedCompany = uiState.selectedCompany,
+            companies = uiState.allCompanies ,
+            isExpandedDropdown = uiState.isExpandedDropdown,
+            titleValue = uiState.titleValue
         )
     }
 
@@ -199,14 +205,14 @@ fun EditProfileScreenContent(
                 Icon(
                     modifier = Modifier
                         .clickable {
-                            onTrigger(EditProfileEvent.OnClickEdit)
+                            onTrigger(EditProfileEvent.OnClickEditExperience)
                         },
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(id = R.string.edit_profile)
                 )
             }
             if(uiState.companies.isEmpty()){
-                Text(text = stringResource(id = R.string.experience))
+                Text(text = stringResource(id = R.string.no_experience))
             }
         }
 
@@ -228,7 +234,7 @@ fun EditProfileScreenContent(
                 Icon(
                     modifier = Modifier
                         .clickable {
-                            onTrigger(EditProfileEvent.OnClickEdit)
+                            onTrigger(EditProfileEvent.OnClickEditSkill)
                         },
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(id = R.string.edit_profile)

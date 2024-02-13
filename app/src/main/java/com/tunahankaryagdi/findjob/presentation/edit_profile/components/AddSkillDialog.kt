@@ -35,7 +35,7 @@ fun AddSkillDialog(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        onTrigger(EditProfileEvent.OnConfirmDialog)
+                        onTrigger(EditProfileEvent.OnConfirmSkillDialog)
                     },
                 imageVector = Icons.Default.Done,
                 tint = CustomTheme.colors.primary,
@@ -65,9 +65,10 @@ fun AddSkillDialog(
                     items = skills,
                     selectedDropdownValue = selectedDropdownValue,
                     onDismiss = { onTrigger(EditProfileEvent.OnDismissDropdown) },
-                    onClickItem = {onTrigger(EditProfileEvent.OnClickDropdownItem(it))},
+                    onClickItem = {onTrigger(EditProfileEvent.OnClickSkillDropdownItem(it))},
                     onExpandedChange = {onTrigger(EditProfileEvent.OnDropdownExpandedChange(it))},
-                    isExpanded = isExpandedDropdown
+                    isExpanded = isExpandedDropdown,
+                    placeholder = stringResource(id = R.string.select_a_skill)
                 )
                 CustomOutlinedTextField(
                     value = experienceValue,
