@@ -68,5 +68,6 @@
     <string name="no_experience">No experience</string>
     <string name="select_a_company">Select a company</string>
     <string name="select_a_qualification">Select a qualification</string>
+    <string name="add_company">Add company</string>
 
 </resources>

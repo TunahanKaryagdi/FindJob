@@ -14,8 +14,14 @@ fun NavController.navigateToAdd(navOptions: NavOptions? = null){
 }
 
 
-fun NavGraphBuilder.addScreen(modifier: Modifier = Modifier){
+fun NavGraphBuilder.addScreen(
+    modifier: Modifier = Modifier,
+    navigateToAddCompany: () -> Unit
+){
     composable(addRoute){
-        AddScreenRoute()
+        AddScreenRoute(
+            modifier = modifier,
+            navigateToAddCompany = navigateToAddCompany
+        )
     }
 }

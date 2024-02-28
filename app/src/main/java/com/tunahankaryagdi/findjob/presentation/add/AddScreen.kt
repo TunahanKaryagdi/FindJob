@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.rememberScaffoldState
@@ -42,7 +43,8 @@ import com.tunahankaryagdi.findjob.utils.JobType
 @Composable
 fun AddScreenRoute(
     modifier: Modifier = Modifier,
-    viewModel : AddViewModel = hiltViewModel()
+    viewModel : AddViewModel = hiltViewModel(),
+    navigateToAddCompany: () -> Unit,
 ) {
 
     val uiState by  viewModel.state.collectAsStateWithLifecycle()
@@ -51,6 +53,7 @@ fun AddScreenRoute(
 
     AddScreen(
         modifier = modifier,
+        navigateToAddCompany = navigateToAddCompany,
         uiState = uiState,
         onTrigger = viewModel::handleEvents,
         effect = effect
@@ -58,10 +61,10 @@ fun AddScreenRoute(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScreen(
     modifier: Modifier = Modifier,
+    navigateToAddCompany: () -> Unit,
     uiState: AddUiState,
     onTrigger: (AddEvent) -> Unit,
     effect: AddEffect?
@@ -92,6 +95,15 @@ fun AddScreen(
                         text = stringResource(id = R.string.add_job),
                         style = CustomTheme.typography.titleNormal
                     )
+                },
+                actions = {
+                    Icon(
+                        modifier = Modifier
+                            .clickable {
+                                navigateToAddCompany()
+                            },
+                        imageVector = Icons.Outlined.ArrowForward,
+                        contentDescription = stringResource(id = R.string.add_company))
                 }
             )
         },

@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.tunahankaryagdi.findjob.presentation.add.addScreen
+import com.tunahankaryagdi.findjob.presentation.add_company.addCompanyScreen
+import com.tunahankaryagdi.findjob.presentation.add_company.navigateToAddCompany
 import com.tunahankaryagdi.findjob.presentation.admin.adminScreen
 import com.tunahankaryagdi.findjob.presentation.application.applicationScreen
 import com.tunahankaryagdi.findjob.presentation.application.navigateToApplication
@@ -91,7 +93,9 @@ fun NavigationHost(
 
         applyScreen()
 
-        addScreen()
+        addScreen(
+            navigateToAddCompany = {navController.navigateToAddCompany()}
+        )
 
         profileScreen(
             navigateToEditProfile = {navController.navigateToEditProfile()},
@@ -124,6 +128,8 @@ fun NavigationHost(
         )
 
         adminScreen()
+
+        addCompanyScreen()
     }
 
 }
