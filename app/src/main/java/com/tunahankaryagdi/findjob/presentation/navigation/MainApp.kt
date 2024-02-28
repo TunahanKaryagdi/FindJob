@@ -6,10 +6,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.tunahankaryagdi.findjob.presentation.components.CustomBottomBar
 import com.tunahankaryagdi.findjob.presentation.splash.splashRoute
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainApp(
     modifier: Modifier = Modifier,
@@ -20,7 +20,7 @@ fun MainApp(
         modifier = modifier,
         bottomBar = {
             AnimatedVisibility(visible = appState.shouldShowBottomBar) {
-                AppBottomNavBar(
+                CustomBottomBar(
                     destinations = TopLevelDestination.values().toList(),
                     onNavigateToDestination = appState::navigateToTopLevelDestination,
                     currentDestination = appState.currentDestination
