@@ -46,7 +46,6 @@ fun ApplicationScreenRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationScreen(
     modifier: Modifier = Modifier,

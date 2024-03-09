@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,9 +30,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
-import com.tunahankaryagdi.findjob.presentation.edit_profile.EditProfileEvent
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
-import com.tunahankaryagdi.findjob.utils.Constants
 import com.tunahankaryagdi.findjob.utils.ImageType
 
 
@@ -63,7 +62,10 @@ fun AddCompanyScreen(
         topBar = {
             CustomTopAppbar(
                 title = {
-                    Text(text = stringResource(id = R.string.add_company))
+                    Text(
+                        text = stringResource(id = R.string.add_company),
+                        style = CustomTheme.typography.titleNormal
+                    )
                 },
                 navigationIcon = {
                     Icon(
@@ -93,6 +95,7 @@ fun AddCompanyScreenContent(
 ) {
 
     val width = LocalConfiguration.current.screenWidthDp
+    val context = LocalContext.current
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult ={uri ->
@@ -133,12 +136,14 @@ fun AddCompanyScreenContent(
 
         CustomOutlinedTextField(
             value = uiState.name,
-            onValueChange = {onTrigger(AddCompanyEvent.OnNameValueChange(it))}
+            onValueChange = {onTrigger(AddCompanyEvent.OnNameValueChange(it))},
+            placeholder = stringResource(id = R.string.name)
         )
 
         CustomButton(
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.post),
-            onClick = { onTrigger(AddCompanyEvent.OnClickPost)},
+            onClick = { onTrigger(AddCompanyEvent.OnClickPost(context))},
         )
     }
 }

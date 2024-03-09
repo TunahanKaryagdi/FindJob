@@ -78,7 +78,6 @@ fun NavigationHost(
         )
 
         signupScreen(
-            navigateToHome = {navController.navigateToHome()},
             navigateToLogin = {navController.navigateToLogin()}
         )
 

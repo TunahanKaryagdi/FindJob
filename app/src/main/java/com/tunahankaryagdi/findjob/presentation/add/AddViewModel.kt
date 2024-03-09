@@ -4,7 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.tunahankaryagdi.findjob.data.model.job.PostJobRequest
 import com.tunahankaryagdi.findjob.data.model.job.Qualification
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
+import com.tunahankaryagdi.findjob.domain.model.company.Company
 import com.tunahankaryagdi.findjob.domain.use_case.job.PostJobUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetCurrentCompanyByUserIdUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
 import com.tunahankaryagdi.findjob.presentation.base.Event
@@ -21,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddViewModel @Inject constructor(
     private val postJobUseCase: PostJobUseCase,
+    private val getCurrentCompanyByUserIdUseCase: GetCurrentCompanyByUserIdUseCase,
     private val tokenStore: TokenStore
 ): BaseViewModel<AddUiState,AddEffect,AddEvent>() {
 
@@ -78,10 +81,29 @@ class AddViewModel @Inject constructor(
 
     }
 
+    private fun getCompanyInfo(){
+        viewModelScope.launch {
+            tokenStore.getToken().collect{token->
+                val userId = JwtHelper.getUserId(token) ?: ""
+                getCurrentCompanyByUserIdUseCase.invoke(userId).collect{resource->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(companyInfo = resource.data?.company))
+                        }
+                        is Resource.Error->{}
+
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun post(){
+        getCompanyInfo()
         val uiState = getCurrentState()
         if (
+            uiState.companyInfo != null &&
             uiState.title.isNotBlank() &&
             uiState.salary.isNotBlank() &&
             uiState.location.isNotBlank()){
@@ -89,7 +111,7 @@ class AddViewModel @Inject constructor(
                 tokenStore.getToken().collect{token->
                     val userId = JwtHelper.getUserId(token) ?: ""
                     postJobUseCase.invoke(PostJobRequest(
-                        "b7c876b2-72a7-4052-addf-662c243a2afe",
+                        uiState.companyInfo.id,
                         uiState.location,
                         uiState.qualifications,
                         uiState.salary.toInt(),
@@ -135,6 +157,7 @@ data class AddUiState(
     val selectedJobType: JobType = JobType.FullTime,
     val experienceValue: String = "",
     val isExpandedDropdown: Boolean = false,
+    val companyInfo: Company? = null
 ) : State
 
 sealed interface AddEffect : Effect{

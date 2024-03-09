@@ -2,7 +2,6 @@ package com.tunahankaryagdi.findjob.presentation.login
 
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,14 +11,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +39,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextFie
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
+import com.tunahankaryagdi.findjob.presentation.signup.SignupEffect
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
 
@@ -77,12 +79,23 @@ fun LoginScreen(
     onTrigger: (LoginEvent) -> Unit
 ) {
 
+    val snackbarState = remember{ SnackbarHostState() }
+    LaunchedEffect(key1 = effect){
+        when (effect){
+            is LoginEffect.ShowErrorMessage->{
+                snackbarState.showSnackbar(message = effect.message, duration = SnackbarDuration.Short)
+            }
+            else->{
+
+            }
+        }
+    }
+
     Scaffold(
         modifier = modifier,
-        topBar = {
-            CustomTopAppbar()
-        },
-        containerColor = CustomTheme.colors.primaryBackground
+        topBar = { CustomTopAppbar() },
+        containerColor = CustomTheme.colors.primaryBackground,
+        snackbarHost = { SnackbarHost(hostState = snackbarState) },
     ){
         LoginScreenContent(
             modifier = modifier.padding(it),

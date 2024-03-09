@@ -41,7 +41,6 @@ import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 fun SignupScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: SignupViewModel = hiltViewModel(),
-    navigateToHome: () -> Unit,
     navigateToLogin: () -> Unit
 ) {
 
@@ -51,7 +50,6 @@ fun SignupScreenRoute(
 
     SignupScreen(
         modifier = modifier,
-        navigateToHome = navigateToHome,
         navigateToLogin = navigateToLogin,
         onTrigger = viewModel::handleEvents,
         uiState = uiState,
@@ -60,20 +58,16 @@ fun SignupScreenRoute(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(
     modifier: Modifier = Modifier,
-    navigateToHome : ()->Unit,
     navigateToLogin: () -> Unit,
     onTrigger: (SignupEvent)->Unit,
     uiState: SignupUiState,
     effect: SignupEffect?
 ) {
 
-    val snackbarState = remember{
-        SnackbarHostState()
-    }
+    val snackbarState = remember{ SnackbarHostState() }
 
     LaunchedEffect(key1 = effect){
         when (effect){
@@ -105,7 +99,6 @@ fun SignupScreen(
     ){
         SignupScreenContent(
             modifier = Modifier.padding(it),
-            navigateToHome = navigateToHome,
             onTrigger = onTrigger,
             uiState = uiState,
         )
@@ -117,7 +110,6 @@ fun SignupScreen(
 @Composable
 fun SignupScreenContent(
     modifier: Modifier = Modifier,
-    navigateToHome : ()->Unit,
     onTrigger: (SignupEvent)->Unit,
     uiState: SignupUiState,
 ) {

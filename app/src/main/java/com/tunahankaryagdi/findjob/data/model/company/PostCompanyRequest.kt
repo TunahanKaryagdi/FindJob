@@ -5,5 +5,5 @@ import java.io.File
 
 data class PostCompanyRequest(
     val name: String,
-    val file: File
+    val file: File?
 )

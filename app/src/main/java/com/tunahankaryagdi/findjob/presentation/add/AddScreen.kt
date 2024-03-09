@@ -17,10 +17,14 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -69,15 +73,13 @@ fun AddScreen(
     onTrigger: (AddEvent) -> Unit,
     effect: AddEffect?
 ){
-    val scaffoldState = rememberScaffoldState()
+
+    val snackbarHostState = remember{ SnackbarHostState()}
 
     LaunchedEffect(key1 = effect){
         when (effect){
             is AddEffect.ShowMessage->{
-                val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
-                    message = effect.message,
-                    actionLabel = "Do something."
-                )
+                snackbarHostState.showSnackbar(effect.message, duration = SnackbarDuration.Short)
             }
             else->{
 
@@ -87,7 +89,7 @@ fun AddScreen(
 
     Scaffold(
         modifier = modifier,
-        snackbarHost ={ scaffoldState.snackbarHostState},
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             CustomTopAppbar(
                 title = {

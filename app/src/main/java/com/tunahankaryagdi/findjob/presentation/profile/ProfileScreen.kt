@@ -79,7 +79,12 @@ fun ProfileScreen(
         modifier = modifier,
         topBar = {
             CustomTopAppbar(
-                title =  {Text(text = stringResource(id = R.string.profile))},
+                title =  {
+                    Text(
+                        text = stringResource(id = R.string.profile),
+                        style = CustomTheme.typography.titleNormal
+                    )
+                },
                 navigationIcon = {
                     Icon(
                         modifier = Modifier

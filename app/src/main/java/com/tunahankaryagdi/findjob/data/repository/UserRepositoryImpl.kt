@@ -6,6 +6,7 @@ import com.tunahankaryagdi.findjob.data.model.user.CreateUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.CreateUserResponse
 import com.tunahankaryagdi.findjob.data.model.user.DeleteUserByIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetCompaniesByUserIdResponse
+import com.tunahankaryagdi.findjob.data.model.user.GetCurrentCompanyByUserIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetUserByIdResponse
 import com.tunahankaryagdi.findjob.data.model.user.GetUsersResponse
 import com.tunahankaryagdi.findjob.data.model.user.GoogleSignInRequest
@@ -39,6 +40,10 @@ class UserRepositoryImpl @Inject constructor(private val userService: UserServic
 
     override suspend fun getCompaniesByUserId(id: String): GetCompaniesByUserIdResponse {
         return userService.getCompaniesByUserId(id)
+    }
+
+    override suspend fun getCurrentCompanyByUserId(id: String): GetCurrentCompanyByUserIdResponse {
+        return userService.getCurrentCompanyByUserId(id)
     }
 
     override suspend fun createCompanyForUser(createCompanyForUserRequest: CreateCompanyForUserRequest): CreateCompanyForUserResponse {

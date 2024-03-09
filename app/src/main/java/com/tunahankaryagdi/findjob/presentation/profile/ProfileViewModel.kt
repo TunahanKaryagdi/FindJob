@@ -43,6 +43,7 @@ class ProfileViewModel @Inject constructor(
             }
             is ProfileEvent.OnRefresh ->{
                 getUserById()
+                getCompaniesByUserId()
             }
         }
     }
@@ -57,6 +58,7 @@ class ProfileViewModel @Inject constructor(
                             resource.data.apply {
                                 setState(getCurrentState().copy(userDetail = resource.data, isLoading = false))
                             }
+
                         }
                         is Resource.Error->{
                             setEffect(ProfileEffect.ShowMessage(resource.message))

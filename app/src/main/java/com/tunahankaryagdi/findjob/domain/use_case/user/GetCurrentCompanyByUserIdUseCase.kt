@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetCompaniesByUserIdUseCase @Inject constructor(private val userRepository: UserRepository){
-    operator fun invoke(id: String) : Flow<Resource<List<CompanyStaff>>> {
+class GetCurrentCompanyByUserIdUseCase @Inject constructor(private val userRepository: UserRepository){
+    operator fun invoke(id: String) : Flow<Resource<CompanyStaff?>>{
         return flow {
             try {
-                val response = userRepository.getCompaniesByUserId(id)
-                emit(Resource.Success(response.data.map {it.toCompanyStaff() }))
+                val response = userRepository.getCurrentCompanyByUserId(id)
+                emit(Resource.Success(response.data?.toCompanyStaff()))
             }
             catch (e: Exception){
                 emit(Resource.Error(e.message ?: ""))
