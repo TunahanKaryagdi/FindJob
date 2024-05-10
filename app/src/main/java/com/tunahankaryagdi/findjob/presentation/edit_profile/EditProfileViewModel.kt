@@ -58,20 +58,20 @@ class EditProfileViewModel @Inject constructor(
                 getCompanies()
             }
             is EditProfileEvent.OnDismissDialog->{
-                setState(getCurrentState().copy(isOpenSkillDialog = false, isOpenExperienceDialog = false,selectedDropdownValue = ""))
+                setState(getCurrentState().copy(isOpenSkillDialog = false, isOpenExperienceDialog = false,selectedSkillValue = ""))
             }
             is EditProfileEvent.OnConfirmSkillDialog->{
                 postNewSkill()
             }
             is EditProfileEvent.OnConfirmExperienceDialog ->{
-                if (getCurrentState().selectedCompany != null) createCompanyForUser()
+                if (getCurrentState().selectedCompanyValue != null) createCompanyForUser()
             }
             is EditProfileEvent.OnClickSkillDropdownItem -> {
-                setState(getCurrentState().copy(isExpandedDropdown = false, selectedDropdownValue = event.dropdownItem.name))
+                setState(getCurrentState().copy(isExpandedDropdown = false, selectedSkillValue = event.dropdownItem.name))
             }
             is EditProfileEvent.OnClickExperienceDropdownItem -> {
                 val company = getCurrentState().allCompanies.first { it.name == event.dropdownItem.name }
-                setState(getCurrentState().copy(selectedCompany = company, isExpandedDropdown = false))
+                setState(getCurrentState().copy(selectedCompanyValue = company, isExpandedDropdown = false))
             }
             is EditProfileEvent.OnDismissDropdown -> {
                setState(getCurrentState().copy(isExpandedDropdown = false))
@@ -93,7 +93,21 @@ class EditProfileViewModel @Inject constructor(
                 setState(getCurrentState().copy(titleValue = event.title))
             }
 
+            is EditProfileEvent.OnClickEditPreferredLocations -> {
+                setState(getCurrentState().copy(isOpenLocationDialog = true))
+            }
 
+            is EditProfileEvent.OnConfirmPreferredLocationDialog -> {
+                setState(getCurrentState().copy(
+                    isOpenLocationDialog = false,
+                    selectedLocationValue = "",
+                    isExpandedDropdown = false
+                ))
+            }
+
+            is EditProfileEvent.OnClickPreferredLocationDropdownItem -> {
+                setState(getCurrentState().copy(isExpandedDropdown = false, selectedLocationValue = event.dropdownItem.name))
+            }
         }
     }
 
@@ -122,12 +136,12 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
-                postSkillUseCase.invoke(PostSkillRequest(getCurrentState().selectedDropdownValue,userId,getCurrentState().experienceValue.toInt())).collect{ resource   ->
+                postSkillUseCase.invoke(PostSkillRequest(getCurrentState().selectedSkillValue,userId,getCurrentState().experienceValue.toInt())).collect{ resource   ->
                     when(resource){
                         is Resource.Success->{
                             setState(getCurrentState().copy(
                                 isOpenSkillDialog = false,
-                                selectedDropdownValue = "",
+                                selectedSkillValue = "",
                                 experienceValue = "",
                                 isExpandedDropdown = false
                             ))
@@ -199,13 +213,13 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
-                val createCompanyForUserRequest = CreateCompanyForUserRequest(userId,getCurrentState().selectedCompany!!.id,getCurrentState().titleValue)
+                val createCompanyForUserRequest = CreateCompanyForUserRequest(userId,getCurrentState().selectedCompanyValue!!.id,getCurrentState().titleValue)
                 createCompanyForUserUseCase.invoke(createCompanyForUserRequest).collect{ resource->
                     when(resource){
                         is Resource.Success->{
                             setState(getCurrentState().copy(
                                 isOpenExperienceDialog = false,
-                                selectedDropdownValue = "",
+                                selectedSkillValue = "",
                                 titleValue = "",
                                 isExpandedDropdown = false
                             ))
@@ -218,6 +232,10 @@ class EditProfileViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun postPreferredLocation(){
+
     }
 }
 
@@ -234,11 +252,13 @@ data class EditProfileUiState(
     val allCompanies: List<Company> = emptyList(),
     val isOpenSkillDialog: Boolean = false,
     val isOpenExperienceDialog: Boolean = false,
-    val selectedDropdownValue: String = "",
-    val selectedCompany: Company? = null,
+    val isOpenLocationDialog: Boolean = false,
+    val isExpandedDropdown: Boolean = false,
+    val selectedSkillValue: String = "",
+    val selectedCompanyValue: Company? = null,
+    val selectedLocationValue: String = "",
     val experienceValue: String = "",
     val titleValue: String = "",
-    val isExpandedDropdown: Boolean = false,
 ) : State
 
 
@@ -251,13 +271,16 @@ sealed interface EditProfileEvent : Event{
 
     object OnClickEditSkill : EditProfileEvent
     object OnClickEditExperience : EditProfileEvent
+    object OnClickEditPreferredLocations : EditProfileEvent
     object OnDismissDialog : EditProfileEvent
     object OnConfirmSkillDialog : EditProfileEvent
     object OnConfirmExperienceDialog : EditProfileEvent
+    object OnConfirmPreferredLocationDialog : EditProfileEvent
     object OnDismissDropdown: EditProfileEvent
     data class OnChangeUri(val uri: Uri?,val context: Context) : EditProfileEvent
     data class OnClickSkillDropdownItem(val dropdownItem: DropdownItem) : EditProfileEvent
     data class OnClickExperienceDropdownItem(val dropdownItem: DropdownItem) : EditProfileEvent
+    data class OnClickPreferredLocationDropdownItem(val dropdownItem: DropdownItem) : EditProfileEvent
     data class OnDropdownExpandedChange(val expanded: Boolean) : EditProfileEvent
     data class OnExperienceValueChange(val experience: String) : EditProfileEvent
     data class OnTitleValueChange(val title: String) : EditProfileEvent

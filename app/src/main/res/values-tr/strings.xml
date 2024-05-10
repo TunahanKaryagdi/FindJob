@@ -69,6 +69,7 @@
     <string name="no_experience">Henüz bir tecrübe yok</string>
     <string name="select_a_company">Bir şirket seçin</string>
     <string name="select_a_qualification">Bir yetkinlik seçin</string>
-    <string name="add_company">Add company</string>
+    <string name="add_company">Şirket ekle</string>
+    <string name="preferred_locations">Tercih edilen konumlar</string>
 
 </resources>

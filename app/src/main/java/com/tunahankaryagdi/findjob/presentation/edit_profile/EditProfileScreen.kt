@@ -34,6 +34,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddExperienceDialog
+import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddPreferredLocationDialog
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
 import com.tunahankaryagdi.findjob.presentation.profile.components.CompanyStaffCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
@@ -117,17 +118,25 @@ fun EditProfileScreenContent(
         AddSkillDialog(
             onTrigger = onTrigger,
             isExpandedDropdown = uiState.isExpandedDropdown,
-            selectedDropdownValue = uiState.selectedDropdownValue,
+            selectedDropdownValue = uiState.selectedSkillValue,
             experienceValue = uiState.experienceValue
         )
     }
     if (uiState.isOpenExperienceDialog){
         AddExperienceDialog(
             onTrigger = onTrigger,
-            selectedCompany = uiState.selectedCompany,
+            selectedCompany = uiState.selectedCompanyValue,
             companies = uiState.allCompanies ,
             isExpandedDropdown = uiState.isExpandedDropdown,
             titleValue = uiState.titleValue
+        )
+    }
+
+    if (uiState.isOpenLocationDialog){
+        AddPreferredLocationDialog(
+            onTrigger = onTrigger,
+            selectedPreferredLocation = uiState.selectedLocationValue,
+            isExpandedDropdown = uiState.isExpandedDropdown
         )
     }
 
@@ -248,6 +257,28 @@ fun EditProfileScreenContent(
                 text = stringResource(id = R.string.experience_of, uiState.skills[it].name,uiState.skills[it].experience),
                 style = CustomTheme.typography.labelLarge
             )
+        }
+
+        item{
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.preferred_locations),
+                    style = CustomTheme.typography.bodyLarge,
+                )
+
+                Icon(
+                    modifier = Modifier
+                        .clickable {
+                            onTrigger(EditProfileEvent.OnClickEditPreferredLocations)
+                        },
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(id = R.string.preferred_locations)
+                )
+            }
         }
     }
 }

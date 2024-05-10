@@ -25,6 +25,10 @@ data class CompanyItem(
     val companyId: String
 ) : DropdownItem
 
+data class Location(
+    override val id: Int,
+    override val name: String
+) : DropdownItem
 
 val skills = listOf(
     Skill(1,"Java"),
@@ -39,4 +43,14 @@ val applicationStatuses = listOf(
     ApplicationStatus(1,"All"),
     ApplicationStatus(2,"Waiting"),
     ApplicationStatus(3,"Confirmed"),
+)
+
+
+val locations = listOf(
+    Location(1,"İstanbul"),
+    Location(2,"Konya"),
+    Location(3,"Ankara"),
+    Location(4,"İzmir"),
+    Location(5,"Bursa"),
+    Location(6,"Eskişehir"),
 )

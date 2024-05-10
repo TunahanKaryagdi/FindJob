@@ -69,5 +69,7 @@
     <string name="select_a_company">Select a company</string>
     <string name="select_a_qualification">Select a qualification</string>
     <string name="add_company">Add company</string>
+    <string name="preferred_locations">Preferred locations</string>
+    <string name="select_a_location">Select a location</string>
 
 </resources>
