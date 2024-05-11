@@ -6,6 +6,7 @@ import com.tunahankaryagdi.findjob.data.source.local.TokenStoreImpl
 import com.tunahankaryagdi.findjob.data.source.remote.ApplicationService
 import com.tunahankaryagdi.findjob.data.source.remote.CompanyService
 import com.tunahankaryagdi.findjob.data.source.remote.JobService
+import com.tunahankaryagdi.findjob.data.source.remote.PreferredLocationService
 import com.tunahankaryagdi.findjob.data.source.remote.SkillService
 import com.tunahankaryagdi.findjob.data.source.remote.UserService
 import dagger.Module
@@ -60,5 +61,11 @@ object ServiceModule {
     @Singleton
     fun provideCompanyService(retrofit: Retrofit): CompanyService{
         return retrofit.create(CompanyService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferredLocationService(retrofit: Retrofit): PreferredLocationService{
+        return retrofit.create(PreferredLocationService::class.java)
     }
 }

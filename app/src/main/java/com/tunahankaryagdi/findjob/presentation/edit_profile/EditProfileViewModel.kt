@@ -3,15 +3,16 @@ package com.tunahankaryagdi.findjob.presentation.edit_profile
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.tunahankaryagdi.findjob.data.model.preferrred_location.PostPreferredLocationRequest
 import com.tunahankaryagdi.findjob.data.model.skill.PostSkillRequest
 import com.tunahankaryagdi.findjob.data.model.user.CreateCompanyForUserRequest
 import com.tunahankaryagdi.findjob.data.model.user.UpdateUserRequest
 import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.company.Company
 import com.tunahankaryagdi.findjob.domain.model.company.CompanyStaff
-import com.tunahankaryagdi.findjob.domain.model.user.Skill
 import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 import com.tunahankaryagdi.findjob.domain.use_case.company.GetCompaniesUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.preferred_location.PostPreferredLocationUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.skill.PostSkillUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.user.CreateCompanyForUserUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.user.GetCompaniesByUserIdUseCase
@@ -37,7 +38,8 @@ class EditProfileViewModel @Inject constructor(
     private val getCompaniesByUserIdUseCase: GetCompaniesByUserIdUseCase,
     private val getCompaniesUseCase: GetCompaniesUseCase,
     private val createCompanyForUserUseCase: CreateCompanyForUserUseCase,
-    private val tokenStore: TokenStore
+    private val tokenStore: TokenStore,
+    private val postPreferredLocationUseCase: PostPreferredLocationUseCase
 ) : BaseViewModel<EditProfileUiState,EditProfileEffect,EditProfileEvent>() {
 
 
@@ -68,7 +70,7 @@ class EditProfileViewModel @Inject constructor(
                     selectedCompanyValue = null))
             }
             is EditProfileEvent.OnConfirmSkillDialog->{
-                postNewSkill()
+                postSkill()
             }
             is EditProfileEvent.OnConfirmExperienceDialog ->{
                 if (getCurrentState().selectedCompanyValue != null) createCompanyForUser()
@@ -105,11 +107,7 @@ class EditProfileViewModel @Inject constructor(
             }
 
             is EditProfileEvent.OnConfirmPreferredLocationDialog -> {
-                setState(getCurrentState().copy(
-                    isOpenLocationDialog = false,
-                    selectedLocationValue = "",
-                    isExpandedDropdown = false
-                ))
+                postPreferredLocation()
             }
 
             is EditProfileEvent.OnClickPreferredLocationDropdownItem -> {
@@ -146,7 +144,7 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    private fun postNewSkill(){
+    private fun postSkill(){
         viewModelScope.launch {
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
@@ -259,7 +257,29 @@ class EditProfileViewModel @Inject constructor(
     }
 
     private fun postPreferredLocation(){
-
+        viewModelScope.launch {
+            tokenStore.getToken().collect{
+                val userId = JwtHelper.getUserId(it) ?: ""
+                postPreferredLocationUseCase.invoke(PostPreferredLocationRequest(
+                    userId = userId,
+                    name = getCurrentState().selectedLocationValue
+                )).collect{ resource   ->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(
+                                isOpenLocationDialog = false,
+                                selectedLocationValue = "",
+                                isExpandedDropdown = false
+                            ))
+                            getUserById()
+                        }
+                        is Resource.Error->{
+                            setEffect(EditProfileEffect.ShowMessage(resource.message))
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
