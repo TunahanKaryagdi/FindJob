@@ -71,5 +71,6 @@
     <string name="add_company">Add company</string>
     <string name="preferred_locations">Preferred locations</string>
     <string name="select_a_location">Select a location</string>
+    <string name="no_preferred_locations">No preferred locations</string>
 
 </resources>

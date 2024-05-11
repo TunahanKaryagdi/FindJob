@@ -212,6 +212,24 @@ fun ProfileScreenContent(
 
             }
 
+            item {
+                Text(
+                    text = stringResource(id = R.string.preferred_locations),
+                    style = CustomTheme.typography.bodyLarge
+                )
+                if(uiState.userDetail.skills.isEmpty()){
+                    Text(text = stringResource(id = R.string.no_preferred_locations))
+                }
+            }
+
+            items(uiState.userDetail.preferredLocations.size){
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "• ${uiState.userDetail.preferredLocations[it].name}",
+                    style = CustomTheme.typography.labelLarge
+                )
+            }
+
         }
         PullRefreshIndicator(
             modifier = Modifier

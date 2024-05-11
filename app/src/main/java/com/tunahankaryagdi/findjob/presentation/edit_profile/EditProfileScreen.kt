@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +39,7 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddExperienceDialog
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddPreferredLocationDialog
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
+import com.tunahankaryagdi.findjob.presentation.profile.ProfileEvent
 import com.tunahankaryagdi.findjob.presentation.profile.components.CompanyStaffCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
@@ -97,6 +101,7 @@ fun EditProfileScreen(
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditProfileScreenContent(
     modifier: Modifier = Modifier,
@@ -111,6 +116,11 @@ fun EditProfileScreenContent(
         onResult ={uri ->
             onTrigger(EditProfileEvent.OnChangeUri(uri, context))
         }
+    )
+
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = uiState.isLoading,
+        onRefresh = { onTrigger(EditProfileEvent.OnRefresh)}
     )
 
 
@@ -143,7 +153,8 @@ fun EditProfileScreenContent(
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .padding(CustomTheme.spaces.medium),
+            .padding(CustomTheme.spaces.medium)
+            .pullRefresh(pullRefreshState),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(CustomTheme.spaces.small)
     ) {
@@ -159,7 +170,7 @@ fun EditProfileScreenContent(
                     modifier = Modifier
                         .size((width * 0.25).dp)
                         .clip(CircleShape),
-                    model = "${Constants.BASE_IMAGE_URL}${uiState.image}",
+                    model = "${Constants.BASE_IMAGE_URL}${uiState.userDetail?.image ?: ""}",
                     type = ImageType.User
                 )
 
@@ -183,7 +194,7 @@ fun EditProfileScreenContent(
             CustomOutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = uiState.name,
+                value = uiState.userDetail?.nameSurname ?: "",
                 onValueChange = {}
             )
         }
@@ -196,7 +207,7 @@ fun EditProfileScreenContent(
             CustomOutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = uiState.email,
+                value = uiState.userDetail?.email ?: "",
                 onValueChange = {}
             )
         }
@@ -251,12 +262,14 @@ fun EditProfileScreenContent(
             }
         }
 
-        items(uiState.skills.size){
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.experience_of, uiState.skills[it].name,uiState.skills[it].experience),
-                style = CustomTheme.typography.labelLarge
-            )
+        uiState.userDetail?.let {user->
+            items(user.skills.size){
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.experience_of, uiState.userDetail.skills[it].name,uiState.userDetail.skills[it].experience),
+                    style = CustomTheme.typography.labelLarge
+                )
+            }
         }
 
         item{
@@ -277,6 +290,16 @@ fun EditProfileScreenContent(
                         },
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(id = R.string.preferred_locations)
+                )
+            }
+        }
+
+        uiState.userDetail?.let {user->
+            items(user.preferredLocations.size){
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "• ${uiState.userDetail.preferredLocations[it].name}",
+                    style = CustomTheme.typography.labelLarge
                 )
             }
         }

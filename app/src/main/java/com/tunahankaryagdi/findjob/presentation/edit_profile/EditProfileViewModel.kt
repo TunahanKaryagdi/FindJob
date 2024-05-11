@@ -10,11 +10,12 @@ import com.tunahankaryagdi.findjob.data.source.local.TokenStore
 import com.tunahankaryagdi.findjob.domain.model.company.Company
 import com.tunahankaryagdi.findjob.domain.model.company.CompanyStaff
 import com.tunahankaryagdi.findjob.domain.model.user.Skill
+import com.tunahankaryagdi.findjob.domain.model.user.UserDetail
 import com.tunahankaryagdi.findjob.domain.use_case.company.GetCompaniesUseCase
-import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.skill.PostSkillUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.user.CreateCompanyForUserUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.user.GetCompaniesByUserIdUseCase
+import com.tunahankaryagdi.findjob.domain.use_case.user.GetUserByIdUseCase
 import com.tunahankaryagdi.findjob.domain.use_case.user.UpdateUserUseCase
 import com.tunahankaryagdi.findjob.presentation.base.BaseViewModel
 import com.tunahankaryagdi.findjob.presentation.base.Effect
@@ -58,7 +59,13 @@ class EditProfileViewModel @Inject constructor(
                 getCompanies()
             }
             is EditProfileEvent.OnDismissDialog->{
-                setState(getCurrentState().copy(isOpenSkillDialog = false, isOpenExperienceDialog = false,selectedSkillValue = ""))
+                setState(getCurrentState().copy(
+                    isOpenSkillDialog = false,
+                    isOpenExperienceDialog = false,
+                    isOpenLocationDialog = false,
+                    selectedSkillValue = "",
+                    selectedLocationValue = "",
+                    selectedCompanyValue = null))
             }
             is EditProfileEvent.OnConfirmSkillDialog->{
                 postNewSkill()
@@ -108,22 +115,29 @@ class EditProfileViewModel @Inject constructor(
             is EditProfileEvent.OnClickPreferredLocationDropdownItem -> {
                 setState(getCurrentState().copy(isExpandedDropdown = false, selectedLocationValue = event.dropdownItem.name))
             }
+
+            is EditProfileEvent.OnRefresh -> {
+                getUserById()
+                getCompaniesByUserId()
+            }
         }
     }
 
 
     private fun getUserById(){
         viewModelScope.launch {
+            setState(getCurrentState().copy(isLoading = true))
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
                 getUserByIdUseCase.invoke(userId).collect{resource->
                     when(resource){
                         is Resource.Success->{
                             resource.data.apply {
-                                setState(getCurrentState().copy(name = this.nameSurname, email = this.email, skills = this.skills, image = this.image ?: ""))
+                                setState(getCurrentState().copy(userDetail = this,isLoading = false))
                             }
                         }
                         is Resource.Error->{
+                            setState(getCurrentState().copy(isLoading = false))
                             setEffect(EditProfileEffect.ShowMessage(resource.message))
                         }
                     }
@@ -136,7 +150,12 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             tokenStore.getToken().collect{
                 val userId = JwtHelper.getUserId(it) ?: ""
-                postSkillUseCase.invoke(PostSkillRequest(getCurrentState().selectedSkillValue,userId,getCurrentState().experienceValue.toInt())).collect{ resource   ->
+                postSkillUseCase.invoke(
+                    PostSkillRequest(
+                        getCurrentState().selectedSkillValue,
+                        userId,
+                        getCurrentState().experienceValue.toInt()
+                    )).collect{ resource   ->
                     when(resource){
                         is Resource.Success->{
                             setState(getCurrentState().copy(
@@ -161,7 +180,12 @@ class EditProfileViewModel @Inject constructor(
             tokenStore.getToken().collect{token->
                 val id = JwtHelper.getUserId(token) ?: ""
                 getCurrentState().selectedImage?.let {
-                    updateUserUseCase.invoke(UpdateUserRequest(id,getCurrentState().name,getCurrentState().email),it.toFile(context)).collect{resource->
+                    updateUserUseCase.invoke(UpdateUserRequest(
+                        id,
+                        getCurrentState().userDetail?.nameSurname ?: "",
+                        getCurrentState().userDetail?.email ?: "",),
+                        it.toFile(context)
+                    ).collect{resource->
                         when(resource){
                             is Resource.Success->{
                                 getUserById()
@@ -242,20 +266,17 @@ class EditProfileViewModel @Inject constructor(
 
 
 data class EditProfileUiState(
+    val userDetail: UserDetail? = null,
     val isLoading: Boolean = false,
-    val name: String = "",
-    val email: String = "",
-    val image: String = "",
     val selectedImage: Uri? = null,
-    val skills: List<Skill> = emptyList(),
     val companies: List<CompanyStaff> = emptyList(),
     val allCompanies: List<Company> = emptyList(),
     val isOpenSkillDialog: Boolean = false,
     val isOpenExperienceDialog: Boolean = false,
     val isOpenLocationDialog: Boolean = false,
     val isExpandedDropdown: Boolean = false,
-    val selectedSkillValue: String = "",
     val selectedCompanyValue: Company? = null,
+    val selectedSkillValue: String = "",
     val selectedLocationValue: String = "",
     val experienceValue: String = "",
     val titleValue: String = "",
@@ -269,6 +290,7 @@ sealed interface EditProfileEffect : Effect{
 
 sealed interface EditProfileEvent : Event{
 
+    object OnRefresh : EditProfileEvent
     object OnClickEditSkill : EditProfileEvent
     object OnClickEditExperience : EditProfileEvent
     object OnClickEditPreferredLocations : EditProfileEvent

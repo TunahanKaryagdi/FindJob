@@ -71,5 +71,6 @@
     <string name="select_a_qualification">Bir yetkinlik seçin</string>
     <string name="add_company">Şirket ekle</string>
     <string name="preferred_locations">Tercih edilen konumlar</string>
+    <string name="no_preferred_locations">No preferred locations</string>
 
 </resources>
