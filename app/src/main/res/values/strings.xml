@@ -72,5 +72,6 @@
     <string name="preferred_locations">Preferred locations</string>
     <string name="select_a_location">Select a location</string>
     <string name="no_preferred_locations">No preferred locations</string>
+    <string name="recommended_for_you">Recommended for you</string>
 
 </resources>

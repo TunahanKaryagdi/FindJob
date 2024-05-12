@@ -82,7 +82,7 @@ fun ProfileScreen(
                 title =  {
                     Text(
                         text = stringResource(id = R.string.profile),
-                        style = CustomTheme.typography.titleNormal
+                        color = CustomTheme.colors.secondaryText
                     )
                 },
                 navigationIcon = {

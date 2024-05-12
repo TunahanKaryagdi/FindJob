@@ -19,7 +19,6 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +46,7 @@ fun HomeScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToDetail: (String) -> Unit,
+    navigateToRecommended : () -> Unit,
 ) {
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -57,6 +57,7 @@ fun HomeScreenRoute(
         modifier = modifier,
         uiState = uiState,
         navigateToDetail = navigateToDetail,
+        navigateToRecommended = navigateToRecommended,
         onTrigger = viewModel::handleEvents
     )
 
@@ -67,6 +68,7 @@ fun HomeScreenRoute(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToDetail : (String) -> Unit,
+    navigateToRecommended : () -> Unit,
     onTrigger: (HomeEvent) -> Unit,
     uiState: HomeUiState
 ) {
@@ -78,6 +80,7 @@ fun HomeScreen(
         HomeScreenContent(
             modifier = modifier.padding(it),
             navigateToDetail = navigateToDetail,
+            navigateToRecommended = navigateToRecommended,
             uiState = uiState,
             onTrigger = onTrigger
         )
@@ -91,6 +94,7 @@ fun HomeScreen(
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
     navigateToDetail : (String) -> Unit,
+    navigateToRecommended : () -> Unit,
     onTrigger: (HomeEvent) -> Unit,
     uiState: HomeUiState,
 ) {
@@ -169,6 +173,10 @@ fun HomeScreenContent(
                         style = CustomTheme.typography.titleNormal
                     )
                     Text(
+                        modifier = Modifier
+                            .clickable {
+                                navigateToRecommended()
+                            },
                         text = stringResource(id = R.string.show_all),
                         style = CustomTheme.typography.bodySmall
                     )

@@ -64,7 +64,7 @@ fun AddCompanyScreen(
                 title = {
                     Text(
                         text = stringResource(id = R.string.add_company),
-                        style = CustomTheme.typography.titleNormal
+                        color = CustomTheme.colors.secondaryText
                     )
                 },
                 navigationIcon = {

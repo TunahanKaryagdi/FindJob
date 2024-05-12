@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -71,7 +70,7 @@ fun ApplicationScreen(
                 title = {
                     Text(
                         text = if (uiState.applications.isEmpty()) stringResource(id = R.string.applications) else uiState.applications[0].job.title,
-                        style = CustomTheme.typography.titleNormal
+                        color = CustomTheme.colors.secondaryText
                     )
                 }
             )

@@ -8,7 +8,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,7 +23,6 @@ import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomContentMessage
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
-import com.tunahankaryagdi.findjob.presentation.home.HomeEvent
 import com.tunahankaryagdi.findjob.presentation.jobs.components.JobCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 
@@ -75,7 +73,7 @@ fun JobScreen(
                 title = {
                     Text(
                         text = stringResource(id = R.string.jobs),
-                        style = CustomTheme.typography.titleNormal
+                        color = CustomTheme.colors.secondaryText
                     )
                 }
             )

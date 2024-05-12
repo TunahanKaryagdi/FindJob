@@ -39,7 +39,6 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddExperienceDialog
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddPreferredLocationDialog
 import com.tunahankaryagdi.findjob.presentation.edit_profile.components.AddSkillDialog
-import com.tunahankaryagdi.findjob.presentation.profile.ProfileEvent
 import com.tunahankaryagdi.findjob.presentation.profile.components.CompanyStaffCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
@@ -76,7 +75,12 @@ fun EditProfileScreen(
         modifier = modifier,
         topBar = {
             CustomTopAppbar(
-                title =  {Text(text = stringResource(id = R.string.edit_profile))},
+                title =  {
+                    Text(
+                        text = stringResource(id = R.string.edit_profile),
+                        color = CustomTheme.colors.secondaryText
+                    )
+                },
                 navigationIcon = {
                     Icon(
                         modifier = Modifier

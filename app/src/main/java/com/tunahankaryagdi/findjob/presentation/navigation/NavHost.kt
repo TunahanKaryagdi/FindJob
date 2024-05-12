@@ -11,8 +11,6 @@ import com.tunahankaryagdi.findjob.presentation.add_company.navigateToAddCompany
 import com.tunahankaryagdi.findjob.presentation.admin.adminScreen
 import com.tunahankaryagdi.findjob.presentation.application.applicationScreen
 import com.tunahankaryagdi.findjob.presentation.application.navigateToApplication
-import com.tunahankaryagdi.findjob.presentation.my_applications.myApplicationsScreen
-import com.tunahankaryagdi.findjob.presentation.my_applications.navigateToMyApplications
 import com.tunahankaryagdi.findjob.presentation.apply.applyScreen
 import com.tunahankaryagdi.findjob.presentation.apply.navigateToApply
 import com.tunahankaryagdi.findjob.presentation.detail.detailScreen
@@ -23,12 +21,13 @@ import com.tunahankaryagdi.findjob.presentation.home.homeRoute
 import com.tunahankaryagdi.findjob.presentation.home.homeScreen
 import com.tunahankaryagdi.findjob.presentation.home.navigateToHome
 import com.tunahankaryagdi.findjob.presentation.jobs.jobScreen
-import com.tunahankaryagdi.findjob.presentation.jobs.navigateToJobs
 import com.tunahankaryagdi.findjob.presentation.login.loginRoute
 import com.tunahankaryagdi.findjob.presentation.login.loginScreen
 import com.tunahankaryagdi.findjob.presentation.login.navigateToLogin
-import com.tunahankaryagdi.findjob.presentation.profile.navigateToProfile
+import com.tunahankaryagdi.findjob.presentation.my_applications.myApplicationsScreen
 import com.tunahankaryagdi.findjob.presentation.profile.profileScreen
+import com.tunahankaryagdi.findjob.presentation.recommended.navigateToRecommended
+import com.tunahankaryagdi.findjob.presentation.recommended.recommendedScreen
 import com.tunahankaryagdi.findjob.presentation.signup.signupRoute
 import com.tunahankaryagdi.findjob.presentation.signup.signupScreen
 import com.tunahankaryagdi.findjob.presentation.splash.splashRoute
@@ -83,6 +82,7 @@ fun NavigationHost(
 
         homeScreen(
             navigateToDetail =  {navController.navigateToDetail(it)},
+            navigateToRecommended = {navController.navigateToRecommended()}
         )
 
         detailScreen(
@@ -129,6 +129,8 @@ fun NavigationHost(
         adminScreen()
 
         addCompanyScreen()
+
+        recommendedScreen()
     }
 
 }

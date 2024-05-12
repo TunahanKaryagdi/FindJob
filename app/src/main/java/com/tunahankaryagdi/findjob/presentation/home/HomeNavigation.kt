@@ -4,7 +4,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.navOptions
 
 
 const val homeRoute = "home"
@@ -17,11 +16,14 @@ fun NavController.navigateToHome(
 
 fun NavGraphBuilder.homeScreen(
     navigateToDetail : (String) -> Unit,
+    navigateToRecommended : () -> Unit,
+
 ){
 
     composable(homeRoute){
         HomeScreenRoute(
             navigateToDetail = navigateToDetail,
+            navigateToRecommended = navigateToRecommended
         )
     }
 }

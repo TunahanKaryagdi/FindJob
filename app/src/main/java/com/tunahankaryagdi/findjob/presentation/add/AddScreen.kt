@@ -13,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -95,7 +93,7 @@ fun AddScreen(
                 title = {
                     Text(
                         text = stringResource(id = R.string.add_job),
-                        style = CustomTheme.typography.titleNormal
+                        color = CustomTheme.colors.secondaryText
                     )
                 },
                 actions = {
