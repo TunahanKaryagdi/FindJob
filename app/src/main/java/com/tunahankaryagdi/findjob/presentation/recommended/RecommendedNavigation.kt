@@ -12,8 +12,14 @@ fun NavController.navigateToRecommended(navOptions: NavOptions? = null){
 }
 
 
-fun NavGraphBuilder.recommendedScreen(){
+fun NavGraphBuilder.recommendedScreen(
+    navigateToDetail: (String) -> Unit,
+    navigatePop: () -> Unit,
+){
     composable(recommendedRoute){
-        RecommendedScreenRoute()
+        RecommendedScreenRoute(
+            navigateToDetail = navigateToDetail,
+            navigatePop = navigatePop
+        )
     }
 }

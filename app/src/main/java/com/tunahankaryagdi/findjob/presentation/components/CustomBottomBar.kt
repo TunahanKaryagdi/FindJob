@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.tunahankaryagdi.findjob.presentation.navigation.TopLevelDestination
@@ -47,7 +48,9 @@ fun CustomBottomBar(
                 label = {
                     Text(
                         text = stringResource(id = destination.textId),
-                        style = CustomTheme.typography.labelSmall
+                        style =
+                        if (stringResource(id = destination.textId).length > 8) CustomTheme.typography.labelSmall.copy(fontSize = 8.sp)
+                        else CustomTheme.typography.labelSmall
                     )
                 },
             )

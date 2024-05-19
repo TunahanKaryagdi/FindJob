@@ -130,7 +130,10 @@ fun NavigationHost(
 
         addCompanyScreen()
 
-        recommendedScreen()
+        recommendedScreen(
+            navigateToDetail = {navController.navigateToDetail(it)},
+            navigatePop = {navController.popBackStack()}
+        )
     }
 
 }

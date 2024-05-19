@@ -7,6 +7,7 @@ import com.tunahankaryagdi.findjob.data.source.remote.ApplicationService
 import com.tunahankaryagdi.findjob.data.source.remote.CompanyService
 import com.tunahankaryagdi.findjob.data.source.remote.JobService
 import com.tunahankaryagdi.findjob.data.source.remote.PreferredLocationService
+import com.tunahankaryagdi.findjob.data.source.remote.RecommendedService
 import com.tunahankaryagdi.findjob.data.source.remote.SkillService
 import com.tunahankaryagdi.findjob.data.source.remote.UserService
 import dagger.Module
@@ -16,7 +17,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 
@@ -67,5 +67,11 @@ object ServiceModule {
     @Singleton
     fun providePreferredLocationService(retrofit: Retrofit): PreferredLocationService{
         return retrofit.create(PreferredLocationService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecommendedService(retrofit: Retrofit): RecommendedService{
+        return retrofit.create(RecommendedService::class.java)
     }
 }
