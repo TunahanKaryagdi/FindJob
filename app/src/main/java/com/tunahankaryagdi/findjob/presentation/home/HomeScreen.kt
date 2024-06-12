@@ -145,11 +145,9 @@ fun HomeScreenContent(
                     CustomOutlinedTextField(
                         modifier = Modifier
                             .weight(1f),
-                        value = "",
+                        value = uiState.searchText,
                         placeholder =  stringResource(id = R.string.search_here),
-                        onValueChange = {
-
-                        }
+                        onValueChange = {onTrigger(HomeEvent.OnSearchValueChange(it))}
                     )
 
                     SpacerWidth(size = CustomTheme.spaces.small)
@@ -187,13 +185,13 @@ fun HomeScreenContent(
 
 
                 LazyRow() {
-                    items(uiState.jobs.size) {
+                    items(uiState.filteredJobs.size) {
                         PopularJobCard(
                             modifier = Modifier
                                 .clickable {
-                                    navigateToDetail(uiState.jobs[it].id)
+                                    navigateToDetail(uiState.filteredJobs[it].id)
                                 },
-                            job = uiState.jobs[it]
+                            job = uiState.filteredJobs[it]
                         )
                         SpacerWidth(size = CustomTheme.spaces.small)
                     }
@@ -222,14 +220,14 @@ fun HomeScreenContent(
             }
 
 
-            items(uiState.jobs.size){
+            items(uiState.filteredJobs.size){
 
                 RecentPostCard(
                     modifier = Modifier
                         .clickable {
-                            navigateToDetail(uiState.jobs[it].id)
+                            navigateToDetail(uiState.filteredJobs[it].id)
                         },
-                    job = uiState.jobs[it]
+                    job = uiState.filteredJobs[it]
                 )
                 SpacerHeight(size = CustomTheme.spaces.small)
 

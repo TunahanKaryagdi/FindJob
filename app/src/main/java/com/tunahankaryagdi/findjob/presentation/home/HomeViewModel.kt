@@ -25,6 +25,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getJobs()
+        getUser()
     }
 
     override fun setInitialState(): HomeUiState  = HomeUiState()
@@ -33,6 +34,13 @@ class HomeViewModel @Inject constructor(
         when(event){
             is HomeEvent.OnRefresh->{
                 getJobs()
+            }
+            is HomeEvent.OnSearchValueChange -> {
+                setState(getCurrentState().copy(searchText = event.text))
+                val filteredJobs = getCurrentState().jobs.filter {
+                    it.title.contains(getCurrentState().searchText)
+                }
+                setState(getCurrentState().copy(filteredJobs = filteredJobs))
             }
         }
     }
@@ -43,7 +51,8 @@ class HomeViewModel @Inject constructor(
             getJobsUseCase(1).collect{resource->
                 when(resource){
                     is Resource.Success->{
-                        setState(getCurrentState().copy(isLoading = false, jobs = resource.data))
+                        setState(getCurrentState().copy(isLoading = false, jobs = resource.data, filteredJobs = resource.data))
+
                     }
                     is Resource.Error->{
                         setState(getCurrentState().copy(isLoading = false,))
@@ -81,16 +90,17 @@ class HomeViewModel @Inject constructor(
 data class HomeUiState(
     val isLoading: Boolean = false,
     val jobs: List<Job> = emptyList(),
-    val userImage: String? = null
-
+    val filteredJobs: List<Job> = emptyList(),
+    val userImage: String? = null,
+    val searchText: String = ""
 ) : State
 
 sealed interface HomeEffect : Effect{
     data class ShowErrorMessage(val message: String) : HomeEffect
 
-
 }
 
 sealed interface HomeEvent : Event{
     object OnRefresh : HomeEvent
+    data class OnSearchValueChange(val text: String) : HomeEvent
 }
