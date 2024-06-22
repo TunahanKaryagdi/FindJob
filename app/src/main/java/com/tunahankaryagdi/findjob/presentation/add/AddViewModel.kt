@@ -62,8 +62,9 @@ class AddViewModel @Inject constructor(
                 setState(getCurrentState().copy(isOpenDialog = false, qualification = ""))
             }
             is AddEvent.OnClickPost->{
+
                 setState(getCurrentState().copy(isLoading = true))
-                post()
+                getCompanyInfo()
                 setState(getCurrentState().copy(isLoading = false))
             }
 
@@ -89,6 +90,7 @@ class AddViewModel @Inject constructor(
                     when(resource){
                         is Resource.Success->{
                             setState(getCurrentState().copy(companyInfo = resource.data?.company))
+                            post()
                         }
                         is Resource.Error->{}
 
@@ -100,7 +102,7 @@ class AddViewModel @Inject constructor(
 
 
     private fun post(){
-        getCompanyInfo()
+
         val uiState = getCurrentState()
         if (
             uiState.companyInfo != null &&
@@ -116,7 +118,7 @@ class AddViewModel @Inject constructor(
                         uiState.qualifications,
                         uiState.salary.toInt(),
                         uiState.title,
-                        JobType.FullTime.name,
+                        uiState.selectedJobType.name,
                         userId
                     )).collect{resource->
                         when(resource){

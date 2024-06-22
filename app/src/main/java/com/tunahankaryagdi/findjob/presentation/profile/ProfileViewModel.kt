@@ -39,7 +39,7 @@ class ProfileViewModel @Inject constructor(
                 setState(getCurrentState().copy(isBottomSheetVisible = event.value))
             }
             is ProfileEvent.OnClickLogout -> {
-                logout()
+                setEffect(ProfileEffect.NavigateToLogin)
             }
             is ProfileEvent.OnRefresh ->{
                 getUserById()
@@ -92,9 +92,8 @@ class ProfileViewModel @Inject constructor(
 
     private fun logout(){
         viewModelScope.launch {
-            setEffect(ProfileEffect.NavigateToLogin)
             tokenStore.saveToken("")
-
+            setEffect(ProfileEffect.NavigateToLogin)
         }
     }
 

@@ -1,19 +1,19 @@
 package com.tunahankaryagdi.findjob.presentation.recommended.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.domain.model.job.Job
@@ -29,6 +29,9 @@ fun RecommendedJobCard(
     modifier: Modifier = Modifier,
     job: Job
 ) {
+
+    val width = LocalConfiguration.current.screenWidthDp
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -39,23 +42,23 @@ fun RecommendedJobCard(
         Column() {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 CustomAsyncImage(
                     modifier = Modifier
-                        .weight(2f)
+                        .size((width / 6).dp)
                         .clip(RoundedCornerShape(CustomTheme.spaces.small)),
                     model = "${Constants.BASE_IMAGE_URL}/${job.company.image}",
                     type = ImageType.Company,
-                    contentScale = ContentScale.Inside
                 )
 
                 SpacerWidth(size = CustomTheme.spaces.small)
 
                 Column(
                     modifier = Modifier
-                        .weight(7f)
+                        .weight(1f)
                 ) {
                     Text(
                         text = job.company.name,
@@ -72,14 +75,6 @@ fun RecommendedJobCard(
                 }
             }
             SpacerHeight(size = CustomTheme.spaces.small)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Benzerlik Oranı")
-                Text(text = "${job.salary}/Monthly")
-            }
         }
     }
 }

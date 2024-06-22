@@ -73,5 +73,7 @@
     <string name="select_a_location">Select a location</string>
     <string name="no_preferred_locations">No preferred locations</string>
     <string name="recommended_for_you">Recommended for you</string>
+    <string name="see_all">See all</string>
+    <string name="no_recommended_data">No recommended data</string>
 
 </resources>

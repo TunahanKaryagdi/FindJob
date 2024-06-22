@@ -40,17 +40,20 @@ class AddCompanyViewModel @Inject constructor(
         viewModelScope.launch {
             setState(getCurrentState().copy(isLoading = true,))
             val state = getCurrentState()
-            postCompanyUseCase.invoke(PostCompanyRequest(state.name,state.selectedImage?.toFile(context))).collect{ resource->
-                when(resource){
-                    is Resource.Success->{
-                        setState(getCurrentState().copy(isLoading = false, selectedImage = null, name = ""))
-                    }
-                    is Resource.Error->{
-                        setState(getCurrentState().copy(isLoading = false))
-                        setEffect(AddCompanyEffect.ShowMessage(resource.message))
+            state.selectedImage?.let {
+                postCompanyUseCase.invoke(PostCompanyRequest(state.name),it.toFile(context)).collect{ resource->
+                    when(resource){
+                        is Resource.Success->{
+                            setState(getCurrentState().copy(isLoading = false, selectedImage = null, name = ""))
+                        }
+                        is Resource.Error->{
+                            setState(getCurrentState().copy(isLoading = false))
+                            setEffect(AddCompanyEffect.ShowMessage(resource.message))
+                        }
                     }
                 }
             }
+
         }
     }
 }

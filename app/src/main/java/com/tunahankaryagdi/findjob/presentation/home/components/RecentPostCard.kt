@@ -6,14 +6,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.tunahankaryagdi.findjob.domain.model.job.Job
 import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
@@ -27,6 +29,8 @@ fun RecentPostCard(
     modifier: Modifier = Modifier,
     job: Job,
 ) {
+
+    val width = LocalConfiguration.current.screenWidthDp
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -46,11 +50,10 @@ fun RecentPostCard(
 
             CustomAsyncImage(
                 modifier = Modifier
-                    .weight(1f)
+                    .size((width / 8).dp)
                     .clip(RoundedCornerShape(CustomTheme.spaces.small)),
                 model = "${Constants.BASE_IMAGE_URL}${job.company.image}",
                 type = ImageType.Company,
-                contentScale = ContentScale.Inside
             )
 
             SpacerWidth(size = CustomTheme.spaces.small)
@@ -71,7 +74,7 @@ fun RecentPostCard(
             Text(
                 modifier = Modifier
                     .weight(2f),
-                text = "$${job.salary}/m",
+                text = job.location,
                 style = CustomTheme.typography.bodySmall,
                 textAlign = TextAlign.Center
             )

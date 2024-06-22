@@ -33,7 +33,9 @@ class HomeViewModel @Inject constructor(
     override fun handleEvents(event: HomeEvent) {
         when(event){
             is HomeEvent.OnRefresh->{
+                setState(getCurrentState().copy(page = 1, filteredJobs = emptyList(), jobs = emptyList()))
                 getJobs()
+                getUser()
             }
             is HomeEvent.OnSearchValueChange -> {
                 setState(getCurrentState().copy(searchText = event.text))
@@ -42,17 +44,23 @@ class HomeViewModel @Inject constructor(
                 }
                 setState(getCurrentState().copy(filteredJobs = filteredJobs))
             }
+            is HomeEvent.OnGetNextPage -> {
+                setState(getCurrentState().copy(page = event.page + 1))
+                getJobs()
+            }
         }
     }
 
     private fun getJobs(){
         viewModelScope.launch {
             setState(getCurrentState().copy(isLoading = true))
-            getJobsUseCase(1).collect{resource->
+            getJobsUseCase(getCurrentState().page).collect{resource->
                 when(resource){
                     is Resource.Success->{
-                        setState(getCurrentState().copy(isLoading = false, jobs = resource.data, filteredJobs = resource.data))
 
+                        val currentJobs = getCurrentState().jobs.toMutableList()
+                        currentJobs.addAll(resource.data)
+                        setState(getCurrentState().copy(isLoading = false, jobs = currentJobs, filteredJobs = currentJobs))
                     }
                     is Resource.Error->{
                         setState(getCurrentState().copy(isLoading = false,))
@@ -92,7 +100,8 @@ data class HomeUiState(
     val jobs: List<Job> = emptyList(),
     val filteredJobs: List<Job> = emptyList(),
     val userImage: String? = null,
-    val searchText: String = ""
+    val searchText: String = "",
+    val page: Int = 1
 ) : State
 
 sealed interface HomeEffect : Effect{
@@ -103,4 +112,5 @@ sealed interface HomeEffect : Effect{
 sealed interface HomeEvent : Event{
     object OnRefresh : HomeEvent
     data class OnSearchValueChange(val text: String) : HomeEvent
+    data class OnGetNextPage(val page: Int) : HomeEvent
 }

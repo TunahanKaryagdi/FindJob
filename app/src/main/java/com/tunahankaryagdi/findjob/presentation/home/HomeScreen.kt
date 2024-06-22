@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -34,7 +33,6 @@ import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextFie
 import com.tunahankaryagdi.findjob.presentation.components.CustomTinyButton
 import com.tunahankaryagdi.findjob.presentation.components.SpacerHeight
 import com.tunahankaryagdi.findjob.presentation.components.SpacerWidth
-import com.tunahankaryagdi.findjob.presentation.home.components.PopularJobCard
 import com.tunahankaryagdi.findjob.presentation.home.components.RecentPostCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
 import com.tunahankaryagdi.findjob.utils.Constants
@@ -160,14 +158,14 @@ fun HomeScreenContent(
 
                 SpacerHeight(size = CustomTheme.spaces.medium)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
                     Text(
-                        text = stringResource(id = R.string.popular_job),
+                        text = stringResource(id = R.string.recommended_for_you),
                         style = CustomTheme.typography.titleNormal
                     )
                     Text(
@@ -180,48 +178,22 @@ fun HomeScreenContent(
                     )
                 }
 
-                SpacerHeight(size = CustomTheme.spaces.small)
-
-
-
-                LazyRow() {
-                    items(uiState.filteredJobs.size) {
-                        PopularJobCard(
-                            modifier = Modifier
-                                .clickable {
-                                    navigateToDetail(uiState.filteredJobs[it].id)
-                                },
-                            job = uiState.filteredJobs[it]
-                        )
-                        SpacerWidth(size = CustomTheme.spaces.small)
-                    }
-
-                }
 
                 SpacerHeight(size = CustomTheme.spaces.medium)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.recent_post),
-                        style = CustomTheme.typography.titleNormal
-                    )
-                    Text(
-                        text = stringResource(id = R.string.show_all),
-                        style = CustomTheme.typography.bodySmall
-                    )
-                }
+                Text(
+                    text = stringResource(id = R.string.recent_post),
+                    style = CustomTheme.typography.titleNormal
+                )
 
                 SpacerHeight(size = CustomTheme.spaces.small)
             }
 
-
             items(uiState.filteredJobs.size){
 
+                if ((uiState.page) *20 -1 == it){
+                    onTrigger(HomeEvent.OnGetNextPage(uiState.page))
+                }
                 RecentPostCard(
                     modifier = Modifier
                         .clickable {

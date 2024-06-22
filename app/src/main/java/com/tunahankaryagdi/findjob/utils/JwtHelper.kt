@@ -1,6 +1,5 @@
 package com.tunahankaryagdi.findjob.utils
 
-import com.auth0.android.jwt.Claim
 import com.auth0.android.jwt.JWT
 import java.util.Date
 

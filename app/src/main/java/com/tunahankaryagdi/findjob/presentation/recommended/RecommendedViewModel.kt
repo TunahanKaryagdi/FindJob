@@ -65,6 +65,8 @@ class RecommendedViewModel @Inject constructor(
                             setState(getCurrentState().copy(appliedRecommend = resource.data, isLoading = false))
                         }
                         is Resource.Error->{
+                            setState(getCurrentState().copy( isLoading = false))
+
                         }
                     }
                 }
@@ -82,6 +84,8 @@ class RecommendedViewModel @Inject constructor(
                             setState(getCurrentState().copy(profileRecommend = resource.data, isLoading = false))
                         }
                         is Resource.Error->{
+                            setState(getCurrentState().copy( isLoading = false))
+
                         }
                     }
                 }

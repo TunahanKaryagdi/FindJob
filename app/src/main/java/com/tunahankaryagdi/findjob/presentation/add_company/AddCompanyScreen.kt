@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.presentation.components.CustomAsyncImage
 import com.tunahankaryagdi.findjob.presentation.components.CustomButton
+import com.tunahankaryagdi.findjob.presentation.components.CustomCircularProgress
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedButton
 import com.tunahankaryagdi.findjob.presentation.components.CustomOutlinedTextField
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
@@ -102,6 +103,10 @@ fun AddCompanyScreenContent(
             uri?.let { onTrigger(AddCompanyEvent.OnUriChange(it))}
         }
     )
+
+    if(uiState.isLoading){
+        CustomCircularProgress()
+    }
 
     Column(
         modifier = modifier

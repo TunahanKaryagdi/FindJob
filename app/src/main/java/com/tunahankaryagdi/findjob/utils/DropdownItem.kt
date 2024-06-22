@@ -37,6 +37,23 @@ val skills = listOf(
     Skill(4,"Kotlin"),
     Skill(5,"JavaScript"),
     Skill(6,"C"),
+    Skill(7,"Agile scrum"),
+    Skill(8,"MsSql"),
+    Skill(9,"R"),
+    Skill(10,"Matlab"),
+    Skill(11,"C++"),
+    Skill(12,"Network"),
+    Skill(13,"Swift"),
+    Skill(14,"HTML"),
+    Skill(15,"CSS"),
+    Skill(16,"Figma"),
+    Skill(17,"Sketch"),
+    Skill(18,"NoSQL"),
+    Skill(19,"AWS"),
+    Skill(20,"Google Cloud"),
+    Skill(21,"Azure"),
+    Skill(22,"Jira"),
+
 )
 
 val applicationStatuses = listOf(
@@ -52,5 +69,4 @@ val locations = listOf(
     Location(3,"Ankara"),
     Location(4,"İzmir"),
     Location(5,"Bursa"),
-    Location(6,"Eskişehir"),
 )

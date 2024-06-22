@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tunahankaryagdi.findjob.R
 import com.tunahankaryagdi.findjob.domain.model.job.Job
+import com.tunahankaryagdi.findjob.presentation.components.CustomContentMessage
 import com.tunahankaryagdi.findjob.presentation.components.CustomTopAppbar
 import com.tunahankaryagdi.findjob.presentation.recommended.components.RecommendedJobCard
 import com.tunahankaryagdi.findjob.ui.theme.CustomTheme
@@ -153,12 +154,18 @@ fun RecommendedScreenContent(
                     )
                 }
                 1 ->{
-                    AppliedJobRecommendationList(
-                        modifier = Modifier
-                            .pullRefresh(pullRefreshState),
-                        navigateToDetail = navigateToDetail,
-                        jobs = uiState.appliedRecommend
-                    )
+                    if (uiState.appliedRecommend.isEmpty()){
+                        CustomContentMessage(message = stringResource(id = R.string.no_recommended_data))
+                    }
+                    else{
+                        AppliedJobRecommendationList(
+                            modifier = Modifier
+                                .pullRefresh(pullRefreshState),
+                            navigateToDetail = navigateToDetail,
+                            jobs = uiState.appliedRecommend
+                        )
+                    }
+
                 }
             }
 
